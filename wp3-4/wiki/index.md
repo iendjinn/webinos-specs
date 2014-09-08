@@ -40,9 +40,9 @@ webinos applications.
 
 ### Deliverable 3.4[¶](#Deliverable-34)
 
-[Task 3.4 Deliverable](.html)\
+[Task 3.4 Deliverable](/wp3-4/wiki/Task_34_Deliverable)\
 [Task 3.4 Deliverable (includes) (Full version for paper deliverable -
-do not edit here.)](.html)
+do not edit here.)](/wp3-4/wiki/Task_34_Deliverable_(includes)_(Full_version_for_paper_deliverable_-_do_not_edit_here))
 
 The final report in word and pdf formats is here: [BSCW D3.4: webinos
 phase II device, network, and server-side API
@@ -54,12 +54,12 @@ specifications](http://dev.webinos.org/deliverables/wp3/Deliverable34/)
 
 ### Final webinos device API specifications delivery[¶](#Final-webinos-device-API-specifications-delivery)
 
-[Task 3.4 Final Deliverable](.html)
+[Task 3.4 Final Deliverable](/wp3-4/wiki/Task_34_Final_Deliverable)
 
 ### Links for task 3.2, API specifications phase 1[¶](#Links-for-task-32-API-specifications-phase-1)
 
 -   wiki (investigation results, delivery etc): [Task 3.2
-    wiki](/t3-2/wiki)
+    wiki](/wp3-2/wiki)
 
 <!-- -->
 
@@ -69,7 +69,7 @@ specifications](http://dev.webinos.org/deliverables/wp3/Deliverable34/)
 ### Links for task 3.4, API specifications phase 2[¶](#Links-for-task-34-API-specifications-phase-2)
 
 -   The current landscape of APIs for Web Applications is described at
-    the following page: [Web Application API landscape](.html). This
+    the following page: [Web Application API landscape](/wp3-4/wiki/Web_Application_API_landscape). This
     page is an update from the "Landscape" section in the task 3.2
     delivery.
 
@@ -81,30 +81,30 @@ specifications](http://dev.webinos.org/deliverables/wp3/Deliverable34/)
 <!-- -->
 
 -   [Phase 1 APIs to
-    remove](/t3-4/wiki/Task_32_APIs_to_remove)
+    remove](/wp3-4/wiki/Task_32_APIs_to_remove)
 
 <!-- -->
 
 -   [Further work on phase 1
-    APIs](/t3-4/wiki/API_specification_alignment_with_task_41_API_implementations)
+    APIs](/wp3-4/wiki/API_specification_alignment_with_task_41_API_implementations)
 
 <!-- -->
 
 -   [New APIs for phase
-    2](/t3-4/wiki/New_proposed_Webinos_APIs)
+    2](/wp3-4/wiki/New_proposed_Webinos_APIs)
 
 <!-- -->
 
--   [How to edit and upload Webinos phase 2 API specifications](.html)
+-   [How to edit and upload Webinos phase 2 API specifications](/wp3-4/wiki/How_to_edit_and_upload_Webinos_phase_2_API_specifications)
 
 <!-- -->
 
 -   For guidelines and common practices on specifying APIs see: [API
-    specification guidelines](.html)
+    specification guidelines](/wp3-4/wiki/API_specification_guidelines)
 
 ### Further work (after task 3.4 delivery August 31 2012)[¶](#Further-work-after-task-34-delivery-August-31-2012)
 
-[webinos API specifications further work](.html)
+[webinos API specifications further work](/wp3-4/wiki/Webinos_API_specifications_further_work)
 
 Time schedule[¶](#Time-schedule)
 --------------------------------
@@ -467,12 +467,12 @@ Details:
 
   ---------- ----------------------------------------------------------------------------------------------------------- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ --------------
   **Task**   **Description**                                                                                             **Details**                                                                                                                                                                                                        **Deadline**
-  1          Decide on task 3.2 APIs to remove                                                                           See [Task 3.2 APIs to remove](.html)                                                                                                                                                                               June 29
-  2          Investigate API updates needed to align with task 4.1 API implementations                                   See [API specification alignment with task 4.1 API implementations and further work on the APIs](/t3-4/wiki/API_specification_alignment_with_task_41_API_implementations)   May 31
-  3          State proposed improvements and additions to existing Webinos APIs                                          See [API specification alignment with task 4.1 API implementations and further work on the APIs](/t3-4/wiki/API_specification_alignment_with_task_41_API_implementations)   June 29
-  4          Identify new APIs found that we need and background information/motivation for adding the API to Webinos.   See [New proposed Webinos APIs](.html)                                                                                                                                                                             June 29
-  5          Identify alignment with latest versions of referred W3C standards                                           See [Aligning Webinos APIs with latest W3C standards](.html)                                                                                                                                                       June 29
-  6          Prestudy on Web Intents for Webinos                                                                         [Web Intents for Webinos](.html)                                                                                                                                                                                   June 29
+  1          Decide on task 3.2 APIs to remove                                                                           See [Task 3.2 APIs to remove](/wp3-2/wiki)                                                                                                                                                                               June 29
+  2          Investigate API updates needed to align with task 4.1 API implementations                                   See [API specification alignment with task 4.1 API implementations and further work on the APIs](/wp3-4/wiki/API_specification_alignment_with_task_41_API_implementations)   May 31
+  3          State proposed improvements and additions to existing Webinos APIs                                          See [API specification alignment with task 4.1 API implementations and further work on the APIs](/wp3-4/wiki/API_specification_alignment_with_task_41_API_implementations)   June 29
+  4          Identify new APIs found that we need and background information/motivation for adding the API to Webinos.   See [New proposed Webinos APIs](/wp3-4/wiki/New_proposed_Webinos_APIs)                                                                                                                                                                             June 29
+  5          Identify alignment with latest versions of referred W3C standards                                           See [Aligning Webinos APIs with latest W3C standards](/wp3-4/wiki/Aligning_Webinos_APIs_with_latest_W3C_standards)                                                                                                                                                       June 29
+  6          Prestudy on Web Intents for Webinos                                                                         [Web Intents for Webinos](/wp3-4/wiki/Web_Intents_for_Webinos)                                                                                                                                                                                   June 29
   ---------- ----------------------------------------------------------------------------------------------------------- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ --------------
 
 ### Specification phase[¶](#Specification-phase)
@@ -481,10 +481,10 @@ The specification phase ends August 31.
 
 For API specification tool chain see: [How to edit and upload Webinos
 phase 2 API
-specifications](/t3-4/wiki/How_to_edit_and_upload_Webinos_phase_2_API_specifications)
+specifications](/wp3-4/wiki/How_to_edit_and_upload_Webinos_phase_2_API_specifications)
 
 For guidelines and common practices on specifying APIs see: [API
-specification guidelines](.html)
+specification guidelines](/wp3-4/wiki/API_specification_guidelines)
 
 Details:
 
@@ -497,7 +497,7 @@ Details:
                                         update due to new  
                                         W3C                
                                         widlspecification] 
-                                        (.html)            
+                                        (/wp3-4/wiki/API_specification_update_due_to_new_W3C_widlspecification)            
 
   2                  Update existing    See [API           August 27
                      specifications     specification      
@@ -506,9 +506,7 @@ Details:
                      task 4.1           implementations    
                      implementation and and further work   
                      other improvements on the             
-                     discovered         APIs](http://dev.w 
-                                        ebinos.org/redmine 
-                                        /projects/t3-4/wik 
+                     discovered         APIs](/wp3-4/wik 
                                         i/API_specificatio 
                                         n_alignment_with_t 
                                         ask_41_API_impleme 
@@ -516,9 +514,7 @@ Details:
 
   3                  Specification of   See [New proposed  August 27
                      new APIs           Webinos            
-                                        APIs](http://dev.w 
-                                        ebinos.org/redmine 
-                                        /projects/t3-4/wik 
+                                        APIs](/wp3-4/wik 
                                         i/New_proposed_Web 
                                         inos_APIs)         
 
@@ -535,9 +531,9 @@ Miscellaneous links[¶](#Miscellaneous-links)
 --------------------------------------------
 
 -   [API Security Issues - task
-    3.5](/t3-5/wiki/D036_API_Security_Issues)
+    3.5](/wp3-5/wiki/D036_API_Security_Issues)
 -   [Feature strings for referred
-    APIs](/t3-4/wiki/Webinos_feature_URIs_for_referred_APIs)
+    APIs](/wp3-4/wiki/Webinos_feature_URIs_for_referred_APIs)
 
 Meetings[¶](#Meetings)
 ----------------------
@@ -545,19 +541,19 @@ Meetings[¶](#Meetings)
 ### Online meetings[¶](#Online-meetings)
 
 Weekly task 3.4 online meetings are held. See [WP3.4 online meeting
-details](.html).
+details](/wp3-4/wiki/WP34_online_meeting_details).
 
-[Online meeting 2012-08-16](.html)\
-[Online meeting 2012-08-09](.html)\
-[Online meeting 2012-08-02](.html)\
-[Online meeting 2012-06-28](.html)\
-[Online meeting 2012-06-07](.html)\
-[Online meeting 2012-05-23](.html)\
-[Online meeting 2012-05-16](.html)\
-[Online meeting 2012-05-10](.html)\
-[Online meeting 2012-05-03](.html)\
-[Online meeting 2012-04-26](.html)\
-[Online meeting 2012-04-19](.html)
+[Online meeting 2012-08-16](/wp3-4/wiki/Online_meeting_2012-08-16)\
+[Online meeting 2012-08-09](/wp3-4/wiki/Online_meeting_2012-08-09)\
+[Online meeting 2012-08-02](/wp3-4/wiki/Online_meeting_2012-08-02)\
+[Online meeting 2012-06-28](/wp3-4/wiki/Online_meeting_2012-06-28)\
+[Online meeting 2012-06-07](/wp3-4/wiki/Online_meeting_2012-06-07)\
+[Online meeting 2012-05-23](/wp3-4/wiki/Online_meeting_2012-05-23)\
+[Online meeting 2012-05-16](/wp3-4/wiki/Online_meeting_2012-05-16)\
+[Online meeting 2012-05-10](/wp3-4/wiki/Online_meeting_2012-05-10)\
+[Online meeting 2012-05-03](/wp3-4/wiki/Online_meeting_2012-05-03)\
+[Online meeting 2012-04-26](/wp3-4/wiki/Online_meeting_2012-04-26)\
+[Online meeting 2012-04-19](/wp3-4/wiki/Online_meeting_2012-04-19)
 
 ### Ghent F2F meetings June 18 - 22[¶](#Ghent-F2F-meetings-June-18-22)
 
@@ -566,6 +562,6 @@ details](.html).
 [Task 3\_4 session Ghent June 20
 2012](http://dev.webinos.org/redmine/attachments/2185/Task_3_4_session_Ghent_June_20_2012.pptx)
 
-[MoM task 3.4 Ghent session June 20](.html)
+[MoM task 3.4 Ghent session June 20](/wp3-4/wiki/MoM_task_34_Ghent_session_June_20)
 
 ### Uploaded files[¶](#Uploaded-files)
