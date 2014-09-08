@@ -4,27 +4,27 @@ T3.5: Security Architecture[¶](#T35-Security-Architecture)
 Year 3 updates[¶](#Year-3-updates)
 ----------------------------------
 
--   [Status Update - Turin 2013](.html)
--   [Security and Privacy Review - July 2013](.html)
+-   [Status Update - Turin 2013](/wp3-5/wiki/Status_Update_-_Turin_2013)
+-   [Security and Privacy Review - July 2013](/wp3-5/wiki/Security_and_Privacy_Review_-_July_2013)
 
 Deliverable D03.6[¶](#Deliverable-D036)
 ---------------------------------------
 
--   [D036 Deliverable](.html) - contents page
--   [T3.5 Phase 2 Activities](.html)
+-   [D036 Deliverable](/wp3-5/wiki/D036_Deliverable) - contents page
+-   [T3.5 Phase 2 Activities](/wp3-5/wiki/T35_Phase_2_Activities)
 -   [T3.5 Phase 2 - Activities
-    Schedule](T3.5%20Phase%202%20-%20Activities%20Schedule.html)
+    Schedule](/wp3-5/wiki/36_Work_Breakdown)
 -   [How I converted the wiki to
-    word](How%20I%20converted%20the%20wiki%20to%20word.html) (updated!)
+    word](/wp3-5/wiki/Deliverable_Conversion) (updated!)
 
 ### Key pages[¶](#Key-pages)
 
 This is only pages that have already been started - see the [D036
-Deliverable](.html) for what's missing.
+Deliverable](/wp3-5/wiki/D036_Deliverable) for what's missing.
 
--   [Per-API Security Analysis](Per-API%20Security%20Analysis.html) -
-    [Methodology and template](Methodology%20and%20template.html)
--   [Interim notes and ideas](Interim%20notes%20and%20ideas.html)
+-   [Per-API Security Analysis](/wp3-5/wiki/D036_API_Security_Issues) -
+    [Methodology and template](/wp3-5/wiki/API_Analysis_-_Method)
+-   [Interim notes and ideas](/wp3-5/wiki/Interim_report)
 
 ### Related papers:[¶](#Related-papers)
 
@@ -36,10 +36,10 @@ Deliverable](.html) for what's missing.
 Deliverable D03.5[¶](#Deliverable-D035)
 ---------------------------------------
 
--   [D3.5 Deliverable](D3.5%20Deliverable.html)
--   [D3.5 Deliverable (includes)](D3.5%20Deliverable%20(includes).html)
+-   [D3.5 Deliverable](/wp3-5/wiki/Deliverable_Outline)
+-   [D3.5 Deliverable (includes)](/wp3-5/wiki/Deliverable_Outline_Includes)
     (Full version for paper deliverable - do not edit here.)
--   [Retrospective](Retrospective.html)
+-   [Retrospective](/wp3-5/wiki/D35_Retrospective)
 
 Meetings and conference calls[¶](#Meetings-and-conference-calls)
 ----------------------------------------------------------------
@@ -47,7 +47,7 @@ Meetings and conference calls[¶](#Meetings-and-conference-calls)
 All minutes from conference calls can now be found in [this Google Docs
 folder](https://docs.google.com/open?id=0B81cqcmobbEvd3lDN2EtNWd2WFk)
 
--   [November/December 2011](November/December%202011.html)
+-   [November/December 2011](/wp3-5/wiki/Meeting_ConferenceCallNov2011)
 -   Conference call in March/April 2012 -
     <https://docs.google.com/document/d/1jkr3_0JEhmGWo7p6O_MxxP4OJ2OUcnkYFKB0MrJN-o0/edit>
 
