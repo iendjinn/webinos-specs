@@ -9,7 +9,7 @@ below for meeting minutes and agenda).
 A 3 day long workshop was held on the 20th (Monday), 21st (Tuesday), and
 22nd (Wednesday) August 2012 to try and push to finish off the spec
 work. Fraunhofer FOKUS hosted the event in their Berlin office. [Task
-3.3. Workshop](.html)
+3.3. Workshop](/wp3-3/wiki/Task_33_Workshop)
 
 Minutes[¶](#Minutes)
 --------------------
@@ -85,7 +85,7 @@ High Level Spec[¶](#High-Level-Spec)
 
   ----------------------- --------------------------- ------------------------------------------------- ------------------
   **Section**             **Authors**                 **Reviewers**                                     **Final Review**
-  **[Glossary](.html)**   **Antenna**, Samsung, TNO   ERCIM, <span style="color:green;">Oxford</span>   Oxford
+  **[Glossary](/wp3-3/wiki/Glossary)**   **Antenna**, Samsung, TNO   ERCIM, <span style="color:green;">Oxford</span>   Oxford
   ----------------------- --------------------------- ------------------------------------------------- ------------------
 
 PZP[¶](#PZP)
@@ -93,11 +93,11 @@ PZP[¶](#PZP)
 
   ------------------------------------------------- ----------------------------- ------------------------------------------------------- ---------------------------------------------------
   **Section**                                       **Authors**                   **Reviewers**                                           **Final Review**
-  **[PZP Introduction](.html)**                     **Samsung**                   <span style="color:green;">Oxford</span>                <span style="color:green;">Antenna</span>, Oxford
-  **[RPC](.html)**                                  **Fraunhofer**                <span style="color:green;"> Samsung (hv)</span>         <span style="color:green;"> Samsung (hv)</span>
-  **[PZP Discovery](.html)**                        **Samsung**                   <span style="color:green;">Impleo</span>                <span style="color:green;">BMW (si)</span>
-  **[Device UI Adaptation and Awareness](.html)**   **IBBT**, Antenna, BMW, TUM   ERCIM, <span style="color:green;">Samsung (wg)</span>   <span style="color:green;">Samsung (wg)</span>
-  **[Remote UI Usage](Remote%20UI%20Usage.html)**   **Fraunhofer**                <span style="color:green;">Samsung (wg)</span>          <span style="color:green;">Samsung (wg)</span>
+  **[PZP Introduction](/wp3-3/wiki/PZP_Introduction)**                     **Samsung**                   <span style="color:green;">Oxford</span>                <span style="color:green;">Antenna</span>, Oxford
+  **[RPC](/wp3-3/wiki/RPC)**                                  **Fraunhofer**                <span style="color:green;"> Samsung (hv)</span>         <span style="color:green;"> Samsung (hv)</span>
+  **[PZP Discovery](/wp3-3/wiki/PZP_Discovery)**                        **Samsung**                   <span style="color:green;">Impleo</span>                <span style="color:green;">BMW (si)</span>
+  **[Device UI Adaptation and Awareness](/wp3-3/wiki/Device_UI_Adaptation_and_Awareness)**   **IBBT**, Antenna, BMW, TUM   ERCIM, <span style="color:green;">Samsung (wg)</span>   <span style="color:green;">Samsung (wg)</span>
+  **[Remote UI Usage](/wp3-3/wiki/UI_Sharing)**   **Fraunhofer**                <span style="color:green;">Samsung (wg)</span>          <span style="color:green;">Samsung (wg)</span>
   ------------------------------------------------- ----------------------------- ------------------------------------------------------- ---------------------------------------------------
 
 microPZP[¶](#microPZP)
@@ -107,38 +107,36 @@ microPZP[¶](#microPZP)
   **Section**        **Authors**        **Reviewers**      **Final Review**
 
   **[microPZP                                              
-  Introduction](.htm                                       
-  l)**                                                     
+  Introduction](/wp3-3/wiki/MicroPZP_Introduction)**                                                     
 
   **[microPZP                                              
-  Connection](.html)                                       
+  Connection](/wp3-3/wiki/MicroPZP_Connection)                                       
   **                                                       
 
   **[microPZP                                              
-  Discovery](.html)*                                       
+  Discovery](/wp3-3/wiki/MicroPZP_Discovery)*                                       
   *                                                        
 
   **[microPZP                                              
-  Administration](.h                                       
-  tml)**                                                   
+  Administration](/wp3-3/wiki/MicroPZP_Administration)**                                                   
 
   **[microPZP Access                                       
   Control and                                              
-  Policy](.html)**                                         
+  Policy](/wp3-3/wiki/MicroPZP_Access_Control_and_Policy)**                                         
 
   **[microPZP                                              
-  Enrolment](.html)*                                       
+  Enrolment](/wp3-3/wiki/MicroPZP_Enrolment)*                                       
   *                                                        
 
   **[microPZP                                              
   Implementation                                           
-  Examples](.html)**                                       
+  Examples](/wp3-3/wiki/MicroPZP_Implementation_Examples)**                                       
 
   **[microPZP                                              
-  Proxy](.html)**                                          
+  Proxy](/wp3-3/wiki/MicroPZP_Proxy)**                                          
 
   **[microPZP Use                                          
-  Cases](.html)**                                          
+  Cases](/wp3-3/wiki/MicroPZP_Use_Cases)**                                          
   ------------------ ------------------ ------------------ ------------------
 
 PZH[¶](#PZH)
@@ -146,9 +144,9 @@ PZH[¶](#PZH)
 
   ------------------------------- ----------------------------- ----------------------------------------------------------------------------------------- ------------------
   **Section**                     **Authors**                   **Reviewers**                                                                             **Final Review**
-  **[PZH Introduction](.html)**   **Samsung**                   <span style="color:green;"> Fraunhofer</span>, <span style="color:green;">Impleo</span>   Fraunhofer (ap)
-  **[Authentication](.html)**     **Polito**, Oxford, Samsung   <span style="color:green;"> Fraunhofer</span>                                             Fraunhofer (ap)
-  **[PZH Admin](.html)**          **Samsung**, Oxford, Polito   <span style="color:green;"> Fraunhofer</span>                                             Fraunhofer (ap)
+  **[PZH Introduction](/wp3-3/wiki/PZH_Introduction)**   **Samsung**                   <span style="color:green;"> Fraunhofer</span>, <span style="color:green;">Impleo</span>   Fraunhofer (ap)
+  **[Authentication](/wp3-3/wiki/Authentication)**     **Polito**, Oxford, Samsung   <span style="color:green;"> Fraunhofer</span>                                             Fraunhofer (ap)
+  **[PZH Admin](/wp3-3/wiki/PZH_Admin)**          **Samsung**, Oxford, Polito   <span style="color:green;"> Fraunhofer</span>                                             Fraunhofer (ap)
   ------------------------------- ----------------------------- ----------------------------------------------------------------------------------------- ------------------
 
 Common/Core[¶](#CommonCore)
@@ -159,8 +157,7 @@ Common/Core[¶](#CommonCore)
                           **          Review**    update**    review**
 
   **[Synchron **Samsung** ERCIM, TUM  TUM         N/A         N/A
-  isation](.h                                                 
-  tml)**                                                      
+  isation](/wp3-3/wiki/)**                                                      
 
   **[Personal **Oxford**,             <span                   
   Zone Key    Polito,                 style="colo             
@@ -251,22 +248,22 @@ Informative[¶](#Informative)
 
   ----------------------------------------------------------------------------------------------------------- ----------------------------- -------------------------------------------------------------------------------------- --------------------------------------------------------
   **Section**                                                                                                 **Authors**                   **Reviewers**                                                                          **Final Review**
-  **[PZH Deployment](.html)**                                                                                 **Samsung**, Oxford           <span style="color:green;"> Fraunhofer</span>, <span style="color:green;">TNO</span>   Fraunhofer (cf), <span style="color:green;">TNO</span>
-  **[PZP Deployment](.html)**                                                                                 **Samsung**                   Fraunhofer, <span style="color:green;">TNO</span>                                      Fraunhofer (cf), <span style="color:green;">TNO</span>
-  **[Media and Event Real Time Synchronisation](Media%20and%20Event%20Real%20Time%20Synchronisation.html)**   **Fraunhofer**                <span style="color:green;"> Samsung (wg)</span>                                        <span style="color:green;"> Samsung (wg)</span>
-  **[oAuth Service](.html)**                                                                                  **ISMB**                      Oxford                                                                                 Oxford
-  **[OpenID Attribute Exchange](.html)**                                                                      **Polito**, Oxford, Samsung   <span style="color:green;"> Fraunhofer</span>                                          Fraunhofer (ap)
+  **[PZH Deployment](/wp3-3/wiki/PZH_Deployment)**                                                                                 **Samsung**, Oxford           <span style="color:green;"> Fraunhofer</span>, <span style="color:green;">TNO</span>   Fraunhofer (cf), <span style="color:green;">TNO</span>
+  **[PZP Deployment](/wp3-3/wiki/PZP_Deployment)**                                                                                 **Samsung**                   Fraunhofer, <span style="color:green;">TNO</span>                                      Fraunhofer (cf), <span style="color:green;">TNO</span>
+  **[Media and Event Real Time Synchronisation](/wp3-3/wiki/Media_Synchronisation)**   **Fraunhofer**                <span style="color:green;"> Samsung (wg)</span>                                        <span style="color:green;"> Samsung (wg)</span>
+  **[oAuth Service](/wp3-3/wiki/OAuth_Service)**                                                                                  **ISMB**                      Oxford                                                                                 Oxford
+  **[OpenID Attribute Exchange](/wp3-3/wiki/OpenID_Attribute_Exchange)**                                                                      **Polito**, Oxford, Samsung   <span style="color:green;"> Fraunhofer</span>                                          Fraunhofer (ap)
   ----------------------------------------------------------------------------------------------------------- ----------------------------- -------------------------------------------------------------------------------------- --------------------------------------------------------
 
 APIs[¶](#APIs)
 --------------
 
-See [Task 3.4](/t3-4).
+See [Task 3.4](/wp3-4/wiki).
 
 Other notes[¶](#Other-notes)
 ----------------------------
 
-[Policy Delegation Report](.html)
+[Policy Delegation Report](/wp3-3/wiki/Policy_Delegation_Report)
 
 ------------------------------------------------------------------------
 
@@ -274,6 +271,6 @@ Other notes[¶](#Other-notes)
 
 ------------------------------------------------------------------------
 
-[WP 3.3 Old Links](.html)
+[WP 3.3 Old Links](/wp3-3/wiki/WP_33_Old_Links)
 
 ------------------------------------------------------------------------
