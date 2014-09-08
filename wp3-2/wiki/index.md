@@ -39,8 +39,8 @@ consortium partners.
 Deliverable 3.2[¶](#Deliverable-32)
 -----------------------------------
 
-[WP 3.2 Deliverable](.html)\
-[WP 3.2 Deliverable (includes)](.html) (Full version for paper
+[WP 3.2 Deliverable](/wp3-2/wiki/WP_32_Deliverable)\
+[WP 3.2 Deliverable (includes)](/wp3-2/wiki/WP_32_Deliverable_(includes)) (Full version for paper
 deliverable - do not edit here.)
 
 Meetings[¶](#Meetings)
@@ -52,21 +52,21 @@ Minutes](/wp3-1/wiki/Links_to_all_WP3_Minutes)
 ### Online meetings[¶](#Online-meetings)
 
 Weekly task 3.2 online meeting were held. See [WP3.2 online meeting
-details](.html).
+details](/wp3-2/wiki/WP32_online_meeting_details).
 
-[Online meeting 2011-03-24](.html)\
-[Online meeting 2011-03-31](.html)\
-[Online meeting 2011-04-07](.html)\
-[Online meeting 2011-04-14](.html)\
-[Online meeting 2011-04-21](.html)\
-[Online meeting 2011-04-28](.html)\
-[Online meeting 2011-05-12](.html)\
-[Online meeting 2011-05-19](.html)\
+[Online meeting 2011-03-24](/wp3-2/wiki/Online_meeting_2011-03-24)\
+[Online meeting 2011-03-31](/wp3-2/wiki/Online_meeting_2011-03-31)\
+[Online meeting 2011-04-07](/wp3-2/wiki/Online_meeting_2011-03-07)\
+[Online meeting 2011-04-14](/wp3-2/wiki/Online_meeting_2011-04-14)\
+[Online meeting 2011-04-21](/wp3-2/wiki/Online_meeting_2011-04-21)\
+[Online meeting 2011-04-28](/wp3-2/wiki/Online_meeting_2011-04-28)\
+[Online meeting 2011-05-12](/wp3-2/wiki/Online_meeting_2011-05-12)\
+[Online meeting 2011-05-19](/wp3-2/wiki/Online_meeting_2011-05-19)\
 [Service discovery/binding and event handling meeting
-2011-05-24](.html)\
-[Online meeting 2011-05-26](.html)\
-[Online meeting 2011-06-16](.html)\
-[Online meeting 2011-06-30](.html)
+2011-05-24](/wp3-2/wiki/Online_meeting_2011-05-24)\
+[Online meeting 2011-05-26](/wp3-2/wiki/Online_meeting_2011-05-26)\
+[Online meeting 2011-06-16](/wp3-2/wiki/Online_meeting_2011-06-16)\
+[Online meeting 2011-06-30](/wp3-2/wiki/Online_meeting_2011-06-30)
 
 ### Turin meeting February 2011[¶](#Turin-meeting-February-2011)
 
@@ -98,10 +98,10 @@ API](http://dev.webinos.org/redmine/attachments/download/542/Webinos_T3.2_Execut
 [Summary of HW Resource API
 session](http://79.125.104.127/redmine/attachments/543/Summary_of_HW_Resource_API_session_Berlin_May_4.pptx)\
 [Discovery and binding APIs - summary of access to remote APIs
-session](/t3-2/wiki/Service_Discovery_API)\
+session](/wp3-2/wiki/Service_Discovery_API)\
 [Presentation on Security APIs - summary of security API
 session](http://dev.webinos.org/redmine/attachments/545/T3-2-securitapis-berlin.pdf)\
-[Application Data APIs Minutes](.html)
+[Application Data APIs Minutes](/wp3-2/wiki/Application_Data_APIs_Minutes)
 
 ### Sophia Antipolis meeting June 6-10 2011[¶](#Sophia-Antipolis-meeting-June-6-10-2011)
 
@@ -110,16 +110,16 @@ Antipolis](/meetings/wiki/Suggested_Agenda#WP3-Session)
 
 [Webinos-WP3\_2-APIs Status update presentation Sophia Antipolis June
 7](http://dev.webinos.org/redmine/attachments/644/Webinos-WP3_2-APIs_Status_update_Sophia_Antipolis_June_7.pptx)\
-[WP3.2 Status update session notes](.html)
+[WP3.2 Status update session notes](/wp3-2/wiki/WP32_Status_update_session_notes)
 
 [Summary of HW Resource API session Sophia
 Antipolis](http://dev.webinos.org/redmine/attachments/658/Summary_of_HW_Resource_API_session_Sophia_Antipolis.pptx)\
 [Service Discovery WP 3.2
 presentation](http://dev.webinos.org/redmine/attachments/633/Discovery_32.pptx)\
-[WP 3.2 Service Discovery Breakout Session](.html)\
+[WP 3.2 Service Discovery Breakout Session](/wp3-2/wiki/WP_32_Service_Discovery_Breakout_Session)\
 [Security
 APIs](http://dev.webinos.org/redmine/attachments/634/32-Sophia-Security-APIs.pptx)\
-[Authentication API](.html)
+[Authentication API](/wp3-2/wiki/Authentication_API)
 
 Work plan[¶](#Work-plan)
 ------------------------
@@ -163,11 +163,11 @@ Primary contributor: Telefonica\
 Supporting contributors/reviewers: Fraunhofer, IBBT, Impleo\
 See:
 
--   [Tool Setup and Usage](.html) - **This is your starting point for
+-   [Tool Setup and Usage](/wp3-2/wiki/Tool_Setup_and_Usage) - **This is your starting point for
     editing the specifications!**\
     (older pages: [Getting started with the source and tools from the
-    Git repository](.html) and [IDL Tool Chain instructions](.html))
--   [Async API design](.html)
+    Git repository](/wp3-2/wiki/Getting_started_with_the_source_and_tools_from_the_Git_repository) and [IDL Tool Chain instructions](/wp3-2/wiki/IDL_Tool_Chain_instructions))
+-   [Async API design](/wp3-2/wiki/Async_API_design)
 -   [Local API
     Guidelines](/wp3-1/wiki/Local_API_guidelines_%28in_preparation_for_32%29)
 -   [Tools for
@@ -182,26 +182,26 @@ investigated. Gaps are documented. If there is no existing APIs
 fulfilling the required functionality high level requirements on the
 required API is stated.
 
--   [HW Resource APIs](.html): APIs for access to HW related resources
+-   [HW Resource APIs](/wp3-2/wiki/HW_Resource_APIs): APIs for access to HW related resources
     in user’s device, in another device or in the cloud.
--   [Application Data APIs](.html): APIs for access to application data
+-   [Application Data APIs](/wp3-2/wiki/Application_Data_APIs): APIs for access to application data
     in user’s device, in another device or in the cloud.
--   [Communication APIs](.html): APIs for communication with other
+-   [Communication APIs](/wp3-2/wiki/Communication_APIs): APIs for communication with other
     devices, other applications and servers.
--   [Application execution APIs](.html): APIs allowing webinos
+-   [Application execution APIs](/wp3-2/wiki/Application_execution_APIs): APIs allowing webinos
     application to launch other applications.
--   [Discovery APIs](.html): APIs for device, service and application
+-   [Discovery APIs](/wp3-2/wiki/Discovery_APIs): APIs for device, service and application
     discovery
--   [Security and Privacy APIs](.html): APIs for access to privacy and
+-   [Security and Privacy APIs](/wp3-2/wiki/Security_and_Privacy_APIs): APIs for access to privacy and
     security related settings
--   [User and application data APIs](.html): APIs for access to user
+-   [User and application data APIs](/wp3-2/wiki/User_and_application_data_APIs): APIs for access to user
     profile and installed application related information
 
 APIs per phase[¶](#APIs-per-phase)
 ----------------------------------
 
 This list states APIs specified in phase 1: [APIs for WP3.2 phase
-1](.html)
+1](/wp3-2/wiki/APIs_for_WP32_phase_1)
 
 Webinos API specification repository[¶](#Webinos-API-specification-repository)
 ------------------------------------------------------------------------------
