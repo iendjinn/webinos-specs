@@ -1,5 +1,62 @@
-Scenario 6 Sequence Diagram ![ title : Scenario 6\\nGeorge has music hosted on a web service,\\nand wants to listen to them on his Paul's mobile device actor Paul actor George participant "Paul's mobile" as Paul\_mobile participant WAP participant UR participant IDP participant SP autonumber note over Paul, SP \#FF6666 : this scenario differs from scenario 5 in identification phase == identification == group identification example Paul -\> Paul\_mobile : switch on Paul\_mobile -\> Paul : ask the pin Paul -\> Paul\_mobile : provide the pin note over Paul, Paul\_mobile : user ID is no more derived from the pin Paul -\> Paul\_mobile : disable automatic ID inheritance Paul -\> George : borrow mobile Paul\_mobile -\> George : prompt for identity note over George, Paul\_mobile: e.g. insert George WID George -\> Paul\_mobile : insert identity end == authentication == George -\> Paul\_mobile : insert address of\\nService Provider (SP) Paul\_mobile -\> SP : try to access Service Provider SP -\> Paul\_mobile : redirect to Webinos Authentication Provider (WAP) Paul\_mobile -\> WAP : ask for authentication WAP -\> UR : ask for user account list UR -\> WAP : return the user\\nIdentity Provider (IDP) list WAP -\> Paul\_mobile : return the IDP list note over Paul\_mobile, George : IDP can be automatically selected\\nby the mobile using a policy or a\\nstored user preference Paul\_mobile --\> George : \<font color="gray"\>present an IDP selector\</font\> George --\> Paul\_mobile : \<font color="gray"\>select an IDP\</font\> Paul\_mobile -\> IDP : autheticate IDP -\> Paul\_mobile : return the SAML token Paul\_mobile -\> WAP : give WAP the SAML token WAP -\> Paul\_mobile : issue the WeST Paul\_mobile -\> SP : transmit the WeST (with timestamp and user signature) == service provision == George -\> Paul\_mobile : ask for music list Paul\_mobile -\> SP : music list retrieval SP -\> Paul\_mobile : music list transmission Paul\_mobile -\> George : music list display George -\> Paul\_mobile : music file selection Paul\_mobile -\> SP : music file retrieval SP -\> Paul\_mobile : music file transmission Paul\_mobile -\> George : music file consumption ](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=94118ec552d611bd2564435b500adc42dd2e571cde4cd011bbf91bf7bb5c703d)
-=============================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================
+Scenario 6 Sequence Diagram 
+
+<div class="uml">title : Scenario 6\nGeorge has music hosted on a web service,\nand wants to listen to them on his Paul's mobile device
+
+actor Paul
+actor George
+participant "Paul's mobile" as Paul_mobile
+participant WAP
+participant UR
+participant IDP
+participant SP
+
+autonumber
+
+note over Paul, SP #FF6666 : this scenario differs from scenario 5 in identification phase
+
+== identification ==
+
+group identification example
+	Paul -> Paul_mobile : switch on
+	Paul_mobile -> Paul : ask the pin
+	Paul -> Paul_mobile : provide the pin
+	note over Paul, Paul_mobile : user ID is no more derived from the pin
+	Paul -> Paul_mobile : disable automatic ID inheritance
+	Paul -> George : borrow mobile
+	Paul_mobile -> George : prompt for identity
+	note over George, Paul_mobile: e.g. insert George WID
+	George -> Paul_mobile : insert identity
+end
+
+== authentication ==
+
+George -> Paul_mobile : insert address of\nService Provider (SP)
+Paul_mobile -> SP : try to access Service Provider
+SP -> Paul_mobile : redirect to Webinos Authentication Provider (WAP)
+Paul_mobile -> WAP : ask for authentication
+WAP -> UR : ask for user account list
+UR -> WAP : return the user\nIdentity Provider (IDP) list
+WAP -> Paul_mobile : return the IDP list
+note over Paul_mobile, George : IDP can be automatically selected\nby the mobile using a policy or a\nstored user preference
+Paul_mobile --> George : <font color="gray">present an IDP selector</font>
+George --> Paul_mobile : <font color="gray">select an IDP</font>
+Paul_mobile -> IDP : autheticate
+IDP -> Paul_mobile : return the SAML token
+Paul_mobile -> WAP : give WAP the SAML token
+WAP -> Paul_mobile : issue the WeST
+Paul_mobile -> SP : transmit the WeST (with timestamp and user signature)
+
+== service provision ==
+
+George -> Paul_mobile : ask for music list
+Paul_mobile -> SP : music list retrieval
+SP -> Paul_mobile : music list transmission
+Paul_mobile -> George : music list display
+
+George -> Paul_mobile : music file selection
+Paul_mobile -> SP : music file retrieval
+SP -> Paul_mobile : music file transmission
+Paul_mobile -> George : music file consumption</div>
 
 REMARKS:
 

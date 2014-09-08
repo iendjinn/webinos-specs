@@ -162,27 +162,41 @@ established between devices. The mDNS resolve contains enough
 information to establish socket communication with the device and start
 XMPP session.
 
-![ actor George George -\> George\_Device: Start XMPP based Discovery
-George\_Device-\>mDNS\_Server: Publish Service note over mDNS\_Server
-First start server using following set of calls: 1) socket(); bind(sd,
-address, len); listen(sd); peer\_sd = accept(sd); Next publish service
-using Avahi API 2)avahi\_entry\_group\_add\_service(...,
-user@machinename, SrvType (\_presence.\_tcp), Port, TXT);
-3)avahi\_entry\_group\_add\_service(...,machinename.local, IPAddress);
-end note XDevice-\>mDNS\_Server: Resolve service note over XDevice use
-avahi to browse service:
-avahi\_service\_browser\_new(SrvType(\_presence.\_tcp), domain,
-callback); end note mDNS\_Server--\>XDevice: List of devices note over
-mDNS\_Server avahi call to resolve service:
-avahi\_service\_resolver\_new(name, SrvType, domain) end note
-XDevice-\>George\_Device: Establish Socket Connection
-XDevice-\>George\_Device: Initial Stream message note over XDevice
-\<stream from = 'x@machine" to = 'george\_device@machine'
-xmlns='jabber:client' xmlns:stream=''\> end note
-George\_Device--\>XDevice: Stream response note over George\_Device
-\<stream from = 'george\_device@machine" to = 'x@machine'
-xmlns='jabber:client' xmlns:stream=''\> end note
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=d909fb56bd5306443777970aa1632d74e51002bc5fdb8c5246f8fb52969b9214)
+<div class="uml">actor George
+George -> George_Device: Start XMPP based Discovery
+George_Device->mDNS_Server: Publish Service
+
+note over mDNS_Server
+   First start server using following set of calls:   1) socket(); bind(sd, address, len); listen(sd); peer_sd = accept(sd);
+   Next publish service using Avahi API 
+   2)avahi_entry_group_add_service(..., user@machinename, SrvType (_presence._tcp), Port, TXT);
+   3)avahi_entry_group_add_service(...,machinename.local, IPAddress); 
+end note
+
+XDevice->mDNS_Server: Resolve service 
+
+note over XDevice
+   use avahi to browse service: avahi_service_browser_new(SrvType(_presence._tcp), domain, callback);
+end note  
+
+mDNS_Server-->XDevice: List of devices
+
+note over mDNS_Server
+   avahi call to resolve service: avahi_service_resolver_new(name, SrvType, domain)
+end note
+
+XDevice->George_Device: Establish Socket Connection
+XDevice->George_Device: Initial Stream message
+
+note over XDevice
+  <stream from = 'x@machine"  to = 'george_device@machine'  xmlns='jabber:client' xmlns:stream=''>
+end note 
+
+George_Device-->XDevice: Stream response
+
+note over George_Device
+  <stream from = 'george_device@machine"  to = 'x@machine'  xmlns='jabber:client' xmlns:stream=''>
+end note</div>
 
 In comparison to other service types available on ZeroConf, XMPP
 serverless provides service type, IP address and port that helps in
@@ -254,69 +268,95 @@ be listed as resources. It should be guaranteed that each resource is
 unique. Once the user select device he wants to connect depending on the
 preference connection will be established.
 
-![ actor George George -\> George\_Device: Locate device "setup-box" alt
-Device is coming online (for the first time/or connecting back to
-Personal Hub/XMPP\_Server) George -\> George\_Device: Declare device as
-selfbot, enter username and password. note over George\_Device Resource
-information could be user entered as string or can be automatically
-generated end note George\_Device-\>DNS\_Server: DNS Resolv mechanism
-based on domain note over DNS\_Server Typical functional call to resolve
-domain information: 1) res\_query("\_xmpp-client.\_tcp.domain", C\_IN,
-T\_SRV, resolve, sizeof resolve) // domain in this george@jabber.org is
-jabber.org 2) ns\_initparse(resolve.buf, len, handle); // Initialize
-parse to resolve information 3) ns\_parserr(&handle, section, num, &res)
-// Gets the res field which contains information about service. 4)
-ns\_rr\_type(res) == ns\_t\_srv // Interested only in service record 5)
-ns\_rr\_rdata(res) // result is of form: prio|weight|port|target end
-note George\_Device-\>XMPP\_Server: Connect using IP address and port
-information retrieved XMPP\_Server--\> George\_Device: Connection
-established George\_Device-\>XMPP\_Server: Stream Initial Message note
-over XMPP\_Server \<stream:stream from = 'george@jabber.org' to =
-'jabber.org' xmlns='jabber:client' xmlns:stream=''\> end note
-XMPP\_Server --\> George\_Device: Stream Response with feature
-information note over George\_Device \<stream:stream from = 'jabber.org'
-to = 'george@jabber.org' id ='UNIQUE ID' xmlns='jabber:client'
-xmlns:stream=''\> \<stream:features\>\<mechanisms\> \<mechanism\>
-\</mechanism\> \</mechanisms\> \<bind/\> \<session/\>
-\<starttls\>\<required/\>\</starttls\>\</stream:features\> end note alt
-depending on stream features TLS and SASL message exchange might be
-required George\_Device-\>XMPP\_Server: \<starttls
-xmlns='urn:ietf:params:xml:ns:xmpp-tls'/\>
-XMPP\_Server--\>George\_Device: \<proceed/\> note over George\_Device
-Initialize SSL mechanism to establish TLS communication; using openssl
-following list of functions if called will established SSL Connection:
-1) SSL\_CTX\_new(SSLv23\_client\_method()); SSL\_CTX
-\_set\_client\_cert\_cb(); SSL\_CTX\_set\_mode();
-SSL\_CTX\_set\_verify();SSL\_new; 2) Establishes TLS connection:
-SSL\_Connect(); select(sock) end note George\_Device-\>XMPP\_Server:
-Stream Initial Message George\_Device-\>XMPP\_Server: SASL mechanism
-based on Stream features note over George\_Device Each XMPP server
-supports multiple mechanisms, we will take example of PLAIN mechanism
-(min requirement is DIGEST-MD5) 1) generate authid by
-base64("\\0username\\0password") 2) \<auth
-xmlns='urn:ietf:params:xml:ns:xmpp-sasl' mechanism='PLAIN'\> authid
-\</auth\> end note XMPP\_Server--\>George\_Device: \<success/\>
-George\_Device -\> XMPP\_Server: Bind with resource note over
-XMPP\_Server \<iq type='set' id='bind\_id' \> \<bind
-xmlns='urn:ietf:params:xml:ns:xmpp-bind'\>\<resource\>
-\</resource\>\</bind\>\</iq\> end note XMPP\_Server --\> George\_Device:
-Bind Success with id end end George\_Device-\>XMPP\_Server: Send
-Presence Information note over XMPP\_Server \<presence
-from='george@jabber.org/setup-box' xmlns='jabber:client'\> \<c
-xmlns='http://jabber.org/protocol/caps'\> \</presence\> end note
-XMPP\_Server--\>George\_Device: Retrieve setup box status note over
-George\_Device \<iq xmlns='jabber:client' type='get' id='msg\_id'
-to='george@jabber.org/setup-box' from='jabber.org'\>\<query
-xmlns='http://jabber.org/protocol/disco\#info'/\>\</iq\> end note
-George\_Device-\> XMPP\_Server: Send node information note over
-XMPP\_Server \<iq from='george@jabber.org/setup-box' id='msg\_id'
-to='jabber.org' type='result' xmlns='jabber:client'\> \<query
-xmlns='http://jabber.org/protocol.disco\#info'\> \<identity
-category='client' name='webinos' type='self-bot'/\> \<feature
-var='http://jabber.org/protocol/caps'/\> \<feature
-var='http://jabber.org/protocol/disco\#info'/\> \<feature
-var='http://jabber.org/protocol/commands'/\> \</query\> \</iq\> end note
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=f5b98a81c0fea2c7ab3bb760eecb9c738466b1b90c92721baf7641a6bb773856)
+<div class="uml">actor George
+George -> George_Device: Locate device "setup-box" 
+
+alt Device is coming online (for the first time/or connecting back to Personal Hub/XMPP_Server)
+  George -> George_Device: Declare device as selfbot, enter username and password. 
+
+  note over George_Device
+     Resource information could be user entered as string or can be automatically generated
+  end note
+
+  George_Device->DNS_Server: DNS Resolv mechanism based on domain 
+
+  note over DNS_Server
+    Typical functional call to resolve domain information:
+    1) res_query("_xmpp-client._tcp.domain", C_IN, T_SRV, resolve, sizeof resolve) // domain in this george@jabber.org is jabber.org
+    2) ns_initparse(resolve.buf, len, handle); // Initialize parse to resolve information
+    3) ns_parserr(&handle, section, num, &res) // Gets the res field which contains information about service.
+    4) ns_rr_type(res) == ns_t_srv // Interested only in service record
+    5) ns_rr_rdata(res) // result is of form: prio|weight|port|target    
+  end note
+
+  George_Device->XMPP_Server: Connect using IP address and port information retrieved
+  XMPP_Server--> George_Device: Connection established
+
+  George_Device->XMPP_Server: Stream Initial Message 
+
+  note over XMPP_Server
+  <stream:stream from = 'george@jabber.org'  to = 'jabber.org'  xmlns='jabber:client' xmlns:stream=''>
+  end note
+
+  XMPP_Server --> George_Device: Stream Response with feature information  
+
+  note over George_Device
+  <stream:stream from = 'jabber.org'  to = 'george@jabber.org'  id ='UNIQUE ID' xmlns='jabber:client' xmlns:stream=''>
+  <stream:features><mechanisms> <mechanism> </mechanism> </mechanisms> <bind/> <session/> <starttls><required/></starttls></stream:features>
+  end note
+
+  alt depending on stream features TLS and SASL message exchange might be required
+   George_Device->XMPP_Server: <starttls xmlns='urn:ietf:params:xml:ns:xmpp-tls'/>
+   XMPP_Server-->George_Device: <proceed/>
+
+   note over George_Device
+     Initialize SSL mechanism to establish TLS communication; using openssl following list of functions if called will established SSL Connection: 
+     1) SSL_CTX_new(SSLv23_client_method()); SSL_CTX _set_client_cert_cb(); SSL_CTX_set_mode(); SSL_CTX_set_verify();SSL_new; 
+     2) Establishes TLS connection: SSL_Connect(); select(sock)
+   end note
+
+   George_Device->XMPP_Server: Stream Initial Message
+   George_Device->XMPP_Server: SASL mechanism based on Stream features
+   
+   note over George_Device
+     Each XMPP server supports multiple mechanisms, we will take example of PLAIN mechanism (min requirement is DIGEST-MD5)
+     1) generate authid by base64("\0username\0password") 
+     2) <auth xmlns='urn:ietf:params:xml:ns:xmpp-sasl' mechanism='PLAIN'> authid </auth>
+   end note
+  
+   XMPP_Server-->George_Device: <success/>
+   
+   George_Device -> XMPP_Server: Bind with resource 
+
+   note over XMPP_Server
+     <iq type='set' id='bind_id' > <bind xmlns='urn:ietf:params:xml:ns:xmpp-bind'><resource> </resource></bind></iq>
+   end note
+  
+   XMPP_Server --> George_Device: Bind Success with id 
+   
+  end
+end
+  
+George_Device->XMPP_Server: Send Presence Information
+
+note over XMPP_Server 
+  <presence from='george@jabber.org/setup-box' xmlns='jabber:client'> <c xmlns='http://jabber.org/protocol/caps'> </presence>
+end note
+
+XMPP_Server-->George_Device: Retrieve setup box status
+
+note over George_Device
+  <iq xmlns='jabber:client' type='get' id='msg_id' to='george@jabber.org/setup-box' from='jabber.org'><query xmlns='http://jabber.org/protocol/disco#info'/></iq>
+end note
+
+George_Device-> XMPP_Server: Send node information
+ 
+note over XMPP_Server
+  <iq from='george@jabber.org/setup-box' id='msg_id'  to='jabber.org' type='result' xmlns='jabber:client'> 
+  <query xmlns='http://jabber.org/protocol.disco#info'> <identity category='client' name='webinos' type='self-bot'/> 
+  <feature var='http://jabber.org/protocol/caps'/> <feature var='http://jabber.org/protocol/disco#info'/> 
+  <feature var='http://jabber.org/protocol/commands'/> </query> </iq> 
+end note</div>
 
 Aspect 2: Expose JavaScript APIs to third party developers[¶](#Aspect-2-Expose-JavaScript-APIs-to-third-party-developers)
 -------------------------------------------------------------------------------------------------------------------------

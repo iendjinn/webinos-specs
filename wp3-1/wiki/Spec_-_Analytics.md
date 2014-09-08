@@ -502,147 +502,152 @@ workers on the user device. These are:
 
 #### Register the intent to use the application metrics worker[¶](#Register-the-intent-to-use-the-application-metrics-worker)
 
-![ actor User autonumber User -\> Application: Starts application
-Application -\> Application : onRegisterMetrics called Application -\>
-ApplicationMetricsWorker : Register intent to use application metrics
-using key ApplicationMetricsWorker --\> Application : A metrics worker
-instance is returned, if permitted User -\> Application: Interacts with
-Application -\> Application: onUnregisterMetrics Application -\>
-ApplicationMetricsWorker: unRegister called ApplicationMetricsWorker -\>
-WebinosAnalytics: Close web connection WebinosAnalytics --\>
-ApplicationMetricsWorker: Close web connection
-ApplicationMetricsWorker --\> Application: Application metrics
-unregistered
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=b1e5efa0e03098559ce55518cb060eeea8134648031d981204bece1456b1d9d7)
+<div class="uml">actor User
+autonumber
+User -> Application: Starts application
+Application -> Application : onRegisterMetrics called
+Application -> ApplicationMetricsWorker : Register intent to use application metrics using key
+ApplicationMetricsWorker --> Application : A metrics worker instance is returned, if permitted
+
+User -> Application: Interacts with
+Application -> Application: onUnregisterMetrics
+Application -> ApplicationMetricsWorker: unRegister called
+ApplicationMetricsWorker -> WebinosAnalytics: Close web connection
+WebinosAnalytics --> ApplicationMetricsWorker: Close web connection
+ApplicationMetricsWorker --> Application: Application metrics unregistered</div>
 
 #### Gathering metrics data about the application session lifecycle[¶](#Gathering-metrics-data-about-the-application-session-lifecycle)
 
-![ actor User autonumber User -\> Application: Starts application
-Application -\> Application: onStart called Application -\>
-ApplicationMetricsWorker: startSession(MetricsDataEvent) called
-ApplicationMetricsWorker -\> ApplicationMetricsLog: Add MetricsDataEvent
-ApplicationMetricsLog --\> ApplicationMetricsWorker: Metrics data event
-added ApplicationMetricsWorker --\> Application: Application session
-started User -\> Application: Pauses application Application -\>
-Application: onPause called Application -\> ApplicationMetricsWorker:
-pauseSession(MetricsDataEvent) called ApplicationMetricsWorker -\>
-ApplicationMetricsLog: Add MetricsDataEvent ApplicationMetricsLog --\>
-ApplicationMetricsWorker: Metrics data event added
-ApplicationMetricsWorker --\> Application: Application session paused
-User -\> Application: Resumes application Application -\> Application:
-onResume called Application -\> ApplicationMetricsWorker:
-resumeSession(MetricsDataEvent) called ApplicationMetricsWorker -\>
-ApplicationMetricsLog: Add MetricsDataEvent ApplicationMetricsLog --\>
-ApplicationMetricsWorker: Metrics data event added
-ApplicationMetricsWorker --\> Application: Application session resumed
-User -\> Application: Closes application Application -\> Application:
-onClose called Application -\> ApplicationMetricsWorker:
-closeSession(MetricsDataEvent) called ApplicationMetricsWorker -\>
-ApplicationMetricsLog: Add MetricsDataEvent ApplicationMetricsLog --\>
-ApplicationMetricsWorker: Metrics data event added
-ApplicationMetricsWorker --\> Application: Application session closed
-Application -\> Application: Application closed
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=605a7e050f659c415ab08260393f2092e1be67e5aa00855ae848c052cdd84d81)
+<div class="uml">actor User
+autonumber
+
+User -> Application: Starts application
+Application -> Application: onStart called
+Application -> ApplicationMetricsWorker: startSession(MetricsDataEvent) called
+ApplicationMetricsWorker -> ApplicationMetricsLog: Add MetricsDataEvent
+ApplicationMetricsLog --> ApplicationMetricsWorker: Metrics data event added
+ApplicationMetricsWorker --> Application: Application session started
+
+User -> Application: Pauses application
+Application -> Application: onPause called
+Application -> ApplicationMetricsWorker: pauseSession(MetricsDataEvent) called
+ApplicationMetricsWorker -> ApplicationMetricsLog: Add MetricsDataEvent
+ApplicationMetricsLog --> ApplicationMetricsWorker: Metrics data event added
+ApplicationMetricsWorker --> Application: Application session paused
+
+User -> Application: Resumes application
+Application -> Application: onResume called
+Application -> ApplicationMetricsWorker: resumeSession(MetricsDataEvent) called
+ApplicationMetricsWorker -> ApplicationMetricsLog: Add MetricsDataEvent
+ApplicationMetricsLog --> ApplicationMetricsWorker: Metrics data event added
+ApplicationMetricsWorker --> Application: Application session resumed
+
+User -> Application: Closes application
+Application -> Application: onClose called
+Application -> ApplicationMetricsWorker: closeSession(MetricsDataEvent) called
+ApplicationMetricsWorker -> ApplicationMetricsLog: Add MetricsDataEvent
+ApplicationMetricsLog --> ApplicationMetricsWorker: Metrics data event added
+ApplicationMetricsWorker --> Application: Application session closed
+Application -> Application: Application closed</div>
 
 #### Register the intent to consume specific context information[¶](#Register-the-intent-to-consume-specific-context-information)
 
-![ actor User autonumber User -\> Application: Starts application
-Application -\> Application : onRegisterContextMetrics called
-Application -\> ContextManager : Register intent for metering specific
-context information ContextManager -\> ContextManager: Authenticate
-ContextManager -\> ContextManager: addContextEventListener
-ContextManager --\> Application : Context permissions object returned,
-if permitted ContextManager --\> ApplicationMetricsWorker:
-onContextEvent called ApplicationMetricsWorker -\>
-ApplicationMetricsLog: Add MetricsDataEvent ApplicationMetricsLog --\>
-ApplicationMetricsWorker: Metrics data event added
-ApplicationMetricsWorker --\> Application: Context information added
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=c0485f61c8af525b6ffaaf760cf30eea710116c575760b457a8ed35defd14c4f)
+<div class="uml">actor User
+autonumber
+User -> Application: Starts application
+Application -> Application : onRegisterContextMetrics called
+Application -> ContextManager : Register intent for metering specific context information
+ContextManager -> ContextManager: Authenticate 
+ContextManager -> ContextManager: addContextEventListener
+ContextManager --> Application : Context permissions object returned, if permitted
+ContextManager --> ApplicationMetricsWorker: onContextEvent called
+ApplicationMetricsWorker -> ApplicationMetricsLog: Add MetricsDataEvent
+ApplicationMetricsLog --> ApplicationMetricsWorker: Metrics data event added
+ApplicationMetricsWorker --> Application: Context information added</div>
 
 #### Using context information from specific context providers as metrics data[¶](#Using-context-information-from-specific-context-providers-as-metrics-data)
 
-![ actor User autonumber User -\> Application: Starts application
-Application -\> Application : onRegisterContextMetrics called
-Application -\> ContextManager : Register intent for using a specific
-context provider ContextManager -\> ContextProvider: Request for
-authentication ContextProvider -\> ContextProvider:
-addContextEventListener ContextProvider --\> ContextManager:
-Authentication granted ContextManager --\> Application : Context
-permissions object returned, if permitted ContextProvider --\>
-ApplicationMetricsWorker: onContextEvent called
-ApplicationMetricsWorker -\> ApplicationMetricsLog: Add MetricsDataEvent
-ApplicationMetricsLog --\> ApplicationMetricsWorker: Metrics data event
-added ApplicationMetricsWorker --\> Application: Context information
-added
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=cdd002e3ea40b6aa302143fa9ef3813fdb06e9f59c0bd52f672b92cff6a18df8)
+<div class="uml">actor User
+autonumber
+User -> Application: Starts application
+Application -> Application : onRegisterContextMetrics called
+Application -> ContextManager : Register intent for using a specific context provider
+ContextManager -> ContextProvider: Request for authentication
+ContextProvider -> ContextProvider: addContextEventListener
+ContextProvider --> ContextManager: Authentication granted
+ContextManager --> Application : Context permissions object returned, if permitted
+ContextProvider --> ApplicationMetricsWorker: onContextEvent called
+ApplicationMetricsWorker -> ApplicationMetricsLog: Add MetricsDataEvent
+ApplicationMetricsLog --> ApplicationMetricsWorker: Metrics data event added
+ApplicationMetricsWorker --> Application: Context information added</div>
 
 #### Adding web requests and responses as metrics data[¶](#Adding-web-requests-and-responses-as-metrics-data)
 
-![ actor User autonumber User -\> Application: Starts application
-Application -\> Application : onRegisterWebMetrics called
-Application -\> ContextManager : Register intent for metering web
-requests and responses ContextManager -\> ContextManager: Authenticate
-ContextManager -\> ContextManager: addContextEventListener
-ContextManager --\> Application : Context permissions object returned,
-if permitted User -\> Application: Makes web request Application -\>
-WebSite: sends web request Application -\> ContextManager: Aggregate
-context information ContextManager --\> ApplicationMetricsWorker:
-onContextEvent called ApplicationMetricsWorker -\>
-ApplicationMetricsLog: Add MetricsDataEvent ApplicationMetricsLog --\>
-ApplicationMetricsWorker: Metrics data event added
-ApplicationMetricsWorker --\> Application: Context information added
-WebSite --\> Application: Replies with web response Application --\>
-User: Renders and presents the web response Application -\>
-ContextManager: Aggregate context information ContextManager --\>
-ApplicationMetricsWorker: onContextEvent called
-ApplicationMetricsWorker -\> ApplicationMetricsLog: Add MetricsDataEvent
-ApplicationMetricsLog --\> ApplicationMetricsWorker: Metrics data event
-added ApplicationMetricsWorker --\> Application: Context information
-added
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=1f541134854ea47804a8963574ba88aae945f997e71c4fc3613827e1b52b011a)
+<div class="uml">actor User
+autonumber
+User -> Application: Starts application
+Application -> Application : onRegisterWebMetrics called
+Application -> ContextManager : Register intent for metering web requests and responses
+ContextManager -> ContextManager: Authenticate 
+ContextManager -> ContextManager: addContextEventListener
+ContextManager --> Application : Context permissions object returned, if permitted
+User -> Application: Makes web request
+Application -> WebSite: sends web request
+Application -> ContextManager: Aggregate context information
+ContextManager --> ApplicationMetricsWorker: onContextEvent called
+ApplicationMetricsWorker -> ApplicationMetricsLog: Add MetricsDataEvent
+ApplicationMetricsLog --> ApplicationMetricsWorker: Metrics data event added
+ApplicationMetricsWorker --> Application: Context information added
+WebSite --> Application: Replies with web response
+Application --> User: Renders and presents the web response
+Application -> ContextManager: Aggregate context information
+ContextManager --> ApplicationMetricsWorker: onContextEvent called
+ApplicationMetricsWorker -> ApplicationMetricsLog: Add MetricsDataEvent
+ApplicationMetricsLog --> ApplicationMetricsWorker: Metrics data event added
+ApplicationMetricsWorker --> Application: Context information added</div>
 
 #### Encountering metrics points within the application[¶](#Encountering-metrics-points-within-the-application)
 
-![ actor User autonumber User -\> Application: Starts application
-Application -\> Application : onRegisterContextMetrics called
-Application -\> ContextManager : Register intent for providing specific
-context information ContextManager -\> ContextManager: Authentication
-granted ContextManager -\> ContextManager: addContextEventListener
-ContextManager --\> Application : Context permissions object returned,
-if permitted User -\> Application: Interacts with Application -\>
-Application: Reaches a metrics point Application -\> ContextManager:
-Creates a context object ContextManager --\> Application: Context object
-is returned Application -\> Application: Set the context attributes
-Application -\> ContextManager: Add the new context ContextManager --\>
-ApplicationMetricsWorker: onContextEvent called
-ApplicationMetricsWorker -\> ApplicationMetricsLog: Add MetricsDataEvent
-ApplicationMetricsLog --\> ApplicationMetricsWorker: Metrics data event
-added ApplicationMetricsWorker --\> Application: Context information
-added
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=a0c568b4631c2bc5deaeed410d184c2f07e2ddad00bac845278f0c4de9e6a32e)
+<div class="uml">actor User
+autonumber
+User -> Application: Starts application
+Application -> Application : onRegisterContextMetrics called
+Application -> ContextManager : Register intent for providing specific context information
+ContextManager -> ContextManager: Authentication granted
+ContextManager -> ContextManager: addContextEventListener
+ContextManager --> Application : Context permissions object returned, if permitted
+User -> Application: Interacts with
+Application -> Application: Reaches a metrics point
+Application -> ContextManager: Creates a context object
+ContextManager --> Application: Context object is returned
+Application -> Application: Set the context attributes
+Application -> ContextManager: Add the new context
+ContextManager --> ApplicationMetricsWorker: onContextEvent called
+ApplicationMetricsWorker -> ApplicationMetricsLog: Add MetricsDataEvent
+ApplicationMetricsLog --> ApplicationMetricsWorker: Metrics data event added
+ApplicationMetricsWorker --> Application: Context information added</div>
 
 #### Uploading the application metrics to webinos analytics[¶](#Uploading-the-application-metrics-to-webinos-analytics)
 
-![ actor User autonumber User -\> Application: Starts application
-Application -\> Application: onStartUpload called Application -\>
-ApplicationMetricsWorker: startUpload() called
-ApplicationMetricsWorker -\> WebinosAnalytics: Request to sign in
-securely WebinosAnalytics --\> ApplicationMetricsWorker: A secure web
-connection is returned ApplicationMetricsWorker -\> WebinosAnalytics:
-Post application metrics data WebinosAnalytics --\>
-ApplicationMetricsWorker: A response code is returned
-ApplicationMetricsWorker -\> ApplicationMetricsWorker: Optionally,
-delete uploaded metrics data locally ApplicationMetricsWorker -\>
-ApplicationMetricsWorker: Optionally, post new application metrics data
-at regular intervals User -\> Application: Interacts with
-Application -\> Application: onStopUpload called Application -\>
-ApplicationMetricsWorker: stopUpload() called
-ApplicationMetricsWorker --\> Application: Uploading metrics data
-stopped ApplicationMetricsWorker -\> WebinosAnalytics: Optionally, close
-the secure web connection WebinosAnalytics -\> ApplicationMetricsWorker:
-Optionally, close the secure web connection
-ApplicationMetricsWorker --\> Application: Connection closed
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=1a8168ec4ea5d59c42c9365981a70551ca638ac28e4f2e9d1de782a1153bf390)
+<div class="uml">actor User
+autonumber
+User -> Application: Starts application
+Application -> Application: onStartUpload called
+Application -> ApplicationMetricsWorker: startUpload() called
+ApplicationMetricsWorker -> WebinosAnalytics: Request to sign in securely
+WebinosAnalytics --> ApplicationMetricsWorker: A secure web connection is returned
+ApplicationMetricsWorker -> WebinosAnalytics: Post application metrics data
+WebinosAnalytics --> ApplicationMetricsWorker: A response code is returned
+ApplicationMetricsWorker -> ApplicationMetricsWorker: Optionally, delete uploaded metrics data locally
+ApplicationMetricsWorker -> ApplicationMetricsWorker: Optionally, post new application metrics data at regular intervals
+
+User -> Application: Interacts with
+Application -> Application: onStopUpload called
+Application -> ApplicationMetricsWorker: stopUpload() called
+ApplicationMetricsWorker --> Application: Uploading metrics data stopped
+ApplicationMetricsWorker -> WebinosAnalytics: Optionally, close the secure web connection
+WebinosAnalytics -> ApplicationMetricsWorker: Optionally, close the secure web connection
+ApplicationMetricsWorker --> Application: Connection closed</div>
 
 ### Functional and non functional requirements[¶](#Functional-and-non-functional-requirements)
 

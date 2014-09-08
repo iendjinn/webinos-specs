@@ -42,12 +42,15 @@ use cases. For example, in the case that George would like to be
 notified of the update on Paul's MP4s, an possible implementation is to
 use pubsub as follows:
 
-![ actor George George -\> Public\_Website:register/subscribe as event
-listener to receive "new MP4" notification actor Paul Paul -\>
-Public\_Website: Publish "new MP4" service Public\_Website -\> George:
-Send "new MP4" notification George -\> Public\_Website: remove event
-listener on "new MP4" notification
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=8c22ba503995e73e7321424b254638a69e914cc53a1b5d3064237d5ed19233f7)
+<div class="uml">actor George
+George -> Public_Website:register/subscribe as event listener to receive "new MP4" notification
+
+actor Paul
+Paul -> Public_Website: Publish "new MP4" service
+
+Public_Website -> George: Send "new MP4" notification
+
+George -> Public_Website: remove event listener on "new MP4" notification</div>
 
 In this case, the notification is pushed to George's personal Zone
 Hub(PZH). George's PZH will work out whether George prefers this

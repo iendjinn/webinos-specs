@@ -608,88 +608,172 @@ Sequence diagrams[¶](#Sequence-diagrams)
 
 ### WOS-UC-TA8-002: Interpreting policies and making access control decisions[¶](#WOS-UC-TA8-002-Interpreting-policies-and-making-access-control-decisions)
 
-![ title usecase WOS-UV-TA8-002 actor "User" as usr participant
-"photo-sharing\\napplication" as app participant "PEP" as pep
-participant "PDP" as pdp participant "shared\\nrepository" as rep
-autonumber note over usr this entity includes both the real user and the
-webinos front-end end note app -\> pep : photos upload attempt pep -\>
-pdp : policies check alt normal flow note over pep, pdp policies allow
-photo upload end note pdp -\> pep : operation granted pep -\> app :
-action allowed app -\> rep : photos upload else alternate flow
-autonumber 3 note over pep, pdp policies do not allow photo upload end
-note pdp -\> pep : operation denied pep -\> app : action not allowed
-app -\> usr : upload aborted note over usr, app the access control
-decision is logged end note else alternate flow autonumber 3 note over
-pep, pdp policies require user confirm before allowing photo upload end
-note pdp -\> pep : confirm requested pep -\> usr : ask for confirm
-usr -\> pep : operation granted pep -\> app : action allowed app -\> rep
-: photos upload end
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=4bb78ae3c31c3f3f01eef10ab11cba9270a67c6b5c66d678cd08ebd50a28962c)
+<div class="uml">title usecase WOS-UV-TA8-002
+
+actor "User" as usr
+
+participant "photo-sharing\napplication" as app
+participant "PEP" as pep
+participant "PDP" as pdp
+participant "shared\nrepository" as rep
+
+autonumber
+note over usr
+	this entity includes
+	both the real user and
+	the webinos front-end
+end note
+
+app -> pep : photos upload attempt
+pep -> pdp : policies check
+
+alt normal flow
+	note over pep, pdp
+		policies allow photo upload
+	end note
+	pdp -> pep : operation granted
+	pep -> app : action allowed
+	app -> rep : photos upload
+else alternate flow
+	autonumber 3
+	note over pep, pdp
+		policies do not allow photo upload
+	end note
+	pdp -> pep : operation denied
+	pep -> app : action not allowed
+	app -> usr : upload aborted
+	note over usr, app
+		the access control
+		decision is logged
+	end note
+else alternate flow
+	autonumber 3
+	note over pep, pdp
+		policies require user confirm
+		before allowing photo upload
+	end note
+	pdp -> pep : confirm requested
+	pep -> usr : ask for confirm
+	usr -> pep : operation granted
+	pep -> app : action allowed
+	app -> rep : photos upload
+end</div>
 
 ### WOS-UC-TA8-003: Enforcing multiple policies on multiple devices (normal flow)[¶](#WOS-UC-TA8-003-Enforcing-multiple-policies-on-multiple-devices-normal-flow)
 
-![ title usecase WOS-UV-TA8-003\\nnormal flow actor "User" as usr
-participant "mobile privacy\\ndashboard" as mobile\_pd participant
-"mobile discovery\\nservice" as mobile\_sd participant "mobile\\nPEP" as
-mobile\_pep participant "mobile\\nPDP" as mobile\_pdp participant
-"cloud\\nPDPC" as cloud\_pdpc participant "in-car\\nPDP" as car\_pdp
-participant "in-car\\nPEP" as car\_pep participant "in-car
-discovery\\nservice" as car\_sd autonumber usr -\> mobile\_pd : set
-hidden mode mobile\_pd -\> mobile\_pep : privacy setting modification
-attempt mobile\_pep -\> mobile\_pdp : policies check mobile\_pdp -\>
-mobile\_pep : operation granted mobile\_pep -\> mobile\_pd : action
-allowed mobile\_pd -\> mobile\_pdp : new privacy settings note over
-mobile\_pdp, cloud\_pdpc through mobile PDPC and mobile W-Agent end note
-mobile\_pdp -\> cloud\_pdpc : policy update note over cloud\_pdpc,
-car\_pdp through in-car W-Agent and in-car PDPC end note cloud\_pdpc -\>
-car\_pdp : policy update == mobile discovery == note over mobile\_pdp
-assumption: a hello message arrives to the discovery service alternative
-assumption: the PEP may recognize a hello message and filter it
-accordingly to the policy, avoiding to send it to the discovery service
-end note note over mobile\_sd a nearby device tries to sense the mobile
-end note mobile\_sd -\> mobile\_pep : discovery attempt mobile\_pep -\>
-mobile\_pdp : policies check mobile\_pdp -\> mobile\_pep : operation
-denied mobile\_pep -\> mobile\_sd : action not allowed == in-car system
-discovery== note over car\_sd a nearby device tries to sense the in-car
-system end note car\_sd -\> car\_pep : discovery attempt car\_pep -\>
-car\_pdp : policies check car\_pdp -\> car\_pep : operation denied
-car\_pep -\> car\_sd : action not allowed
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=309f2828bd41aa5072259a5c04993d2b0608964639421ac02a77a7a44be1bb9e)
+<div class="uml">title usecase WOS-UV-TA8-003\nnormal flow
 
-### WOS-UC-TA8-003: Enforcing multiple policies on multiple devices (alternative flow)[¶](#WOS-UC-TA8-003-Enforcing-multiple-policies-on-multiple-devices-alternative-flow)
+actor "User" as usr
+participant "mobile privacy\ndashboard" as mobile_pd
+participant "mobile discovery\nservice" as mobile_sd
+participant "mobile\nPEP" as mobile_pep
+participant "mobile\nPDP" as mobile_pdp
+participant "cloud\nPDPC" as cloud_pdpc
+participant "in-car\nPDP" as car_pdp
+participant "in-car\nPEP" as car_pep
+participant "in-car discovery\nservice" as car_sd
 
-![ title usecase WOS-UV-TA8-003\\nalternate flow actor "User" as usr
-participant "photo-sharing\\napplication" as app participant "PEP" as
-pep participant "PDP" as pdp participant "shared\\nrepository" as rep
-autonumber note over pdp in PDP there are user policies and company
-policies. company policies can be provided by a policy authority or
-manually inserted end note app -\> pep : photos upload attempt pep -\>
-pdp : policies check pdp -\> usr : ask for permission usr -\> pdp :
-photo sharing allowed note over pdp : user policies and\\ncompany
-policies\\ncomparison pdp -\> pep : operation partially granted pep -\>
-app : action partially allowed app -\> rep : personal photos uploaded
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=ddda58f219bee50c58a93a783feb88e3b29a3430e5652752f5e0aab74d1caba4)
+autonumber
+
+usr -> mobile_pd : set hidden mode
+mobile_pd -> mobile_pep : privacy setting modification attempt
+mobile_pep -> mobile_pdp : policies check
+mobile_pdp -> mobile_pep : operation granted
+mobile_pep -> mobile_pd : action allowed
+mobile_pd -> mobile_pdp : new privacy settings
+note over mobile_pdp, cloud_pdpc
+	through mobile PDPC
+	and mobile W-Agent
+end note
+mobile_pdp -> cloud_pdpc : policy update
+note over cloud_pdpc, car_pdp
+	through in-car W-Agent
+	and in-car PDPC
+end note
+cloud_pdpc -> car_pdp : policy update
+
+== mobile discovery ==
+
+note over mobile_pdp
+	assumption: a hello message arrives to the discovery service
+	alternative assumption: the PEP may recognize a hello message and filter
+	it accordingly to the policy, avoiding to send it to the discovery service
+end note
+
+note over mobile_sd
+	a nearby device tries
+	to sense the mobile
+end note
+
+mobile_sd -> mobile_pep : discovery attempt
+mobile_pep -> mobile_pdp : policies check
+mobile_pdp -> mobile_pep : operation denied
+mobile_pep -> mobile_sd : action not allowed</div>
+
+== in-car system discovery==
+
+note over car_sd
+	a nearby device tries to
+	sense the in-car system
+end note
+
+car_sd -> car_pep : discovery attempt
+car_pep -> car_pdp : policies check
+car_pdp -> car_pep : operation denied
+car_pep -> car_sd : action not allowed</div>
 
 ### WOS-UC-TA8-007: Policy authoring tools[¶](#WOS-UC-TA8-007-Policy-authoring-tools)
 
-![ actor "developer" as dev participant "policy tool" as tool
-participant "PEP" as pep participant "PDP" as pdp autonumber note over
-tool assumption: policies are tested into the device and not into a
-policy tool environment end note dev -\> tool : set up company policies
-tool -\> pep : policies modification attempt pep -\> pdp : policies
-check pdp -\> pep : operation granted pep -\> tool : action allowed
-tool -\> pdp : new policies set up == test == dev -\> tool : company
-data sharing test tool -\> pep : share company data pep -\> pdp :
-policies check pdp -\> pep : operation denied pep -\> tool : action not
-allowed tool -\> dev : company data sharing not allowed dev -\> tool :
-personal data sharing test tool -\> pep : share personal data pep -\>
-pdp : policies check alt normal flow pdp -\> pep : operation granted
-pep -\> tool : action allowed tool -\> dev : personal data sharing
-allowed note over dev, tool Test succesfull. The developer saves the
-policy and signs it to mark it as a trusted company policy end note else
-alternate flow autonumber 16 pdp -\> pep : operation denied pep -\> tool
-: action not allowed tool -\> dev : personal data sharing not allowed
-note over dev, tool Test unsuccesfull. The developer modifies policies
-end note end
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=2db6e30d81225dfcc04a22de8d14423303febd3b8721f8a51cd0c3a552d6d177)
+<div class="uml">actor "developer" as dev
+participant "policy tool" as tool
+participant "PEP" as pep
+participant "PDP" as pdp
+
+autonumber
+
+note over tool
+	assumption: policies are tested into the
+	device and not into a policy tool environment
+end note
+
+dev -> tool : set up company policies
+tool -> pep : policies modification attempt
+
+pep -> pdp : policies check
+pdp -> pep : operation granted
+pep -> tool : action allowed
+tool -> pdp : new policies set up
+
+== test ==
+
+dev -> tool : company data sharing test
+tool -> pep : share company data
+pep -> pdp : policies check
+pdp -> pep : operation denied
+pep -> tool : action not allowed
+tool -> dev : company data sharing not allowed
+
+dev -> tool : personal data sharing test
+tool -> pep : share personal data
+pep -> pdp : policies check
+
+alt normal flow
+	pdp -> pep : operation granted
+	pep -> tool : action allowed
+	tool -> dev : personal data sharing allowed
+	note over dev, tool
+		Test succesfull. The developer saves
+		the policy and signs it to mark it
+		as a trusted company policy
+	end note
+else alternate flow
+	autonumber 16
+	pdp -> pep : operation denied
+	pep -> tool : action not allowed
+	tool -> dev : personal data sharing not allowed
+	note over dev, tool
+		Test unsuccesfull. The developer 
+		modifies policies
+	end note
+end</div>
 

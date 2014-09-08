@@ -26,12 +26,22 @@ Single Device Structure[¶](#Single-Device-Structure)
 
 -   Simple XACML-like architecture
 
-    ![ WebinosRuntime o-- DeviceAPIs WebinosRuntime o-- PEP
-    WebinosRuntime o-- LocalData WebinosRuntime o-- Comms WebinosRuntime
-    o-- Apps Apps --\> PEP PEP --\> LocalData PEP --\> Comms PEP --\>
-    DeviceAPIs PEP "1" - "1" PDP PDP "1" - PAP PAP "1" -- "\*"
-    XACMLPolicy
-    ](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=b07d8430fb926a7708a27762f5fe72eedd4ebb9fba0d98219e05de3394c888d6)
+
+<div class="uml">WebinosRuntime o-- DeviceAPIs
+WebinosRuntime o-- PEP
+WebinosRuntime o-- LocalData
+WebinosRuntime o-- Comms
+WebinosRuntime o-- Apps
+
+Apps --> PEP
+
+PEP --> LocalData
+PEP --> Comms
+PEP --> DeviceAPIs
+
+PEP "1" - "1" PDP
+PDP "1" - PAP
+PAP "1" -- "*" XACMLPolicy</div>
 
 Multi-Device Distributed Structure[¶](#Multi-Device-Distributed-Structure)
 ==========================================================================
