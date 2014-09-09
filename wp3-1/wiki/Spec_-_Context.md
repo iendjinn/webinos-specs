@@ -375,9 +375,8 @@ The following figure depicts the relations between situations, context
 data, and entities. An entity may be any person, thing, or system that
 is being active or passive for that situation.
 
-![ Entity "involves \*" -- "is within \*" Situation Situation "describes
-aspects of a" -- "is represented by \*" Context
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=00cfa8601526ad8174dc5207bbdf21bfe41b122d74b6bfca2692bb739b42e1b0)
+<div class="uml">Entity "involves   *" -- "is within   *" Situation 
+Situation "describes aspects of a" -- "is represented by   *" Context</div>
 
 **Which entity is the context for?**
 
@@ -406,9 +405,10 @@ user stories, use cases, and requirements. In terms of inheritance
 diagram, these four identified types of contexts can be depicted in UML
 as:
 
-![ Context \<|-- UserContext Context \<|-- ApplicationContext Context
-\<|-- DeviceContext Context \<|-- SocialContext
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=d41db6c9b41445c59d2a2898bcab553a75a6c26a1716968041014c0eef14e9d0)
+<div class="uml">Context <|-- UserContext
+Context <|-- ApplicationContext
+Context <|-- DeviceContext
+Context <|-- SocialContext</div>
 
 Please note that a social context is part of a user context, but that we
 have not depicted this in this inheritance diagram. We will come back to
@@ -500,11 +500,23 @@ described with: context can consist of several sub-contexts, and a
 context can be part of another context. A context will always comprise
 one or more attributes.
 
-![ Context o-- "\*" Context : can be part of Context \*-- "\*" Attribute
-Context "\*" -- "\*" Entity : can be related to Attribute o-- ValueRange
-Attribute o-- ValueSet class Context { + Name: String + Privacy: int }
-class Attribute { + Name: String + Value: DataPrimitive }
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=6583e351d9f8a40b5b5ea6481febf9b1c472485c0d513dbbe55a81865b084b95)\
+<div class="uml">Context o-- "*" Context : can be part of
+Context  *--  "*" Attribute
+Context "*" -- "*" Entity : can be related to
+Attribute o-- ValueRange
+Attribute o-- ValueSet
+
+
+class Context {
++ Name: String
++ Privacy: int
+}
+
+class Attribute {
++ Name: String
++ Value: DataPrimitive
+}</div>
+
 Each context attribute has a name and a value. The type of the context
 attribute is a data primitive (e.g. Boolean, integer, float, double, or
 string). In many cases it will be sufficient to just use string as the
@@ -576,12 +588,17 @@ values and types needed in the particular context-aware application, see
 the UML class diagram below that shows the various parts of the user
 context model:
 
-![ User "1" -- "\*" UserContext : is related to UserContext o--
-SocialContext UserContext o-- TaskContext UserContext o--
-PersonalContext UserContext o-- EnvironmentContext UserContext o--
-SpatioTemporalContext class PersonalContext { + MentalContext +
-PhysiologicalContext }
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=e61f5e27664b146715c77be0596d00f0dda0f4078a0cb61dc795d7d9b347f6ab)
+<div class="uml">User "1" -- "*" UserContext : is related to
+UserContext o-- SocialContext
+UserContext o-- TaskContext 
+UserContext o-- PersonalContext
+UserContext o-- EnvironmentContext 
+UserContext o-- SpatioTemporalContext
+
+class PersonalContext {
++ MentalContext
++ PhysiologicalContext
+}</div>
 
 **Environment context**
 
@@ -732,10 +749,11 @@ device contexts. It is anticipated that most, if not all, device context
 information can be sub-categorised and stored within this generic
 structure. The device context structure consists of five sub-contexts:
 
-![ DeviceContext o-- SensorContext DeviceContext o-- DisplayContext
-DeviceContext o-- SoundContext DeviceContext o-- SystemContext
-DeviceContext o-- NetworkContext
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=0c71a5d9388c4c43150dd85f3d5b9b54bfe57348a8a1d38d7b13bef6b2d4ba67)
+<div class="uml">DeviceContext o-- SensorContext
+DeviceContext o-- DisplayContext
+DeviceContext o-- SoundContext
+DeviceContext o-- SystemContext
+DeviceContext o-- NetworkContext</div>
 
 **Sensor Context**
 
@@ -812,9 +830,9 @@ potentially large amount of context information can be sub-categorised
 and kept within this structure. The application context consists of the
 following four sub-contexts:
 
-![ ApplicationContext o-- ProviderContext ApplicationContext o--
-ResourceContext ApplicationContext o-- RuntimeContext
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=d96d4881cfd9db262ec6b0519bb14cd50115997f0e36e884e69033ee1a634317)
+<div class="uml">ApplicationContext o-- ProviderContext
+ApplicationContext o-- ResourceContext
+ApplicationContext o-- RuntimeContext</div>
 
 **ProviderContext**
 

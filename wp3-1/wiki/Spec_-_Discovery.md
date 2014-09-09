@@ -81,27 +81,41 @@ Description](/wp3-1/wiki/Spec_-_Discovery#Formal-Specification)
 
 ### Sequence Diagram - Use Case 1[¶](#Sequence-Diagram-Use-Case-1)
 
-![ actor George autonumber George -\> George\_Device:Discover Device
-George\_Device-\>Personal\_Zone\_Proxy:Discover Device X
-Personal\_Zone\_Proxy-\>Personal\_Hub:Discover Device X alt device
-searched is under same Personal\_Hub Personal\_Hub --\>
-Personal\_Zone\_Proxy:Resource Information Personal\_Zone\_Proxy --\>
-George\_Device:Resource Information else device searched is under
-different Personal\_Hub Personal\_Hub -\> Personal\_Hub\_X:Find resource
-based on JID Personal\_Hub\_X --\> Personal\_Hub:Resolved connection
-information Personal\_Hub --\> Personal\_Zone\_Proxy:Resource
-Information Personal\_Zone\_Proxy --\> George\_Device:Resource
-Information end George\_Device -\> Device\_X: Start XMPP Stream Message
-Device\_X -\> George\_Device: Return stream features and id alt check
-for TLS George\_Device -\> Device\_X: Establish TLS connection
-Device\_X --\>George\_Device: Proceed end alt check fro SASL mechanim
-George\_Device -\> Device\_X: Exchange Authentication mechanism and Id
-or else exchange challenges Device\_X --\>George\_Device: Succeed end
-alt check for bind George\_Device -\> Device\_X : Send bind message for
-specific resource Device\_X --\> George\_Device : Bind JID end
-George\_Device -\> Device\_X : Presence/Roster/Message information
-exchange
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=c43f37c5a919a37f58f13118693e6f1408165f59980d0360dd47ff3a658576a0)
+<div class="uml">actor George
+autonumber
+George -> George_Device:Discover Device
+George_Device->Personal_Zone_Proxy:Discover Device X
+Personal_Zone_Proxy->Personal_Hub:Discover Device X
+
+alt device searched is under same Personal_Hub
+	Personal_Hub --> Personal_Zone_Proxy:Resource Information
+	Personal_Zone_Proxy --> George_Device:Resource Information
+else device searched is under different Personal_Hub
+	Personal_Hub -> Personal_Hub_X:Find resource based on JID
+	Personal_Hub_X --> Personal_Hub:Resolved connection information
+	Personal_Hub --> Personal_Zone_Proxy:Resource Information
+	Personal_Zone_Proxy --> George_Device:Resource Information
+end 
+
+George_Device -> Device_X: Start XMPP Stream Message
+Device_X -> George_Device: Return stream features and id
+
+alt check for TLS
+	George_Device -> Device_X: Establish TLS connection
+	Device_X -->George_Device: Proceed
+end
+
+alt check fro SASL mechanim
+	George_Device -> Device_X: Exchange Authentication mechanism and Id or else exchange challenges
+	Device_X -->George_Device: Succeed
+end
+
+alt check for bind
+	George_Device -> Device_X : Send bind message for specific resource
+	Device_X --> George_Device : Bind JID
+end
+
+George_Device -> Device_X : Presence/Roster/Message information exchange</div>
 
 ### Use Case 2:[¶](#Use-Case-2)
 
@@ -122,16 +136,20 @@ use all or use a specific device to find other devices.
 
 ### Sequence diagram - Use Case 2[¶](#Sequence-diagram-Use-Case-2)
 
-![ actor George autonumber George-\>George\_Device: Search device based
-on discovery mechanism note over George all mechanism could be used or
-one specific mechanism could be used end note George\_Device--\>George:
-List of devices depending on interfaces/discovery George -\>
-George\_Device: Select mechanism and retrieve list of devices
-George\_Device --\> George: List of devices available based on mechanism
-note over George In discovered device list, filtering of George device
-is needed. end note George -\> George\_Device: Select Device to connect
-George\_Device --\> George: Device connected
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=baa4ff6d3f2db7082efca175d3f0a1920b6a538dfa780c8e2416db05e8f94e6d)
+<div class="uml">actor George
+autonumber
+George->George_Device: Search device based on discovery mechanism 
+note over George
+   all mechanism could be used or one specific mechanism could be used
+end note
+George_Device-->George: List of devices depending on interfaces/discovery
+George -> George_Device: Select mechanism and retrieve list of devices 
+George_Device --> George: List of devices available based on mechanism 
+note over George
+  In discovered device list, filtering of George device is needed.
+end note
+George -> George_Device: Select Device to connect
+George_Device --> George: Device connected</div>
 
 #### Use Case 3:[¶](#Use-Case-3)
 
@@ -167,24 +185,27 @@ through PZH, PZP will be able to obtain information.
 
 ### Sequence Diagram - Use Case 3[¶](#Sequence-Diagram-Use-Case-3)
 
-![ actor Paul autonumber alt George Device Information is not available
-in Paul's PZP Paul -\> Paul\_Device: Fetch George Device Information
-note over Paul\_Device Includes information about devices that are
-online end note Paul\_Device-\>Paul\_PersonalZone\_Proxy: Forward
-request Paul\_PersonalZone\_Proxy-\>Paul\_PersonalHub: Forward Request
-Paul\_PersonalHub -\>George\_PersonalHub: Server communication
-George\_PersonalHub-\>George\_PersonalZone\_Proxy: Resources information
-George\_PersonalZone\_Proxy--\>George\_PersonalHub: Forward online
-device list George\_PersonalHub--\>Paul\_PersonalHub: Forward online
-device list Paul\_PersonalHub--\>Paul\_PersonalZone\_Proxy: Forward
-online device list Paul\_PersonalZone\_Proxy--\>Paul: Present online
-device list Paul -\> Paul\_Device: Select a device to connect
-Paul\_Device -\> Paul\_PersonalHub: Connect to George device
-Paul\_PersonalHub -\> George\_PersonalHub:
-Connect(policy/authentication) George\_PersonalHub -\> George: Ask for
-permission to allow George -\> Paul\_Device: Grant Permission and allow
-connection end
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=7c6f23bc1828bff8319a8e98feed375fede2ddb22555617315c44362113675bf)
+<div class="uml">actor Paul
+autonumber
+alt George Device Information is not available in Paul's PZP
+Paul -> Paul_Device: Fetch George Device Information
+note over Paul_Device
+  Includes information about devices that are online
+end note
+Paul_Device->Paul_PersonalZone_Proxy: Forward request
+Paul_PersonalZone_Proxy->Paul_PersonalHub: Forward Request
+Paul_PersonalHub ->George_PersonalHub: Server communication 
+George_PersonalHub->George_PersonalZone_Proxy: Resources information
+George_PersonalZone_Proxy-->George_PersonalHub: Forward online device list
+George_PersonalHub-->Paul_PersonalHub: Forward online device list
+Paul_PersonalHub-->Paul_PersonalZone_Proxy: Forward online device list
+Paul_PersonalZone_Proxy-->Paul: Present online device list
+Paul -> Paul_Device: Select a device to connect
+Paul_Device -> Paul_PersonalHub: Connect to George device
+Paul_PersonalHub -> George_PersonalHub: Connect(policy/authentication)
+George_PersonalHub -> George: Ask for permission to allow
+George -> Paul_Device: Grant Permission and allow connection
+end</div>
 
 ### Use Case 4:[¶](#Use-Case-4)
 
@@ -209,22 +230,27 @@ establish connection with George’s TV based on policies of George.
 
 ### Sequence Diagram - Use Case 4[¶](#Sequence-Diagram-Use-Case-4)
 
-![ actor Paul autonumber Paul-\>Paul\_PZP: Search George Device alt if
-Paul can connect to his PZH Paul\_PZP-\>Paul\_PZH: Authenticate with
-user credentials Paul\_PZH --\> Paul\_PZP: Features and mechanism
-supported Paul\_PZP-\>Paul\_PZH: Complete XMPP connection Paul\_PZH--\>
-Paul\_PZP: Bind id Paul\_PZP-\> Paul\_PZH: Service discovery for George
-resources Paul\_PZH-\>George\_PZH: Service discovery for George
-resources George\_PZH--\> Paul\_PZH: Service available and if items
-requested its information too Paul\_PZH-\> Paul\_PZP: George resource
-and items information Paul\_PZP--\>Paul: Present George device details
-else if Paul has access only to local network Paul\_PZP-\>
-Local\_Discovery: Local devices Local\_Discovery--\> Paul\_PZP: Result
-of devices located in range end Paul-\>Paul\_PZP: Select device to
-connect with Paul\_PZP-\>Paul\_PZH: Connect with George device
-Paul\_PZH-\>George\_PZH: Connect with George device
-Paul\_PZP-\>George\_PZP: Stream movie
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=0d129dade8ae85655a63ffe88020ab72f7fc444c21e9c9089eefaeb5ba6bf570)
+<div class="uml">actor Paul 
+autonumber
+Paul->Paul_PZP: Search George Device
+alt if Paul can connect to his PZH 
+  Paul_PZP->Paul_PZH: Authenticate with user credentials
+  Paul_PZH --> Paul_PZP: Features and mechanism supported
+  Paul_PZP->Paul_PZH: Complete XMPP connection 
+  Paul_PZH--> Paul_PZP: Bind id
+  Paul_PZP-> Paul_PZH: Service discovery for George resources
+  Paul_PZH->George_PZH: Service discovery for George resources
+  George_PZH--> Paul_PZH: Service available and if items requested its information too
+  Paul_PZH-> Paul_PZP: George resource and items information
+  Paul_PZP-->Paul: Present George device details
+else if Paul has access only to local network
+  Paul_PZP-> Local_Discovery: Local devices 
+  Local_Discovery--> Paul_PZP: Result of devices located in range
+end
+Paul->Paul_PZP: Select device to connect with
+Paul_PZP->Paul_PZH: Connect with George device
+Paul_PZH->George_PZH: Connect with George device
+Paul_PZP->George_PZP: Stream movie</div>
 
 Formal Specification[¶](#Formal-Specification)
 ----------------------------------------------
@@ -556,70 +582,96 @@ be listed as resources/info-nodes. It should be guaranteed that each
 resource is unique. Once the user select device he wants to connect,
 depending on the preference connection will be established.
 
-![ actor George autonumber George -\> George\_Device: Locate device
-"set-top-box" alt Device is coming online (for the first time/or
-connecting back to Personal Hub/XMPP\_Server) George -\> George\_Device:
-Declare device as selfbot, enter username and password. note over
-George\_Device Resource information could be user entered as string or
-can be automatically generated end note George\_Device-\>DNS\_Server:
-DNS Resolv mechanism based on domain note over DNS\_Server Typical
-functional call to resolve domain information: 1)
-res\_query("\_xmpp-client.\_tcp.domain", C\_IN, T\_SRV, resolve, sizeof
-resolve) // domain in this george@jabber.org is jabber.org 2)
-ns\_initparse(resolve.buf, len, handle); // Initialize parse to resolve
-information 3) ns\_parserr(&handle, section, num, &res) // Gets the res
-field which contains information about service. 4) ns\_rr\_type(res) ==
-ns\_t\_srv // Interested only in service record 5) ns\_rr\_rdata(res) //
-result is of form: prio|weight|port|target end note
-George\_Device-\>XMPP\_Server: Connect using IP address and port
-information retrieved XMPP\_Server--\> George\_Device: Connection
-established George\_Device-\>XMPP\_Server: Stream Initial Message note
-over XMPP\_Server \<stream:stream from = 'george@jabber.org' to =
-'jabber.org' xmlns='jabber:client' xmlns:stream=''\> end note
-XMPP\_Server --\> George\_Device: Stream Response with feature
-information note over George\_Device \<stream:stream from = 'jabber.org'
-to = 'george@jabber.org' id ='UNIQUE ID' xmlns='jabber:client'
-xmlns:stream=''\> \<stream:features\>\<mechanisms\> \<mechanism\>
-\</mechanism\> \</mechanisms\> \<bind/\> \<session/\>
-\<starttls\>\<required/\>\</starttls\>\</stream:features\> end note alt
-depending on stream features TLS and SASL message exchange might be
-required George\_Device-\>XMPP\_Server: \<starttls
-xmlns='urn:ietf:params:xml:ns:xmpp-tls'/\>
-XMPP\_Server--\>George\_Device: \<proceed/\> note over George\_Device
-Initialize SSL mechanism to establish TLS communication; using openssl
-following list of functions if called will established SSL Connection:
-1) SSL\_CTX\_new(SSLv23\_client\_method()); SSL\_CTX
-\_set\_client\_cert\_cb(); SSL\_CTX\_set\_mode();
-SSL\_CTX\_set\_verify();SSL\_new; 2) Establishes TLS connection:
-SSL\_Connect(); select(sock) end note George\_Device-\>XMPP\_Server:
-Stream Initial Message George\_Device-\>XMPP\_Server: SASL mechanism
-based on Stream features note over George\_Device Each XMPP server
-supports multiple mechanisms, we will take example of PLAIN mechanism
-(min requirement is DIGEST-MD5) 1) generate authid by
-base64("\\0username\\0password") 2) \<auth
-xmlns='urn:ietf:params:xml:ns:xmpp-sasl' mechanism='PLAIN'\> authid
-\</auth\> end note XMPP\_Server--\>George\_Device: \<success/\>
-George\_Device -\> XMPP\_Server: Bind with resource note over
-XMPP\_Server \<iq type='set' id='bind\_id' \> \<bind
-xmlns='urn:ietf:params:xml:ns:xmpp-bind'\>\<resource\>
-\</resource\>\</bind\>\</iq\> end note XMPP\_Server --\> George\_Device:
-Bind Success with id end end George\_Device-\>XMPP\_Server: Send
-Presence Information note over XMPP\_Server \<presence
-from='george@jabber.org/set-top-box' xmlns='jabber:client'\> \<c
-xmlns='http://jabber.org/protocol/caps'\> \</presence\> end note
-XMPP\_Server--\>George\_Device: Retrieve set-top-box status note over
-George\_Device \<iq xmlns='jabber:client' type='get' id='msg\_id'
-to='george@jabber.org/set-top-box' from='jabber.org'\>\<query
-xmlns='http://jabber.org/protocol/disco\#info'/\>\</iq\> end note
-George\_Device-\> XMPP\_Server: Send node information note over
-XMPP\_Server \<iq from='george@jabber.org/set-top-box' id='msg\_id'
-to='jabber.org' type='result' xmlns='jabber:client'\> \<query
-xmlns='http://jabber.org/protocol.disco\#info'\> \<identity
-category='client' name='webinos' type='self-bot'/\> \<feature
-var='http://jabber.org/protocol/caps'/\> \<feature
-var='http://jabber.org/protocol/disco\#info'/\> \<feature
-var='http://jabber.org/protocol/commands'/\> \</query\> \</iq\> end note
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=ad29082526004c0b500f81768b21d9851caa709510dc4804940c3fd4bb586b51)
+<div class="uml">actor George
+autonumber
+George -> George_Device: Locate device "set-top-box" 
+
+alt Device is coming online (for the first time/or connecting back to Personal Hub/XMPP_Server)
+  George -> George_Device: Declare device as selfbot, enter username and password. 
+
+  note over George_Device
+     Resource information could be user entered as string or can be automatically generated
+  end note
+
+  George_Device->DNS_Server: DNS Resolv mechanism based on domain 
+
+  note over DNS_Server
+    Typical functional call to resolve domain information:
+    1) res_query("_xmpp-client._tcp.domain", C_IN, T_SRV, resolve, sizeof resolve) // domain in this george@jabber.org is jabber.org
+    2) ns_initparse(resolve.buf, len, handle); // Initialize parse to resolve information
+    3) ns_parserr(&handle, section, num, &res) // Gets the res field which contains information about service.
+    4) ns_rr_type(res) == ns_t_srv // Interested only in service record
+    5) ns_rr_rdata(res) // result is of form: prio|weight|port|target    
+  end note
+
+  George_Device->XMPP_Server: Connect using IP address and port information retrieved
+  XMPP_Server--> George_Device: Connection established
+
+  George_Device->XMPP_Server: Stream Initial Message 
+
+  note over XMPP_Server
+  <stream:stream from = 'george@jabber.org'  to = 'jabber.org'  xmlns='jabber:client' xmlns:stream=''>
+  end note
+
+  XMPP_Server --> George_Device: Stream Response with feature information  
+
+  note over George_Device
+  <stream:stream from = 'jabber.org'  to = 'george@jabber.org'  id ='UNIQUE ID' xmlns='jabber:client' xmlns:stream=''>
+  <stream:features><mechanisms> <mechanism> </mechanism> </mechanisms> <bind/> <session/> <starttls><required/></starttls></stream:features>
+  end note
+
+  alt depending on stream features TLS and SASL message exchange might be required
+   George_Device->XMPP_Server: <starttls xmlns='urn:ietf:params:xml:ns:xmpp-tls'/>
+   XMPP_Server-->George_Device: <proceed/>
+
+   note over George_Device
+     Initialize SSL mechanism to establish TLS communication; using openssl following list of functions if called will established SSL Connection: 
+     1) SSL_CTX_new(SSLv23_client_method()); SSL_CTX _set_client_cert_cb(); SSL_CTX_set_mode(); SSL_CTX_set_verify();SSL_new; 
+     2) Establishes TLS connection: SSL_Connect(); select(sock)
+   end note
+
+   George_Device->XMPP_Server: Stream Initial Message
+   George_Device->XMPP_Server: SASL mechanism based on Stream features
+   
+   note over George_Device
+     Each XMPP server supports multiple mechanisms, we will take example of PLAIN mechanism (min requirement is DIGEST-MD5)
+     1) generate authid by base64("\0username\0password") 
+     2) <auth xmlns='urn:ietf:params:xml:ns:xmpp-sasl' mechanism='PLAIN'> authid </auth>
+   end note
+  
+   XMPP_Server-->George_Device: <success/>
+   
+   George_Device -> XMPP_Server: Bind with resource 
+
+   note over XMPP_Server
+     <iq type='set' id='bind_id' > <bind xmlns='urn:ietf:params:xml:ns:xmpp-bind'><resource> </resource></bind></iq>
+   end note
+  
+   XMPP_Server --> George_Device: Bind Success with id 
+   
+  end
+end
+  
+George_Device->XMPP_Server: Send Presence Information
+
+note over XMPP_Server 
+  <presence from='george@jabber.org/set-top-box' xmlns='jabber:client'> <c xmlns='http://jabber.org/protocol/caps'> </presence>
+end note
+
+XMPP_Server-->George_Device: Retrieve set-top-box status
+
+note over George_Device
+  <iq xmlns='jabber:client' type='get' id='msg_id' to='george@jabber.org/set-top-box' from='jabber.org'><query xmlns='http://jabber.org/protocol/disco#info'/></iq>
+end note
+
+George_Device-> XMPP_Server: Send node information
+ 
+note over XMPP_Server
+  <iq from='george@jabber.org/set-top-box' id='msg_id'  to='jabber.org' type='result' xmlns='jabber:client'> 
+  <query xmlns='http://jabber.org/protocol.disco#info'> <identity category='client' name='webinos' type='self-bot'/> 
+  <feature var='http://jabber.org/protocol/caps'/> <feature var='http://jabber.org/protocol/disco#info'/> 
+  <feature var='http://jabber.org/protocol/commands'/> </query> </iq> 
+end note</div>
 
 Other XMPP mechanism that is relevant for webinos is using it in
 serverless environment i.e. lack of PZH with no public ip connection
@@ -652,28 +704,42 @@ XMPP session.
 A sample implementation overview is described below. It is one of the
 probable way of implementing communication with XMPP server.
 
-![ actor George autonumber George -\> George\_Device: Start XMPP based
-Discovery George\_Device-\>mDNS\_Server: Publish Service note over
-mDNS\_Server First start server using following set of calls: 1)
-socket(); bind(sd, address, len); listen(sd); peer\_sd = accept(sd);
-Next publish service using Avahi API
-2)avahi\_entry\_group\_add\_service(..., user@machinename, SrvType
-(\_presence.\_tcp), Port, TXT);
-3)avahi\_entry\_group\_add\_address(...,machinename.local, IPAddress);
-end note XDevice-\>mDNS\_Server: Resolve service note over XDevice use
-avahi to browse service:
-avahi\_service\_browser\_new(SrvType(\_presence.\_tcp), domain,
-callback); end note mDNS\_Server--\>XDevice: List of devices note over
-mDNS\_Server avahi call to resolve service:
-avahi\_service\_resolver\_new(name, SrvType, domain) end note
-XDevice-\>George\_Device: Establish Socket Connection
-XDevice-\>George\_Device: Initial Stream message note over XDevice
-\<stream from = 'x@machine" to = 'george\_device@machine'
-xmlns='jabber:client' xmlns:stream=''\> end note
-George\_Device--\>XDevice: Stream response note over George\_Device
-\<stream from = 'george\_device@machine" to = 'x@machine'
-xmlns='jabber:client' xmlns:stream=''\> end note
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=488031c201d6f5bb5cc2659b85886cff588e143fe09193598ce5471808257da6)
+<div class="uml">actor George
+autonumber
+George -> George_Device: Start XMPP based Discovery
+George_Device->mDNS_Server: Publish Service
+
+note over mDNS_Server
+   First start server using following set of calls:   1) socket(); bind(sd, address, len); listen(sd); peer_sd = accept(sd);
+   Next publish service using Avahi API 
+   2)avahi_entry_group_add_service(..., user@machinename, SrvType (_presence._tcp), Port, TXT);
+   3)avahi_entry_group_add_address(...,machinename.local, IPAddress); 
+end note
+
+XDevice->mDNS_Server: Resolve service 
+
+note over XDevice
+   use avahi to browse service: avahi_service_browser_new(SrvType(_presence._tcp), domain, callback);
+end note  
+
+mDNS_Server-->XDevice: List of devices
+
+note over mDNS_Server
+   avahi call to resolve service: avahi_service_resolver_new(name, SrvType, domain)
+end note
+
+XDevice->George_Device: Establish Socket Connection
+XDevice->George_Device: Initial Stream message
+
+note over XDevice
+  <stream from = 'x@machine"  to = 'george_device@machine'  xmlns='jabber:client' xmlns:stream=''>
+end note 
+
+George_Device-->XDevice: Stream response
+
+note over George_Device
+  <stream from = 'george_device@machine"  to = 'x@machine'  xmlns='jabber:client' xmlns:stream=''>
+end note</div>
 
 In comparison to other service types available on ZeroConf, XMPP
 serverless provides service type, IP address and port that helps in
@@ -822,12 +888,16 @@ use cases. For example, in the case that George would like to be
 notified of the update on Paul's MP4s, a possible implementation is to
 use publish/subscribe as follows:
 
-![ actor George autonumber George -\> Public\_Website:register/subscribe
-as event listener to receive "new MP4" notification actor Paul Paul -\>
-Public\_Website: Publish "new MP4" service Public\_Website -\> George:
-Send "new MP4" notification George -\> Public\_Website: remove event
-listener on "new MP4" notification
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=7769dd1fa6baa235777e766e4adb00eb43a803bbc279d24e1b12d302d388d9aa)
+<div class="uml">actor George
+autonumber
+George -> Public_Website:register/subscribe as event listener to receive "new MP4" notification
+
+actor Paul
+Paul -> Public_Website: Publish "new MP4" service
+
+Public_Website -> George: Send "new MP4" notification
+
+George -> Public_Website: remove event listener on "new MP4" notification</div>
 
 In this case, the notification is pushed to George's Personal Zone Hub
 (PZH). George's PZH will work out whether George prefers this
