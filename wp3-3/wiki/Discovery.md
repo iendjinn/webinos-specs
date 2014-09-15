@@ -97,12 +97,13 @@ PZH has provided a central place to maintain the information that all
 its PZPs provide. The following diagram shows the message flows when
 PZPs registers with their PZH.
 
-![ PZP\_A -\> PZH : setupTLSConnection(PZP\_A\_ID, PZP\_A\_Name, ...)
-PZP\_A -\> PZP\_A : openListenerChannel PZH -\> PZH :
-addPZPInfo(ConnectedPZPList, PZP\_A) PZP\_B -\> PZH :
-setupTLSConnection(PZP\_B\_ID, PZP\_B\_Name, ...) PZP\_B -\> PZP\_B :
-openListenerChannel PZH -\> PZH : addPZPInfo(ConnectedPZPList, PZP\_B)
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=c1c784f50b1fe4fe4d5ebb7877e43053bb4e1970cbb5706d4e857b3bd6eb901c)
+<div class="uml">PZP_A -> PZH : setupTLSConnection(PZP_A_ID, PZP_A_Name, ...)
+    PZP_A -> PZP_A : openListenerChannel
+    PZH -> PZH : addPZPInfo(ConnectedPZPList, PZP_A)
+
+    PZP_B -> PZH : setupTLSConnection(PZP_B_ID, PZP_B_Name, ...)
+    PZP_B -> PZP_B : openListenerChannel
+    PZH -> PZH : addPZPInfo(ConnectedPZPList, PZP_B)</div>
 
 ### 3.1.2 Register PZP in existing discovery schemes[¶](#312-Register-PZP-in-existing-discovery-schemes)
 
@@ -144,23 +145,21 @@ PZP\_A, PZP\_B, PZP\_C are PZPs from the same PZ.
 
 -   **PZH-assisted intra-zone PZP discovery**
 
-![ PZP\_A -\> PZH : FindServices(ServiceType:PZP) PZH -\> PZP\_A :
-onFound(Service:ConnectedPZPList) PZP\_A -\> PZP\_A :
-updatePZPInfo(ConnectedPZPList)
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=297c534993337719938d7fdfc008211f56cff3abc01e9b82784751e9622c0b68)
+<div class="uml">PZP_A -> PZH   : FindServices(ServiceType:PZP)
+    PZH -> PZP_A :  onFound(Service:ConnectedPZPList)
+    PZP_A -> PZP_A : updatePZPInfo(ConnectedPZPList)</div>
 
 -   **Direct intra-zone PZP discovery**
 
-![ PZP\_A -\> Network: FindServices(ServiceType:PZP, Filter:
-Discoverymethod) Network -\> PZP\_B : FindServices(ServiceType:PZP,
-Filter: Discoverymethod) Network -\> PZP\_C :
-FindServices(ServiceType:PZP, Filter: Discoverymethod) PZP\_B -\>
-Network : onFound(Service: PZP\_B) PZP\_C -\> Network : onFound(Service:
-PZP\_C) Network -\> PZP\_A : onFound(Service: PZP\_B) PZP\_A -\> PZP\_A
-: addPZPInfo(ConnectedPZPList, PZP\_B) Network -\> PZP\_A :
-onFound(Service: PZP\_C) PZP\_A -\> PZP\_A :
-addPZPInfo(ConnectedPZPList, PZP\_C)
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=a8aea01b37f491b9c91dcafccae225ba4d59d79169dec8512afd70bfd4ca6fe3)
+<div class="uml">PZP_A -> Network: FindServices(ServiceType:PZP, Filter: Discoverymethod)
+    Network -> PZP_B : FindServices(ServiceType:PZP, Filter: Discoverymethod)
+    Network -> PZP_C : FindServices(ServiceType:PZP, Filter: Discoverymethod)
+    PZP_B -> Network : onFound(Service: PZP_B) 
+    PZP_C -> Network : onFound(Service: PZP_C) 
+    Network -> PZP_A : onFound(Service: PZP_B)
+    PZP_A -> PZP_A : addPZPInfo(ConnectedPZPList, PZP_B)
+    Network -> PZP_A : onFound(Service: PZP_C) 
+    PZP_A -> PZP_A : addPZPInfo(ConnectedPZPList, PZP_C)</div>
 
 #### Inter-zone PZP discovery[¶](#Inter-zone-PZP-discovery)
 
@@ -177,25 +176,23 @@ Preconditions:
 
 -   **PZH-assisted inter-zone PZP discovery**
 
-![ PZP\_A -\> PZH\_A: FindServices(ServiceType:PZP, Filter: ZoneId)
-PZH\_A -\> PZH\_B: FindServices(ServiceType:PZP, Filter: ZoneId)
-PZH\_B -\> PZH\_A: onFound(Service:ConnectedPZPList) PZP\_A -\> PZP\_A :
-updatePZPInfo(ConnectedPZPList)
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=d1e162ab5a7187953e40075a2f04560077c07958d319adbc24c58951012ae0f7)
+<div class="uml">PZP_A -> PZH_A: FindServices(ServiceType:PZP, Filter: ZoneId)
+    PZH_A -> PZH_B: FindServices(ServiceType:PZP, Filter: ZoneId)
+    PZH_B -> PZH_A: onFound(Service:ConnectedPZPList)  
+
+    PZP_A -> PZP_A : updatePZPInfo(ConnectedPZPList)</div>
 
 -   **Direct inter-zone PZP discovery**
 
-![ PZP\_AA -\> Network: FindServices(ServiceType:PZP, Filter: ZoneId,
-Filter: Discoverymethod) Network -\> PZP\_BB :
-FindServices(ServiceType:PZP, Filter: ZoneId, Filter: Discoverymethod)
-Network -\> PZP\_BC : FindServices(ServiceType:PZP, Filter: ZoneId,
-Filter: Discoverymethod) PZP\_BB -\> Network : onFound(Service: PZP\_BB)
-PZP\_BC -\> Network : onFound(Service: PZP\_BC) Network -\> PZP\_AA :
-onFound(Service: PZP\_BB) PZP\_AA -\> PZP\_AA :
-addPZPInfo(ConnectedPZPList, PZP\_BB) Network -\> PZP\_AA :
-onFound(Service: PZP\_BC) PZP\_AA -\> PZP\_AA :
-addPZPInfo(ConnectedPZPList, PZP\_BC)
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=4aa16feeee6a570fd94667f346091d499a1a20975e4079effc459a33ad89d5cb)
+<div class="uml">PZP_AA -> Network: FindServices(ServiceType:PZP, Filter: ZoneId, Filter: Discoverymethod)
+    Network -> PZP_BB : FindServices(ServiceType:PZP, Filter: ZoneId, Filter: Discoverymethod)
+    Network -> PZP_BC : FindServices(ServiceType:PZP, Filter: ZoneId, Filter: Discoverymethod)
+    PZP_BB -> Network : onFound(Service: PZP_BB) 
+    PZP_BC -> Network : onFound(Service: PZP_BC) 
+    Network -> PZP_AA : onFound(Service: PZP_BB)
+    PZP_AA -> PZP_AA : addPZPInfo(ConnectedPZPList, PZP_BB)
+    Network -> PZP_AA : onFound(Service: PZP_BC) 
+    PZP_AA -> PZP_AA : addPZPInfo(ConnectedPZPList, PZP_BC)</div>
 
 -   **Relations between under layer discovery methods and discovery
     JavaScript APIs**

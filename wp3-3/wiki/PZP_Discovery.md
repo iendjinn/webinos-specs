@@ -152,12 +152,13 @@ PZH has provided a central place to maintain the information that all
 its registered PZPs provide to it. The following diagram shows the
 message flows when PZPs registers with their PZH.
 
-![ PZP\_A -\> PZH : setupTLSConnection(PZP\_A\_ID) PZP\_A -\> PZP\_A :
-openListenerChannel PZH -\> PZH : addPZPInfo(ConnectedPZPList,
-PZP\_A\_info\_object) PZP\_B -\> PZH : setupTLSConnection(PZP\_B\_ID)
-PZP\_B -\> PZP\_B : openListenerChannel PZH -\> PZH :
-addPZPInfo(ConnectedPZPList, PZP\_B\_info\_object)
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=3d4ba2f49313f86d4b6ccc055b7cdded9dc5fc87aff929ebc373087e045c6d34)
+<div class="uml">PZP_A -> PZH : setupTLSConnection(PZP_A_ID)
+    PZP_A -> PZP_A : openListenerChannel
+    PZH -> PZH : addPZPInfo(ConnectedPZPList, PZP_A_info_object)
+
+    PZP_B -> PZH : setupTLSConnection(PZP_B_ID)
+    PZP_B -> PZP_B : openListenerChannel
+    PZH -> PZH : addPZPInfo(ConnectedPZPList, PZP_B_info_object)</div>
 
 #### 2.1.2 Register PZP in existing discovery schemes[¶](#212-Register-PZP-in-existing-discovery-schemes)
 
@@ -301,13 +302,22 @@ passing it to RPC handler. This request a sepcific handler functioin on
 PZH side for database lookup and return result to PZP that initiates
 discovery request.
 
-![ PZP -\> PZH : FindServices(ServiceType:PZP) group onFound PZH -\> PZP
-: onFound(Service:ConnectedPZPList) PZP -\> PZP :
-updatePZPInfo(ConnectedPZPList) end group onLost PZH -\> PZP :
-onLost(Service:PZP) PZP -\> PZP : updatePZPInfo(PZP) end group onError
-PZH -\> PZP : onError(Error:ErrorType) PZP -\> PZP :
-ErrorHander(ErrorType) end
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=050c76b2d39cce1f37f1619677cbf1b23e8fc54fcda615288c020195ce710c04)
+<div class="uml">PZP -> PZH   : FindServices(ServiceType:PZP)
+
+    group onFound
+    PZH -> PZP : onFound(Service:ConnectedPZPList)
+    PZP -> PZP : updatePZPInfo(ConnectedPZPList)
+    end
+
+    group onLost
+    PZH -> PZP : onLost(Service:PZP)
+    PZP -> PZP : updatePZPInfo(PZP)
+    end
+
+    group onError
+    PZH -> PZP : onError(Error:ErrorType)
+    PZP -> PZP : ErrorHander(ErrorType)
+    end</div>
 
 **2.2.2.1 Find PZPs in other people's personal zone**
 
@@ -319,17 +329,26 @@ a certificate exchange procedure. Since each PZH holds information about
 the PZPs within its zone, a query on PZPs in a zone of a different user
 is directed to the PZH of that zone.
 
-![ PZP\_A -\> PZH\_A: FindServices(ServiceType:PZP,
-Filter{ZoneId:PZ\_B}) PZH\_A -\> PZH\_B: FindServices(ServiceType:PZP,
-Filter{ZoneId:PZ\_B}) group onFound PZH\_B -\> PZH\_A :
-onFound(Service:ConnectedPZPListofPZ\_B) PZH\_A -\> PZP\_A :
-onFound(Service:ConnectedPZPListofPZ\_B) PZP\_A -\> PZP\_A :
-updatePZPInfo(ConnectedPZPListofPZ\_B) end group onLost PZH\_B -\>
-PZH\_A : onLost(Service:PZP) PZH\_A -\> PZP\_A : onLost(Service:PZP)
-PZP\_A -\> PZP\_A : updatePZPInfo(PZP) end group onError PZH\_B -\>
-PZH\_A : onError(Error:ErrorType) PZH\_A -\> PZP\_A :
-onError(Error:ErrorType) PZP\_A -\> PZP\_A : ErrorHander(ErrorType) end
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=8527265f651ec75bc7e67fc66b638c0a7f1cd654eb53a906c6f197a5eb50fb9a)
+<div class="uml">PZP_A -> PZH_A: FindServices(ServiceType:PZP, Filter{ZoneId:PZ_B})
+    PZH_A -> PZH_B: FindServices(ServiceType:PZP, Filter{ZoneId:PZ_B})
+
+    group onFound
+    PZH_B -> PZH_A : onFound(Service:ConnectedPZPListofPZ_B)
+    PZH_A -> PZP_A : onFound(Service:ConnectedPZPListofPZ_B)
+    PZP_A -> PZP_A : updatePZPInfo(ConnectedPZPListofPZ_B)
+    end
+
+    group onLost
+    PZH_B -> PZH_A : onLost(Service:PZP)
+    PZH_A -> PZP_A : onLost(Service:PZP)
+    PZP_A -> PZP_A : updatePZPInfo(PZP)
+    end
+
+    group onError
+    PZH_B -> PZH_A : onError(Error:ErrorType)
+    PZH_A -> PZP_A : onError(Error:ErrorType)
+    PZP_A -> PZP_A : ErrorHander(ErrorType)
+    end</div>
 
 #### 2.2.3 Finding other PZPs without the assistance of PZHs[¶](#223-Finding-other-PZPs-without-the-assistance-of-PZHs)
 
@@ -416,15 +435,15 @@ In this diagram, PZP\_A is the party that initiates the PZP discovery
 process. PZP\_B and PZP\_C are the PZPs that to be found or found in the
 specified ZoneId.
 
-![ PZP\_A -\> Network: FindServices(ServiceType:PZP, Filter:ZoneId)
-Network -\> PZP\_B : FindServices(ServiceType:PZP, Filter:ZoneId)
-Network -\> PZP\_C : FindServices(ServiceType:PZP, Filter:ZoneId)
-PZP\_B -\> Network : onFound(Service: PZP\_B) PZP\_C -\> Network :
-onFound(Service: PZP\_C) Network -\> PZP\_A : onFound(Service: PZP\_B)
-PZP\_A -\> PZP\_A : addPZPInfo(ConnectedPZPListofZoneId, PZP\_B)
-Network -\> PZP\_A : onFound(Service: PZP\_C) PZP\_A -\> PZP\_A :
-addPZPInfo(ConnectedPZPListofZoneId, PZP\_C)
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=46f29d54bff1dc8409df71a32eaa2c3a364aa3ef78f11e8d2ff77a0bb5bc6db1)
+ <div class="uml">PZP_A -> Network: FindServices(ServiceType:PZP, Filter:ZoneId)
+    Network -> PZP_B : FindServices(ServiceType:PZP, Filter:ZoneId)
+    Network -> PZP_C : FindServices(ServiceType:PZP, Filter:ZoneId)
+    PZP_B -> Network : onFound(Service: PZP_B) 
+    PZP_C -> Network : onFound(Service: PZP_C) 
+    Network -> PZP_A : onFound(Service: PZP_B)
+    PZP_A -> PZP_A : addPZPInfo(ConnectedPZPListofZoneId, PZP_B)
+    Network -> PZP_A : onFound(Service: PZP_C) 
+    PZP_A -> PZP_A : addPZPInfo(ConnectedPZPListofZoneId, PZP_C)</div>
 
 ### 2.3 Binding with discovered PZPs[¶](#23-Binding-with-discovered-PZPs)
 

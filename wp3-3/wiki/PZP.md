@@ -125,11 +125,11 @@ Device in Virgin mode can be in these possible states:
 If Virgin mode is successful device should be fully certificated with
 its PZH.
 
-![ [\*]--\> NotConnected NotConnected --\> Connecting : Successful
-(Resolved IP Address) Connecting --\> NotConnected : Error / Timeout/
-Hangup Connecting --\> Connected : Successful Connected --\> Hub :
-Successful stored certificate
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=61fd0c4703755ee9d5fcb5309265605e5b98a34e36ed58d1024a8a49a0f5c569)
+  <div class="uml">[*]--> NotConnected
+  NotConnected --> Connecting : Successful (Resolved IP Address)
+  Connecting --> NotConnected : Error / Timeout/ Hangup
+  Connecting --> Connected : Successful
+  Connected --> Hub : Successful stored certificate  </div>
 
 ### Hub Mode[¶](#Hub-Mode)
 
@@ -153,11 +153,12 @@ automatically.
     operations will take place. After this device will go into not
     connected state
 
-![ [\*]--\> NotConnected NotConnected --\> Connecting : Successful
-Connecting --\> NotConnected : Error / Timeout/ Hangup Connecting --\>
-Connected : Successful Connected -up-\> Disconnecting: Error/ Timeout/
-Hangup Disconnecting-up-\> NotConnected: No valid connection
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=40394115007117a452153bfac8a4def415dbb9e424aaa32bb24d2e8bb7de1a54)
+  <div class="uml">[*]--> NotConnected
+  NotConnected --> Connecting : Successful 
+  Connecting --> NotConnected : Error / Timeout/ Hangup
+  Connecting --> Connected : Successful
+  Connected -up-> Disconnecting: Error/ Timeout/ Hangup
+  Disconnecting-up-> NotConnected: No valid connection</div>
 
 ### Peer Mode[¶](#Peer-Mode)
 
@@ -181,32 +182,43 @@ state.
 4.  Disconnecting: It is a transition state, after this device goes to
     not connected state.
 
-![ [\*]--\> NotConnected NotConnected --\> Connecting : pzpUpdate
-message by PZH Connecting --\> NotConnected : Devices are not available
-or not from same PZH Connecting --\> Connected : Successful connected
-Connected -up-\> Disconnecting: Error/ Timeout/ Hangup
-Disconnecting-up-\> NotConnected : No valid connection
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=db51f72d6df7c5080d71ec69aef2cc4145348f5685a17bdd66054010e6055559)
+  <div class="uml">[*]--> NotConnected
+  NotConnected --> Connecting : pzpUpdate message by PZH
+  Connecting --> NotConnected : Devices are not available or not from same PZH
+  Connecting --> Connected : Successful connected
+  Connected -up-> Disconnecting: Error/ Timeout/ Hangup
+  Disconnecting-up-> NotConnected : No valid connection</div>
 
 ### The Whole Picture[¶](#The-Whole-Picture)
 
-![ [\*]--\> VirginMode state VirginMode { Virgin\_NotConnected -right-\>
-Virgin\_Connecting : Successful (Resolved IP Address)
-Virgin\_Connecting -up-\> Virgin\_NotConnected : Error / Timeout/ Hangup
-Virgin\_Connecting -down-\> Virgin\_Connected : Successful
-Virgin\_Connected -down-\> HubMode : Successful stored certificate }
-state HubMode { [\*]--\> Hub\_NotConnected Hub\_NotConnected --\>
-Hub\_Connecting : Successful Hub\_Connecting --\> Hub\_NotConnected :
-Error / Timeout/ Hangup Hub\_Connecting --\> Hub\_Connected : Successful
-Hub\_Connected --\> Hub\_Disconnecting : Error/ Timeout/ Hangup
-Hub\_Disconnecting--\> Hub\_NotConnected : No valid connection } state
-PeerMode{ Hub\_Connected --\> Peer\_NotConnected : Try connecting other
-peers Peer\_NotConnected --\> Peer\_Connecting : pzpUpdate message by
-PZH Peer\_Connecting --\> Peer\_NotConnected : Devices not available
-Peer\_Connecting --\> Peer\_Connected : Successful connected
-Peer\_Connected --\> Peer\_Disconnecting : Error/ Timeout/ Hangup
-Peer\_Disconnecting --\> Peer\_NotConnected: No valid connection }
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=3568eb9a2dd16a04ba3dc1e49723350396bd1b818c3baaf146ca322e84a1703d)
+<div class="uml">[*]--> VirginMode
+
+  state VirginMode {
+    Virgin_NotConnected -right-> Virgin_Connecting : Successful (Resolved IP Address)
+    Virgin_Connecting -up-> Virgin_NotConnected : Error / Timeout/ Hangup
+    Virgin_Connecting -down-> Virgin_Connected : Successful
+    Virgin_Connected  -down-> HubMode : Successful stored certificate  
+  }
+
+  state HubMode {
+    [*]--> Hub_NotConnected
+    Hub_NotConnected --> Hub_Connecting : Successful 
+    Hub_Connecting --> Hub_NotConnected : Error / Timeout/ Hangup
+    Hub_Connecting --> Hub_Connected : Successful
+    Hub_Connected  --> Hub_Disconnecting  : Error/ Timeout/ Hangup
+    Hub_Disconnecting--> Hub_NotConnected : No valid connection
+
+
+  }
+  state PeerMode{
+    Hub_Connected --> Peer_NotConnected   : Try connecting other peers
+    Peer_NotConnected --> Peer_Connecting : pzpUpdate message by PZH
+    Peer_Connecting --> Peer_NotConnected : Devices not available
+    Peer_Connecting --> Peer_Connected : Successful connected
+    Peer_Connected --> Peer_Disconnecting : Error/ Timeout/ Hangup
+    Peer_Disconnecting --> Peer_NotConnected: No valid connection
+
+  }</div>
 
 Synchronise options[¶](#Synchronise-options)
 --------------------------------------------

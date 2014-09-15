@@ -66,80 +66,162 @@ services)
 The following sequence diagrams details what will be the required
 behavior in different scenarios
 
-![ title PZH interaction with external service participant
-"Personal\\nZone Device" as pzd participant "Personal\\nZone Hub" as pzh
-participant "Identity\\nProvider" as IdP participant
-"Service\\nProvider" as SP participant "Authorization\\nProvider" as AuP
-== Simple Bank Access Service == pzd -\> pzh : request to access\\nthe
-external service note over pzh e.g. the Service Provider could be the
-device owner's bank end note pzh -\> SP : access request note over pzh,
-SP ciphersuite negoziation, certificate exchange, session key
-establishment end note SP -\> pzh: TLS exchange\\n(choice of the
-ciphersuite,\\ncertificate exchange) pzh -\> SP :TLS exchange note over
-pzh, SP now a secure channel is established between the two entities.
-Ideally, the TLS exchange also have authenticated the Service provider
-to the Personal Zone Hub. To do so in a secure way, the Personal Zone
-Hub must have a pre-existing direct or indirect trust relationship with
-the Service Provider, e.g. it could have a verified certificate of the
-Service Provider's certificate issuer end note SP -\> pzh: user
-credential request pzh-\> SP: provision of the user credentials\\n(e.g.
-username + password) SP-\> pzh: access grant SP-\> pzh: service
-provision pzh-\> pzd: service provision
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=47e39d17c03c9962576257c17b25cbe885c56f318ca6796a95f2a2c7881e8723)
+<div class="uml">title PZH interaction with external service
 
-![ title PZH interaction with external service\\nusing an IdP
-participant "Personal\\nZone Device" as pzd participant "Personal\\nZone
-Hub" as pzh participant "Identity\\nProvider" as IdP participant
-"Service\\nProvider" as SP participant "Authorization\\nProvider" as AuP
-== Music hosted on a web Service == pzd -\> pzh : request to
-access\\nthe external service note over pzh e.g. the Service Provider
-could be a music hostes on a web service end note pzh -\> SP : access
-request note over pzh, SP ciphersuite negoziation, certificate exchange,
-session key establishment end note SP -\> pzh: TLS exchange\\n(choice of
-the ciphersuite,\\ncertificate exchange) pzh -\> SP :TLS exchange note
-over pzh, SP now a secure channel is established between the two
-entities. Ideally, the TLS exchange also have authenticated the Service
-provider to the Personal Zone Hub. To do so in a secure way, the
-Personal Zone Hub must have a pre-existing direct or indirect trust
-relationship with the Service Provider, e.g. it could have a verified
-certificate of the Service Provider's certificate issuer end note SP -\>
-pzh: redirection to the IdP pzh -\> IdP : access request IdP -\> pzh:
-TLS exchange\\n(choice of the ciphersuite,\\ncertificate exchange)
-pzh -\> IdP :TLS exchange IdP -\> pzh: user credential request pzh -\>
-IdP: provision of the user credentials\\n(e.g. username + password)
-IdP -\> pzh: authentication token issue pzh -\> SP: authentication token
-transmission SP-\> pzh: access grant SP-\> pzh: service provision pzh-\>
-pzd: service provision
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=c641ecfca422e098221aed1e9abf179d27461d0b66cf3d98ca4bf7da7a911ebc)
+participant "Personal\nZone Device" as pzd
+participant "Personal\nZone Hub" as pzh
+participant "Identity\nProvider" as IdP
+participant "Service\nProvider" as SP
+participant "Authorization\nProvider" as AuP
 
-![ title PZH interaction with external service\\nusing an IdP and an AuP
-participant "Personal\\nZone Device" as pzd participant "Personal\\nZone
-Hub" as pzh participant "Identity\\nProvider" as IdP participant
-"Service\\nProvider" as SP participant "Authorization\\nProvider" as AuP
-== Photo sharing Service == pzd -\> pzh : request to access\\nthe
-external service note over pzh e.g. the Service Provider could be a
-photo sharing service end note pzh -\> SP : access request note over
-pzh, SP ciphersuite negoziation, certificate exchange, session key
-establishment end note SP -\> pzh: TLS exchange\\n(choice of the
-ciphersuite,\\ncertificate exchange) pzh -\> SP :TLS exchange note over
-pzh, SP now a secure channel is established between the two entities.
-Ideally, the TLS exchange also have authenticated the Service provider
-to the Personal Zone Hub. To do so in a secure way, the Personal Zone
-Hub must have a pre-existing direct or indirect trust relationship with
-the Service Provider, e.g. it could have a verified certificate of the
-Service Provider's certificate issuer end note SP -\> pzh: access token
-requested\\nredirection to the AuP pzh -\> AuP: access request AuP -\>
-pzh: TLS exchange\\n(choice of the ciphersuite,\\ncertificate exchange)
-pzh -\> AuP :TLS exchange AuP -\> pzh: Authentication
-requested\\nredirection to the IdP pzh -\> IdP : access request IdP -\>
-pzh: TLS exchange\\n(choice of the ciphersuite,\\ncertificate exchange)
-pzh -\> IdP :TLS exchange IdP -\> pzh: user credential request pzh -\>
-IdP: provision of the user credentials\\n(e.g. username + password)
-IdP -\> pzh: authentication token issue pzh -\> AuP: authentication
-token transmission\\nand authorization request AuP -\> pzh: access token
-pzh -\> SP : access token SP-\> pzh: service provision pzh-\> pzd:
-service provision
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=408aca7327a0818487bef770677eb9ff76b6ee44a439e866188ab4c8c785079f)
+== Simple Bank Access Service ==
+
+pzd -> pzh : request to access\nthe external service
+
+note over pzh 
+	e.g. the Service Provider could
+	be the device owner's bank
+end note
+
+pzh  -> SP : access request 
+
+note over pzh, SP
+	ciphersuite negoziation, certificate
+	exchange, session key establishment
+end note
+
+SP -> pzh: TLS exchange\n(choice of the ciphersuite,\ncertificate exchange)
+pzh -> SP :TLS exchange
+
+note over pzh, SP
+	now a secure channel is established between the two entities.
+	Ideally, the TLS exchange also have authenticated the Service
+	provider to the Personal Zone Hub. To do so in a secure way,
+	the Personal Zone Hub must have a pre-existing direct or indirect
+	trust relationship with the Service Provider, e.g. it could have a
+	verified certificate of the Service Provider's certificate issuer
+end note
+
+SP -> pzh: user credential request
+
+pzh-> SP: provision of the user credentials\n(e.g. username + password)
+
+SP-> pzh: access grant
+SP-> pzh: service provision
+pzh-> pzd: service provision</div>
+
+<div class="uml">title PZH interaction with external service\nusing an IdP
+
+participant "Personal\nZone Device" as pzd
+participant "Personal\nZone Hub" as pzh
+participant "Identity\nProvider" as IdP
+participant "Service\nProvider" as SP
+participant "Authorization\nProvider" as AuP
+
+== Music hosted on a web Service ==
+
+pzd -> pzh : request to access\nthe external service
+
+note over pzh 
+	e.g. the Service Provider could
+	be a music hostes on a web service
+end note
+
+pzh  -> SP : access request 
+
+note over pzh, SP
+	ciphersuite negoziation, certificate
+	exchange, session key establishment
+end note
+
+SP -> pzh: TLS exchange\n(choice of the ciphersuite,\ncertificate exchange)
+pzh -> SP :TLS exchange
+
+note over pzh, SP
+	now a secure channel is established between the two entities.
+	Ideally, the TLS exchange also have authenticated the Service
+	provider to the Personal Zone Hub. To do so in a secure way,
+	the Personal Zone Hub must have a pre-existing direct or indirect
+	trust relationship with the Service Provider, e.g. it could have a
+	verified certificate of the Service Provider's certificate issuer
+end note
+
+SP -> pzh: redirection to the IdP
+
+pzh  -> IdP : access request 
+
+IdP -> pzh: TLS exchange\n(choice of the ciphersuite,\ncertificate exchange)
+pzh -> IdP :TLS exchange
+
+IdP -> pzh: user credential request
+pzh -> IdP: provision of the user credentials\n(e.g. username + password)
+IdP -> pzh: authentication token issue
+pzh -> SP: authentication token transmission
+
+SP-> pzh: access grant
+SP-> pzh: service provision
+pzh-> pzd: service provision</div>
+
+<div class="uml">title PZH interaction with external service\nusing an IdP and an AuP
+
+participant "Personal\nZone Device" as pzd
+participant "Personal\nZone Hub" as pzh
+participant "Identity\nProvider" as IdP
+participant "Service\nProvider" as SP
+participant "Authorization\nProvider" as AuP
+
+== Photo sharing Service ==
+
+pzd -> pzh : request to access\nthe external service
+
+note over pzh 
+	e.g. the Service Provider could
+	be a photo sharing service
+end note
+
+pzh  -> SP : access request 
+
+note over pzh, SP
+	ciphersuite negoziation, certificate
+	exchange, session key establishment
+end note
+
+SP -> pzh: TLS exchange\n(choice of the ciphersuite,\ncertificate exchange)
+pzh -> SP :TLS exchange
+
+note over pzh, SP
+	now a secure channel is established between the two entities.
+	Ideally, the TLS exchange also have authenticated the Service
+	provider to the Personal Zone Hub. To do so in a secure way,
+	the Personal Zone Hub must have a pre-existing direct or indirect
+	trust relationship with the Service Provider, e.g. it could have a
+	verified certificate of the Service Provider's certificate issuer
+end note
+
+SP -> pzh: access token requested\nredirection to the AuP
+
+pzh -> AuP: access request 
+
+AuP -> pzh: TLS exchange\n(choice of the ciphersuite,\ncertificate exchange)
+pzh -> AuP :TLS exchange
+
+AuP -> pzh: Authentication requested\nredirection to the IdP
+
+pzh  -> IdP : access request 
+
+IdP -> pzh: TLS exchange\n(choice of the ciphersuite,\ncertificate exchange)
+pzh -> IdP :TLS exchange
+
+IdP -> pzh: user credential request
+pzh -> IdP: provision of the user credentials\n(e.g. username + password)
+IdP -> pzh: authentication token issue
+
+pzh -> AuP: authentication token transmission\nand authorization request
+AuP -> pzh: access token
+
+pzh -> SP : access token
+SP-> pzh: service provision
+pzh-> pzd: service provision</div>
 
 Ideally, on the base of the kind of authentication/authorization
 protocol adopted by the service (mainly SAML-based or OAuth based) the

@@ -24,14 +24,31 @@ and the predefined rules is injected into the application.
 Components[¶](#Components)
 --------------------------
 
-![ package "Widget Runtime" \#DDDDDD package "ContentAdapation" class
-AdaptationEngine class Rule end package class RenderingEngine{ void
-injectAdaptionEngine() void executeApp() } class Application end package
-package "PersonalZoneProxy" \#DDDDDD class API end package
-AdaptationEngine "1" \*-- "many" Rule RenderingEngine -- Application :
-"excute App" Rule "1"--\>"\*" API: queries AdaptationEngine --\>
-Application
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=4066f24f6725a5d6e4a490b521acb490e3610b686fe6facf4b70f813371ef707)
+<div class="uml">package "Widget Runtime" #DDDDDD
+
+	package "ContentAdapation"
+		class AdaptationEngine
+		class Rule
+	end package
+
+
+	class RenderingEngine{
+		void injectAdaptionEngine()
+		void executeApp()
+	}
+  class Application
+
+end package
+
+package "PersonalZoneProxy" #DDDDDD
+	class API
+
+end package
+
+AdaptationEngine "1" *-- "many" Rule
+RenderingEngine -- Application : "excute App"
+Rule "1"-->"*" API:  queries
+AdaptationEngine -->  Application </div>
 
 General Approach[¶](#General-Approach)
 --------------------------------------

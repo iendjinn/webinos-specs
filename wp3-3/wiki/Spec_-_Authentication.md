@@ -543,32 +543,41 @@ discussed here.
 The activity diagram shows how communication between devices in a zone
 is bootstrapped once the device is turned on.
 
-![ title Bootstrapping communication in webinos (\*) --\> "turn on a
-device" --\> "authenticate user" --\> "device seeks for networks\\nto
-connect to" if "connected?" then --\> [true] "look up current address\\n
-of the PZH (e.g. by using\\n a WebFinger service)" note left: webinos
-WebFinger service is a central service\\non the Internet. For each user,
-an address\\nis stored there if a PZH is active\\n \\nIf webinos'
-WebFinger service is not\\naccessible, the network is not connected
-to\\nthe Internet --\> "access\\nPersonal Zone Hub" note left: If none
-of the user's devices is connected to\\nthe Internet at present, the
-WebFinger service\\ndoes not return an address if "accessible?"
-then --\> [true] "register there and\\nsync data cache" note right:
-device updates its availability\\nto "online", allowing other
-devices\\nto discover and contact it\\n \\ndata cache is a local store
-on the\\ndevice which keeps data from\\nPZH for offline use if
-"registered?" then --\> [true] "check for other own\\ndevices which are
-online" as devcheck --\> "set-up a secure channel\\n(TLS) for any device
-found,\\nif needed" as secureconn --\> "use any local or\\nremote
-service" as uselocremo --\> (\*) else --\> [false] "start local
-discovery of\\ndevices of the same owner" as locdisc endif else --\>
-[false] locdisc note right: if the PZH is not accessible,\\neach devices
-falls back to\\nusing its own PZP\\n \\n list of own devices is
-stored\\nin the data cache --\> "use local services" as uselocal if
-"other own\\ndevices appear?" then --\> [true] secureconn else --\>
-[false] uselocal endif endif else --\> [false] "only local apps
-and\\nservices can be used" --\> (\*) endif
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=0567b8f9d10b14d4cda14b66027b7c0e69d719edaac689325f9bc53afa496604)
+<div class="uml">title Bootstrapping communication in webinos
+
+(*) --> "turn on a device"
+--> "authenticate user"
+--> "device seeks for networks\nto connect to"
+if "connected?" then
+  --> [true] "look up current address\n of the PZH (e.g. by using\n a WebFinger service)"
+  note left: webinos WebFinger service is a central service\non the Internet. For each user, an address\nis stored there if a PZH is active\n \nIf webinos' WebFinger service is not\naccessible, the network is not connected to\nthe Internet
+  --> "access\nPersonal Zone Hub"
+  note left: If none of the user's devices is connected to\nthe Internet at present, the WebFinger service\ndoes not return an address
+  if "accessible?" then
+    --> [true] "register there and\nsync data cache"
+    note right: device updates its availability\nto "online", allowing other devices\nto discover and contact it\n \ndata cache is a local store on the\ndevice which keeps data from\nPZH for offline use
+    if "registered?" then
+      --> [true] "check for other own\ndevices which are online" as devcheck
+      --> "set-up a secure channel\n(TLS) for any device found,\nif needed" as secureconn
+      --> "use any local or\nremote service" as uselocremo
+      --> (*)
+    else
+    --> [false] "start local discovery of\ndevices of the same owner" as locdisc
+    endif
+  else
+    --> [false] locdisc
+    note right: if the PZH is not accessible,\neach devices falls back to\nusing its own PZP\n \n list of own devices is stored\nin the data cache
+    --> "use local services" as uselocal
+    if "other own\ndevices appear?" then
+      --> [true] secureconn
+    else
+      --> [false] uselocal
+    endif
+  endif
+else
+  --> [false] "only local apps and\nservices can be used"
+  --> (*)
+endif</div>
 
 The following sequence diagrams describes the logic flow with emphasis
 on the authentication exchange description. So, the flow is quite at
@@ -596,56 +605,114 @@ Assumptions
 
 #### Sequence diagram analysis[¶](#Sequence-diagram-analysis)
 
-![ title Scenario 1\\nGeorge wants to view his mobile hosted MP4s on his
-set-top-box\\nand both devices have access to the internet actor George
-box "Mobile" \#lightgreen participant "George's\\nmobile\\nWRT" as
-George\_mobile participant "George's mobile\\npersonal zone\\nproxy" as
-mpzp end box participant "George's\\npersonal\\nzone hub" as pzh box
-"Set-Top-Box" \#FF8888 participant "George's set-top-box\\npersonal
-zone\\nproxy" as spzp participant "George's\\nset-top-box\\nWRT" as
-George\_set\_top\_box end box autonumber note over George\_set\_top\_box
-We assume George's set-top-box is already into the personal zone end
-note == identification == group identification example George -\>
-George\_mobile : switch on George\_mobile -\> George : ask for the pin
-George -\> George\_mobile : provide the pin end == personal zone join ==
-note over George, George\_set\_top\_box The PZH works as a personal zone
-certification authority. The first time a device joins the personal
-zone, the user must accept the PZH certificate. Then the device
-generates a keys pair and send his own public key to the PZH to obtain
-the corresponding certificate end note note over George, George\_mobile
-The user may set a policy to automatically join the personal zone end
-note George\_mobile -\> mpzp : join the personal zone mpzp -\> pzh :
-authenticate pzh -\> mpzp : authenticate note over mpzp, pzh Keys from
-the credential store are used for authentication. The credential store
-is cyphered and can be unlocked by the user, e.g. via a passphrase or a
-pin end note mpzp -\> pzh : set-up secure\\ncommunication channel note
-over mpzp, pzh TLS is used for authentication and for establishing the
-secure channel end note mpzp -\> pzh : register online status note over
-mpzp, pzh device and all the running services are registered at the PZH
-end note pzh -\> mpzp : synchronise local\\ndata cache\\n(includes
-device list) mpzp -\> George\_mobile : transmit the device list ==
-connection establishment == George\_mobile -\> George : show the device
-list George -\> George\_mobile : select the set-top-box
-George\_mobile -\> mpzp : establish a channel\\nwith the set-top-box
-mpzp -\> pzh : check online status\\nof the set-top-box pzh -\> mpzp :
-return online status\\nof the set-top-box note over mpzp, spzp We assume
-Gorge's mobile and George's set-top-box establish a secure channel using
-their own certificates end note mpzp -\> spzp : establish a secure
-channel note over mpzp, spzp Connection is established between mobile
-PZP and set-top-box PZP, without involve PZH any longer end note
-spzp -\> mpzp : connection established mpzp -\> George\_mobile:
-connection established George\_mobile -\> George: notify connection ==
-service provision == George -\> George\_mobile : ask for MP4 list note
-over George\_mobile, George\_set\_top\_box Simplified communications.
-Real communications involve George's mobile WRT, George's mobile PZP,
-George's set-top-box PZP and George's set-top-box WRT end note
-George\_mobile --\> George\_set\_top\_box : MP4 list retrieval
-George\_set\_top\_box --\> George\_mobile : MP4 list transmission
-George\_mobile -\> George : MP4 list display George -\> George\_mobile :
-MP4 selection George\_mobile --\> George\_set\_top\_box : MP4 retrieval
-George\_set\_top\_box --\> George\_mobile : MP4 transmission
-George\_mobile -\> George : MP4 consumption
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=e30c4d9816e309b2fae21f347f05eb32186b273f67624aef335b578bc3cab4ab)
+<div class="uml">title Scenario 1\nGeorge wants to view his mobile hosted MP4s on his set-top-box\nand both devices have access to the internet
+
+actor George
+box "Mobile" #lightgreen
+	participant "George's\nmobile\nWRT" as George_mobile
+	participant "George's mobile\npersonal zone\nproxy" as mpzp
+end box
+participant "George's\npersonal\nzone hub" as pzh
+box "Set-Top-Box" #FF8888
+	participant "George's set-top-box\npersonal zone\nproxy" as spzp
+	participant "George's\nset-top-box\nWRT" as George_set_top_box
+end box
+
+autonumber
+
+note over George_set_top_box
+	We assume George's
+	set-top-box is
+	already into the
+	personal zone
+end note
+
+== identification ==
+
+group identification example
+	George -> George_mobile : switch on
+	George_mobile -> George : ask for the pin
+	George -> George_mobile : provide the pin
+end
+
+== personal zone join ==
+
+note over George, George_set_top_box
+	The PZH works as a personal zone certification authority. The first time a device joins
+	the personal zone, the user must accept the PZH certificate. Then the device generates a
+	keys pair and send his own public key to the PZH to obtain the corresponding certificate
+end note
+
+note over George, George_mobile
+	The user may set a policy to
+	automatically join the personal zone
+end note
+
+George_mobile -> mpzp : join the personal zone
+mpzp -> pzh : authenticate
+pzh -> mpzp : authenticate
+note over mpzp, pzh
+	Keys from the credential store
+	are used for authentication.
+	The credential store is cyphered
+	and can be unlocked by the user,
+	e.g. via a passphrase or a pin
+end note
+mpzp -> pzh : set-up secure\ncommunication channel
+note over mpzp, pzh
+	TLS is used for authentication
+	and for establishing the secure
+	channel
+end note
+mpzp -> pzh : register online status
+note over mpzp, pzh
+	device and all the running
+	services are registered at
+	the PZH
+end note
+pzh -> mpzp : synchronise local\ndata cache\n(includes device list)
+mpzp -> George_mobile : transmit the device list
+
+== connection establishment ==
+
+George_mobile -> George : show the device list
+George -> George_mobile : select the set-top-box
+George_mobile -> mpzp : establish a channel\nwith the set-top-box
+mpzp -> pzh : check online status\nof the set-top-box
+pzh -> mpzp : return online status\nof the set-top-box
+
+note over mpzp, spzp
+	We assume Gorge's mobile and George's set-top-box
+	establish a secure channel using their own certificates
+end note
+
+mpzp -> spzp : establish a secure channel
+
+note over mpzp, spzp
+	Connection is established between mobile PZP and
+	set-top-box PZP, without involve PZH any longer
+end note
+
+spzp -> mpzp : connection established
+mpzp -> George_mobile: connection established
+George_mobile -> George: notify connection
+
+== service provision ==
+
+George -> George_mobile : ask for MP4 list
+
+note over George_mobile, George_set_top_box
+	Simplified communications. Real communications involve George's mobile WRT,
+	George's mobile PZP, George's set-top-box PZP and George's set-top-box WRT
+end note
+
+George_mobile --> George_set_top_box : MP4 list retrieval
+George_set_top_box --> George_mobile : MP4 list transmission
+George_mobile -> George : MP4 list display
+George -> George_mobile : MP4 selection
+George_mobile --> George_set_top_box : MP4 retrieval
+George_set_top_box --> George_mobile : MP4 transmission
+George_mobile -> George : MP4 consumption</div>
 
 ### Scenario 2 - Across Multiple Personal Zones[¶](#Scenario-2-Across-Multiple-Personal-Zones)
 
@@ -661,104 +728,208 @@ Assumptions
 
 #### Sequence diagram analysis[¶](#Sequence-diagram-analysis)
 
-![ title : Scenario 2\\nGeorge wants to listen to Paul's MP4s on his
-mobile\\nmobile to mobile, and both have access to the internet actor
-George box "George's Mobile" \#lightgreen participant
-"George's\\nmobile\\nWRT" as George\_mobile participant "George's
-mobile\\npersonal\\nzone proxy" as gpzp end box participant
-"George's\\npersonal\\nzone hub" as gpzh participant "Facebook" as fb
-participant "Paul's\\npersonal\\nzone hub" as ppzh box "Paul's Mobile"
-\#FF8888 participant "Paul's mobile\\npersonal\\nzone proxy" as ppzp
-participant "Paul's\\nmobile\\nWRT" as Paul\_mobile end box actor Paul
-autonumber == identification == group identification example George -\>
-George\_mobile : switch on George\_mobile -\> George : ask for the pin
-George -\> George\_mobile : provide the pin end == personal zone join ==
-note over George, Paul The PZH works as a personal zone certification
-authority. The first time a device joins the personal zone, the user
-must accept the PZH certificate. Then the device generates a keys pair
-and send his own public key to the PZH to obtain the corresponding
-certificate end note note over George, George\_mobile The user may set a
-policy to automatically join the personal zone end note
-George\_mobile -\> gpzp : join George's personal zone gpzp -\> gpzh :
-authenticate gpzh -\> gpzp : authenticate note over gpzp, gpzh Keys from
-the credential store are used for authentication. The credential store
-is cyphered and can be unlocked by the user, e.g. via a passphrase or a
-pin end note gpzp -\> gpzh : set-up secure\\ncommunication channel note
-over gpzp, gpzh TLS is used for authentication and for establishing the
-secure channel end note gpzp -\> gpzh : register online status note over
-gpzp, gpzh device and all the running services are registered at the PZH
-end note gpzh -\> gpzp : synchronise local\\ndata cache == connection
-establishment == note over George, Paul We assume George needs Paul's
-PZH URI to access Paul's personal zone end note alt local scenario
-Paul -\> George : communicate Paul's PZH URI George -\> George\_mobile :
-insert Paul's PZH URI else remote scenario - example 1 autonumber 10
-note over Paul, George PZH URI transmitted by Paul ouf of band, e.g. via
-email end note Paul -\> Paul\_mobile : send Paul's PZH URI
-Paul\_mobile -\> George\_mobile : send Paul's PZH URI George\_mobile -\>
-George : display Paul's PZH URI George -\> George\_mobile : click on
-Paul's PZH URI else remote scenario - example 2 note over Paul, George
-PZH URI retrieved by George out of band, e.g. via a link on Paul's
-Facebook page end note autonumber 10 George -\> George\_mobile : go to
-Paul's Facebook page George\_mobile -\> fb : ask for Paul's page fb -\>
-George\_mobile : send Paul's page George\_mobile -\> George : display
-Paul's Facebook page George -\> George\_mobile : click on Paul's PZH URI
-end George\_mobile -\> gpzp : connect to Paul's PZH gpzp -\> gpzh :
-connect to Paul's PZH note over gpzh, ppzh Each PZH needs to trust the
-certificate of the other PZH. The first time two PZHs establish a
-connection, they must exchange their certificates, and ask thei own user
-if he trust the other PZH end note gpzh -\> ppzh : send George's PZH
-certificate ppzh -\> ppzp : send George's PZH certificate ppzp -\>
-Paul\_mobile : send George's PZH certificate Paul\_mobile -\> Paul :
-display George's PZH certificate Paul -\> Paul\_mobile : accept the
-certificate Paul\_mobile -\> ppzp : accept the certificate ppzp -\> ppzh
-: accept the certificate ppzh -\> gpzh : send Paul's PZH certificate
-gpzh -\> gpzp : send Paul's PZH certificate gpzp -\> George\_mobile :
-send Paul's PZH certificate George\_mobile -\> George : display Paul's
-PZH certificate George -\> George\_mobile : accept the certificate
-George\_mobile -\> gpzp : accept the certificate gpzp -\> gpzh : accept
-the certificate gpzh -\> ppzh : authenticate ppzh -\> gpzh :
-authenticate note over gpzh, ppzh Keys from the credential store are
-used for authentication. The credential store is cyphered and can be
-unlocked by the user, e.g. via a passphrase or a pin. The credential
-store may include previously exchanged certificates end note gpzh -\>
-ppzh : set-up secure\\ncommunication channel note over gpzh, ppzh TLS is
-used for authentication and for establishing the secure channel end note
-gpzh -\> gpzp : channel established gpzp -\> George\_mobile : channel
-established George\_mobile -\> gpzp : retrieve Paul's PZH device list
-gpzp -\> gpzh : retrieve Paul's PZH device list gpzh -\> ppzh : retrieve
-Paul's device list ppzh -\> gpzh : transmit Paul's device list gpzh -\>
-gpzp : transmit Paul's device list gpzp -\> George\_mobile : tranmsit
-Paul's device list George\_mobile -\> George : display Paul's device
-list George -\> George\_mobile : select Paul's mobile George\_mobile -\>
-gpzp : estabilish a channel\\nwith Paul's mobile gpzp -\> gpzh :
-estabilish a channel\\nwith Paul's mobile gpzh -\> ppzh : estabilish a
-channel\\nwith Paul's mobile ppzh -\> ppzp : estabilish a channel\\nwith
-Paul's mobile ppzp -\> Paul\_mobile : estabilish a channel\\nwith Paul's
-mobile Paul\_mobile -\> Paul : ask form permission Paul -\> Paul\_mobile
-: grant permission Paul\_mobile -\> ppzp : grant permission note over
-George\_mobile, Paul\_mobile Connection is established between George
-mobile PZP and Paul mobile PZP, without involve PZH any longer end note
-note over George\_mobile, Paul\_mobile Devices can use previously
-exchanged certificates to estabilish a secure connection end note
-ppzp -\> gpzp : connection established gpzp -\> George\_mobile :
-connection established George\_mobile -\> George : connection notified
-== service provision == George -\> George\_mobile : ask for MP4 list
-note over George\_mobile, Paul\_mobile Simplified communications. Real
-communications involve George's mobile WRT, George's mobile PZP, Paul's
-mobile PZP and Paul's mobile WRT end note George\_mobile --\>
-Paul\_mobile : MP4 list retrival Paul\_mobile -\> Paul : ask for MP4
-list\\nsharing permission Paul -\> Paul\_mobile : grant temporary
-permission Paul\_mobile --\> George\_mobile : MP4 list transmission
-George\_mobile -\> George : MP4 list display George -\> George\_mobile :
-MP4 selection George\_mobile --\> Paul\_mobile : MP4 retrieval
-Paul\_mobile -\> Paul : ask for MP4 sharing permission Paul -\>
-Paul\_mobile : grant temporary permission Paul\_mobile --\>
-George\_mobile : MP4 transmission George\_mobile -\> George : MP4
-consumption George -\> George\_mobile : select another MP4
-George\_mobile --\> Paul\_mobile : MP4 retrieval Paul\_mobile --\>
-George\_mobile : MP4 transmission George\_mobile -\> George : MP4
-consumption
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=e202d9be4b1f4959206dd74e9eca3a7f181e0e3799ee5298f9571a9d9aed0133)
+<div class="uml">title : Scenario 2\nGeorge wants to listen to Paul's MP4s on his mobile\nmobile to mobile, and both have access to the internet
+
+actor George
+box "George's Mobile" #lightgreen
+	participant "George's\nmobile\nWRT" as George_mobile
+	participant "George's mobile\npersonal\nzone proxy" as gpzp
+end box
+participant "George's\npersonal\nzone hub" as gpzh
+participant "Facebook" as fb
+participant "Paul's\npersonal\nzone hub" as ppzh
+box "Paul's Mobile" #FF8888
+	participant "Paul's mobile\npersonal\nzone proxy" as ppzp
+	participant "Paul's\nmobile\nWRT" as Paul_mobile
+end box
+actor Paul
+
+autonumber
+
+== identification ==
+
+group identification example
+	George -> George_mobile : switch on
+	George_mobile -> George : ask for the pin
+	George -> George_mobile : provide the pin
+end
+
+== personal zone join ==
+
+note over George, Paul
+	The PZH works as a personal zone certification authority. The first time a device joins
+	the personal zone, the user must accept the PZH certificate. Then the device generates a
+	keys pair and send his own public key to the PZH to obtain the corresponding certificate
+end note
+
+note over George, George_mobile
+	The user may set a policy to
+	automatically join the personal zone
+end note
+George_mobile -> gpzp : join George's personal zone
+gpzp -> gpzh : authenticate
+
+gpzh -> gpzp : authenticate
+note over gpzp, gpzh
+	Keys from the credential store
+	are used for authentication.
+	The credential store is cyphered
+	and can be unlocked by the user,
+	e.g. via a passphrase or a pin
+end note
+gpzp -> gpzh : set-up secure\ncommunication channel
+note over gpzp, gpzh
+	TLS is used for authentication
+	and for establishing the secure
+	channel
+end note
+gpzp -> gpzh : register online status
+note over gpzp, gpzh
+	device and all the running
+	services are registered at
+	the PZH
+end note
+gpzh -> gpzp : synchronise local\ndata cache
+
+== connection establishment ==
+
+note over George, Paul
+	We assume George needs Paul's PZH URI to access Paul's personal zone
+end note
+
+alt local scenario
+	Paul -> George : communicate Paul's PZH URI
+	George -> George_mobile : insert Paul's PZH URI
+else remote scenario - example 1
+	autonumber 10
+	note over Paul, George
+		PZH URI transmitted by Paul ouf of band, e.g. via email
+	end note
+	Paul -> Paul_mobile : send Paul's PZH URI
+	Paul_mobile -> George_mobile : send Paul's PZH URI
+	George_mobile -> George : display Paul's PZH URI
+	George -> George_mobile : click on Paul's PZH URI
+else remote scenario - example 2
+	note over Paul, George
+		PZH URI retrieved by George out of band, e.g. via a link on Paul's Facebook page
+	end note
+	autonumber 10
+	George -> George_mobile : go to Paul's Facebook page
+	George_mobile -> fb : ask for Paul's page
+	fb -> George_mobile : send Paul's page
+	George_mobile -> George : display Paul's Facebook page
+	George -> George_mobile : click on Paul's PZH URI
+end
+
+George_mobile -> gpzp : connect to Paul's PZH
+gpzp -> gpzh : connect to Paul's PZH
+
+note over gpzh, ppzh
+	Each PZH needs to trust the certificate of the
+	other PZH. The first time two PZHs establish a
+	connection, they must exchange their certificates,
+	and ask thei own user if he trust the other PZH
+end note
+
+gpzh -> ppzh : send George's PZH certificate
+ppzh -> ppzp : send George's PZH certificate
+ppzp -> Paul_mobile : send George's PZH certificate
+Paul_mobile -> Paul : display George's PZH certificate
+Paul -> Paul_mobile : accept the certificate
+Paul_mobile -> ppzp : accept the certificate
+ppzp -> ppzh : accept the certificate
+
+ppzh -> gpzh : send Paul's PZH certificate
+gpzh -> gpzp : send Paul's PZH certificate
+gpzp -> George_mobile : send Paul's PZH certificate
+George_mobile -> George : display Paul's PZH certificate
+George -> George_mobile : accept the certificate
+George_mobile -> gpzp : accept the certificate
+gpzp -> gpzh : accept the certificate
+
+gpzh -> ppzh : authenticate
+
+ppzh -> gpzh : authenticate
+note over gpzh, ppzh
+	Keys from the credential store
+	are used for authentication.
+	The credential store is cyphered
+	and can be unlocked by the user,
+	e.g. via a passphrase or a pin.
+	The credential store may include
+	previously exchanged certificates
+end note
+gpzh -> ppzh : set-up secure\ncommunication channel
+note over gpzh, ppzh
+	TLS is used for authentication
+	and for establishing the secure
+	channel
+end note
+
+gpzh -> gpzp : channel established
+gpzp -> George_mobile : channel established
+
+George_mobile -> gpzp : retrieve Paul's PZH device list
+gpzp -> gpzh : retrieve Paul's PZH device list
+gpzh -> ppzh : retrieve Paul's device list
+
+ppzh -> gpzh : transmit Paul's device list
+gpzh -> gpzp : transmit Paul's device list
+
+gpzp -> George_mobile : tranmsit Paul's device list
+George_mobile -> George : display Paul's device list
+George -> George_mobile : select Paul's mobile
+George_mobile -> gpzp : estabilish a channel\nwith Paul's mobile
+gpzp -> gpzh :  estabilish a channel\nwith Paul's mobile
+
+gpzh -> ppzh : estabilish a channel\nwith Paul's mobile
+ppzh -> ppzp : estabilish a channel\nwith Paul's mobile
+
+ppzp -> Paul_mobile : estabilish a channel\nwith Paul's mobile
+Paul_mobile -> Paul : ask form permission
+Paul -> Paul_mobile : grant permission
+Paul_mobile -> ppzp : grant permission
+
+note over George_mobile, Paul_mobile
+	Connection is established between George mobile PZP and
+	Paul mobile PZP, without involve PZH any longer
+end note
+
+note over George_mobile, Paul_mobile
+	Devices can use previously exchanged
+	certificates to estabilish a secure connection
+end note
+
+ppzp -> gpzp : connection established
+gpzp -> George_mobile : connection established
+George_mobile -> George : connection notified
+
+== service provision ==
+
+George -> George_mobile : ask for MP4 list
+
+note over George_mobile, Paul_mobile
+	Simplified communications. Real communications involve George's mobile WRT,
+	George's mobile PZP, Paul's mobile PZP and Paul's mobile WRT
+end note
+
+George_mobile --> Paul_mobile : MP4 list retrival
+Paul_mobile -> Paul : ask for MP4 list\nsharing permission
+Paul -> Paul_mobile : grant temporary permission
+Paul_mobile --> George_mobile : MP4 list transmission
+George_mobile -> George : MP4 list display
+
+George -> George_mobile : MP4 selection
+George_mobile --> Paul_mobile : MP4 retrieval
+Paul_mobile -> Paul : ask for MP4 sharing permission
+Paul -> Paul_mobile : grant temporary permission
+Paul_mobile --> George_mobile : MP4 transmission
+George_mobile -> George : MP4 consumption
+
+George -> George_mobile : select another MP4
+George_mobile --> Paul_mobile : MP4 retrieval
+Paul_mobile --> George_mobile : MP4 transmission
+George_mobile -> George : MP4 consumption</div>
 
 ### Scenario 3 - Personal Zone and Service Communication[¶](#Scenario-3-Personal-Zone-and-Service-Communication)
 
@@ -767,44 +938,94 @@ his own mobile device
 
 #### Sequence diagram analysis[¶](#Sequence-diagram-analysis)
 
-![ title : Scenario 3\\nGeorge has music hosted on a web service,\\nand
-wants to listen to them on his own mobile device actor George box
-"George's Mobile" \#lightgreen participant "George's\\nmobile\\nWRT" as
-George\_mobile participant "George's mobile\\npersonal\\nzone proxy" as
-pzp end box participant "George's\\npersonal\\nzone hub" as pzh
-participant "Service\\nProvider" as SP autonumber == identification ==
-group identification example George -\> George\_mobile : switch on
-George\_mobile -\> George : ask for the pin George -\> George\_mobile :
-provide the pin end == personal zone join == note over George, pzh The
-PZH works as a personal zone certification authority. The first time a
-device joins the personal zone, the user must accept the PZH
-certificate. Then the device generates a keys pair and send his own
-public key to the PZH to obtain the corresponding certificate end note
-note over George, George\_mobile The user may set a policy to
-automatically join the personal zone end note George\_mobile -\> pzp :
-join George's personal zone pzp -\> pzh : authenticate pzh -\> pzp :
-authenticate note over pzp, pzh Keys from the credential store are used
-for authentication. The credential store is cyphered and can be unlocked
-by the user, e.g. via a passphrase or a pin end note pzp -\> pzh :
-set-up secure\\ncommunication channel note over pzp, pzh TLS is used for
-authentication and for establishing the secure channel end note pzp -\>
-pzh : register online status note over pzp, pzh device and all the
-running services are registered at the PZH end note pzh -\> pzp :
-synchronise local\\ndata cache == authentication == George -\>
-George\_mobile : insert address of\\nService Provider (SP)
-George\_mobile -\> pzp : contact the SP pzp -\> pzh : authenticate to SP
-note over pzh, SP the credentials may be, for example, a certificate
-issued by a trusted certification authority end note pzh -\> SP : send
-credentials SP -\> pzh : mutual authentication == service provision ==
-George -\> George\_mobile : ask for music list note over George\_mobile,
-SP Simplified communications. Real communications involve George's
-mobile WRT, George's mobile PZP and Service Provider end note
-George\_mobile --\> SP : music list retrieval SP --\> George\_mobile :
-music list transmission George\_mobile -\> George : music list display
-George -\> George\_mobile : music file selection George\_mobile --\> SP
-: music file retrieval SP --\> George\_mobile : music file transmission
-George\_mobile -\> George : music file consumption
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=1e733c3b535dbf48f0ecd4f0eb18fd9b71588cfc9211a14f3a85e75ca4c13fcd)
+<div class="uml">title : Scenario 3\nGeorge has music hosted on a web service,\nand wants to listen to them on his own mobile device
+
+actor George
+box "George's Mobile" #lightgreen
+	participant "George's\nmobile\nWRT" as George_mobile
+	participant "George's mobile\npersonal\nzone proxy" as pzp
+end box
+participant "George's\npersonal\nzone hub" as pzh
+participant "Service\nProvider" as SP
+
+autonumber
+
+== identification ==
+
+group identification example
+	George -> George_mobile : switch on
+	George_mobile -> George : ask for the pin
+	George -> George_mobile : provide the pin
+end
+
+== personal zone join ==
+
+note over George, pzh
+	The PZH works as a personal zone certification authority. The first time a device joins
+	the personal zone, the user must accept the PZH certificate. Then the device generates a
+	keys pair and send his own public key to the PZH to obtain the corresponding certificate
+end note
+
+note over George, George_mobile
+	The user may set a policy to
+	automatically join the personal zone
+end note
+George_mobile -> pzp : join George's personal zone
+pzp -> pzh : authenticate
+
+pzh -> pzp : authenticate
+note over pzp, pzh
+	Keys from the credential store
+	are used for authentication.
+	The credential store is cyphered
+	and can be unlocked by the user,
+	e.g. via a passphrase or a pin
+end note
+pzp -> pzh : set-up secure\ncommunication channel
+note over pzp, pzh
+	TLS is used for authentication
+	and for establishing the secure
+	channel
+end note
+pzp -> pzh : register online status
+note over pzp, pzh
+	device and all the running
+	services are registered at
+	the PZH
+end note
+pzh -> pzp : synchronise local\ndata cache
+
+== authentication ==
+
+George -> George_mobile : insert address of\nService Provider (SP)
+George_mobile -> pzp : contact the SP
+pzp -> pzh : authenticate to SP
+
+note over pzh, SP
+	the credentials may be, for example,
+	a certificate issued by a trusted
+	certification authority
+end note
+pzh -> SP : send credentials
+SP -> pzh : mutual authentication
+
+== service provision ==
+
+George -> George_mobile : ask for music list
+
+note over George_mobile, SP
+	Simplified communications. Real communications involve
+	George's mobile WRT, George's mobile PZP and Service Provider
+end note
+
+George_mobile --> SP : music list retrieval
+SP --> George_mobile : music list transmission
+George_mobile -> George : music list display
+
+George -> George_mobile : music file selection
+George_mobile --> SP : music file retrieval
+SP --> George_mobile : music file transmission
+George_mobile -> George : music file consumption</div>
 
 ### Scenario 4 - Service Used by Multiple Zones[¶](#Scenario-4-Service-Used-by-Multiple-Zones)
 
@@ -813,60 +1034,131 @@ Paul's mobile device
 
 #### Sequence diagram analysis[¶](#Sequence-diagram-analysis)
 
-![ title : Scenario 4\\nGeorge has music hosted on a web service,\\nand
-wants to listen to them on his Paul's mobile device actor Paul actor
-George box "Paul's Mobile" \#lightgreen participant
-"Paul's\\nmobile\\nWRT" as Paul\_mobile participant "Paul's
-mobile\\npersonal\\nzone proxy" as pzp end box participant
-"Paul's\\npersonal\\nzone hub" as ppzh participant
-"George's\\npersonal\\nzone hub" as gpzh participant
-"Service\\nProvider" as SP autonumber == identification == group
-identification example Paul -\> Paul\_mobile : switch on
-Paul\_mobile -\> Paul : ask for the pin Paul -\> Paul\_mobile : provide
-the pin end == personal zone join == note over George, ppzh The PZH
-works as a personal zone certification authority. The first time a
-device joins the personal zone, the user must accept the PZH
-certificate. Then the device generates a keys pair and send his own
-public key to the PZH to obtain the corresponding certificate end note
-Paul\_mobile -\> pzp : join Paul's personal zone pzp -\> ppzh :
-authenticate ppzh -\> pzp : authenticate note over pzp, ppzh Keys from
-the credential store are used for authentication. The credential store
-is cyphered and can be unlocked by the user, e.g. via a passphrase or a
-pin end note pzp -\> ppzh : set-up secure\\ncommunication channel note
-over pzp, ppzh TLS is used for authentication and for establishing the
-secure channel end note pzp -\> ppzh : register online status note over
-pzp, ppzh device and all the running services are registered at the PZH
-end note ppzh -\> pzp : synchronise local\\ndata cache == mobile
-borrowing == group identification example note over Paul, Paul\_mobile :
-user ID is no more derived from the pin Paul -\> Paul\_mobile : disable
-automatic ID inheritance Paul -\> George : borrow mobile
-Paul\_mobile -\> George : prompt for identity George -\> Paul\_mobile :
-insert identity end == connection establishment == George -\>
-Paul\_mobile : insert George's PZH URI Paul\_mobile -\> pzp : join
-George's personal zone pzp -\> ppzh : connect to George's PZH note over
-gpzh, ppzh Each PZH needs to trust the certificate of the other PZH.
-George's PZH must already have Paul's PZH certificate because George is
-not in his own personal zone, hence he can't accept Paul's PZH
-certificate end note ppzh -\> gpzh : authenticate gpzh -\> ppzh :
-authenticate note over ppzh, gpzh Keys from the credential store are
-used for authentication. The credential store is cyphered and can be
-unlocked by the user, e.g. via a passphrase or a pin end note ppzh -\>
-gpzh : set-up secure\\ncommunication channel note over ppzh, gpzh TLS is
-used for authentication and for establishing the secure channel end note
-== authentication == George -\> Paul\_mobile : insert address
-of\\nService Provider (SP) Paul\_mobile -\> pzp : contact the SP pzp -\>
-gpzh : authenticate to SP note over gpzh, SP the credentials may be, for
-example, a certificate issued by a trusted certification authority end
-note gpzh -\> SP : send credentials SP -\> gpzh : mutual authentication
-== service provision == George -\> Paul\_mobile : ask for music list
-note over Paul\_mobile, SP Simplified communications. Real
-communications involve Paul's mobile WRT, Paul's mobile PZP and Service
-Provider end note Paul\_mobile --\> SP : music list retrieval SP --\>
-Paul\_mobile : music list transmission Paul\_mobile -\> George : music
-list display George -\> Paul\_mobile : music file selection
-Paul\_mobile --\> SP : music file retrieval SP --\> Paul\_mobile : music
-file transmission Paul\_mobile -\> George : music file consumption
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=b06ec65132ec42d85dd0abd4ce0750782e5805395446c6b0d5bea1dd0158aa92)
+<div class="uml">title : Scenario 4\nGeorge has music hosted on a web service,\nand wants to listen to them on his Paul's mobile device
+
+actor Paul
+actor George
+box "Paul's Mobile" #lightgreen
+	participant "Paul's\nmobile\nWRT" as Paul_mobile
+	participant "Paul's mobile\npersonal\nzone proxy" as pzp
+end box
+participant "Paul's\npersonal\nzone hub" as ppzh
+participant "George's\npersonal\nzone hub" as gpzh
+participant "Service\nProvider" as SP
+
+autonumber
+
+== identification ==
+
+group identification example
+	Paul -> Paul_mobile : switch on
+	Paul_mobile -> Paul : ask for the pin
+	Paul -> Paul_mobile : provide the pin
+end
+
+== personal zone join ==
+
+note over George, ppzh
+	The PZH works as a personal zone certification authority. The first time a device joins
+	the personal zone, the user must accept the PZH certificate. Then the device generates a
+	keys pair and send his own public key to the PZH to obtain the corresponding certificate
+end note
+
+Paul_mobile -> pzp : join Paul's personal zone
+pzp -> ppzh : authenticate
+
+ppzh -> pzp : authenticate
+note over pzp, ppzh
+	Keys from the credential store
+	are used for authentication.
+	The credential store is cyphered
+	and can be unlocked by the user,
+	e.g. via a passphrase or a pin
+end note
+pzp -> ppzh : set-up secure\ncommunication channel
+note over pzp, ppzh
+	TLS is used for authentication
+	and for establishing the secure
+	channel
+end note
+pzp -> ppzh : register online status
+note over pzp, ppzh
+	device and all the running
+	services are registered at
+	the PZH
+end note
+ppzh -> pzp : synchronise local\ndata cache
+
+== mobile borrowing ==
+group identification example
+	note over Paul, Paul_mobile : user ID is no more derived from the pin
+	Paul -> Paul_mobile : disable automatic ID inheritance
+	Paul -> George : borrow mobile
+	Paul_mobile -> George : prompt for identity
+	George -> Paul_mobile : insert identity
+end
+
+== connection establishment ==
+
+George -> Paul_mobile : insert George's PZH URI
+Paul_mobile -> pzp : join George's personal zone
+pzp -> ppzh : connect to George's PZH
+
+note over gpzh, ppzh
+	Each PZH needs to trust the certificate of the other PZH.
+	George's PZH must already have Paul's PZH certificate
+	because George is not in his own personal zone, hence
+	he can't accept Paul's PZH certificate
+end note
+
+ppzh -> gpzh : authenticate
+
+gpzh -> ppzh : authenticate
+note over ppzh, gpzh
+	Keys from the credential store
+	are used for authentication.
+	The credential store is cyphered
+	and can be unlocked by the user,
+	e.g. via a passphrase or a pin
+end note
+ppzh -> gpzh : set-up secure\ncommunication channel
+note over ppzh, gpzh
+	TLS is used for authentication
+	and for establishing the secure
+	channel
+end note
+
+== authentication ==
+
+George -> Paul_mobile : insert address of\nService Provider (SP)
+Paul_mobile -> pzp : contact the SP
+pzp -> gpzh : authenticate to SP
+
+note over gpzh, SP
+	the credentials may be, for example,
+	a certificate issued by a trusted
+	certification authority
+end note
+gpzh -> SP : send credentials
+SP -> gpzh : mutual authentication
+
+== service provision ==
+
+George -> Paul_mobile : ask for music list
+
+note over Paul_mobile, SP
+	Simplified communications. Real communications involve
+	Paul's mobile WRT, Paul's mobile PZP and Service Provider
+end note
+
+Paul_mobile --> SP : music list retrieval
+SP --> Paul_mobile : music list transmission
+Paul_mobile -> George : music list display
+
+George -> Paul_mobile : music file selection
+Paul_mobile --> SP : music file retrieval
+SP --> Paul_mobile : music file transmission
+Paul_mobile -> George : music file consumption</div>
 
 ### Scenario 5 - Multiple Service Usage[¶](#Scenario-5-Multiple-Service-Usage)
 
@@ -875,62 +1167,128 @@ playing a playlist which interleave tracks from both services
 
 #### Sequence diagram analysis[¶](#Sequence-diagram-analysis)
 
-![ title : Scenario 5\\nGeorge has two different hosted web services
-that host music\\nhe is playing a playlist which interleave tracks from
-both services actor George box "George's Mobile" \#lightgreen
-participant "George's\\nmobile\\nWRT" as George\_mobile participant
-"George's mobile\\npersonal\\nzone proxy" as pzp end box participant
-"George's\\npersonal\\nzone hub" as pzh participant "Service\\nProvider
-1" as SP1 participant "Service\\nProvider 2" as SP2 autonumber note over
-George, IDP \#FF6666 this scenario differs from scenario 5 in the
-repetition of authentication and service provision phases for the second
-Service Provider (SP2) end note == identification == group
-identification example George -\> George\_mobile : switch on
-George\_mobile -\> George : ask for the pin George -\> George\_mobile :
-provide the pin end == personal zone join == note over George, pzh The
-PZH works as a personal zone certification authority. The first time a
-device joins the personal zone, the user must accept the PZH
-certificate. Then the device generates a keys pair and send his own
-public key to the PZH to obtain the corresponding certificate end note
-note over George, George\_mobile The user may set a policy to
-automatically join the personal zone end note George\_mobile -\> pzp :
-join George's personal zone pzp -\> pzh : authenticate pzh -\> pzp :
-authenticate note over pzp, pzh Keys from the credential store are used
-for authentication. The credential store is cyphered and can be unlocked
-by the user, e.g. via a passphrase or a pin end note pzp -\> pzh :
-set-up secure\\ncommunication channel note over pzp, pzh TLS is used for
-authentication and for establishing the secure channel end note pzp -\>
-pzh : register online status note over pzp, pzh device and all the
-running services are registered at the PZH end note pzh -\> pzp :
-synchronise local\\ndata cache == authentication == George -\>
-George\_mobile : insert address of\\nService Provider (SP1)
-George\_mobile -\> pzp : contact the SP1 pzp -\> pzh : authenticate to
-SP1 note over pzh, SP1 the credentials may be, for example, a
-certificate issued by a trusted certification authority end note pzh -\>
-SP1 : send credentials SP1 -\> pzh : mutual authentication George -\>
-George\_mobile : insert address of\\nService Provider (SP2)
-George\_mobile -\> pzp : contact the SP2 pzp -\> pzh : authenticate to
-SP2 note over pzh, SP2 the credentials may be, for example, a
-certificate issued by a trusted certification authority end note pzh -\>
-SP2 : send credentials SP2 -\> pzh : mutual authentication == service
-provision == George -\> George\_mobile : ask for music list note over
-George\_mobile, SP1 Simplified communications. Real communications
-involve George's mobile WRT, George's mobile PZP and Service Provider 1
-end note George\_mobile --\> SP1 : music list retrieval SP1 --\>
-George\_mobile : music list transmission George\_mobile -\> George :
-music list display George -\> George\_mobile : ask for music list note
-over George\_mobile, SP2 Simplified communications. Real communications
-involve George's mobile WRT, George's mobile PZP and Service Provider 2
-end note George\_mobile --\> SP2 : music list retrieval SP2 --\>
-George\_mobile : music list transmission George\_mobile -\> George :
-music list display George -\> George\_mobile : music file selection
-George\_mobile --\> SP1 : music file retrieval SP1 --\> George\_mobile :
-music file transmission George\_mobile -\> George : music file
-consumption George -\> George\_mobile : music file selection
-George\_mobile --\> SP2 : music file retrieval SP2 --\> George\_mobile :
-music file transmission George\_mobile -\> George : music file
-consumption
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=c72a8bcea2d4ffe06ee0a10cfe16155fc362660f339a6538807222f5642290e4)
+<div class="uml">title : Scenario 5\nGeorge has two different hosted web services that host music\nhe is playing a playlist which interleave tracks from both services
+
+actor George
+box "George's Mobile" #lightgreen
+	participant "George's\nmobile\nWRT" as George_mobile
+	participant "George's mobile\npersonal\nzone proxy" as pzp
+end box
+participant "George's\npersonal\nzone hub" as pzh
+participant "Service\nProvider 1" as SP1
+participant "Service\nProvider 2" as SP2
+
+autonumber
+
+note over George, IDP #FF6666
+	this scenario differs from scenario 5 in the repetition of authentication
+	and service provision phases for the second Service Provider (SP2)
+end note
+
+== identification ==
+
+group identification example
+	George -> George_mobile : switch on
+	George_mobile -> George : ask for the pin
+	George -> George_mobile : provide the pin
+end
+
+== personal zone join ==
+
+note over George, pzh
+	The PZH works as a personal zone certification authority. The first time a device joins
+	the personal zone, the user must accept the PZH certificate. Then the device generates a
+	keys pair and send his own public key to the PZH to obtain the corresponding certificate
+end note
+
+note over George, George_mobile
+	The user may set a policy to
+	automatically join the personal zone
+end note
+George_mobile -> pzp : join George's personal zone
+pzp -> pzh : authenticate
+
+pzh -> pzp : authenticate
+note over pzp, pzh
+	Keys from the credential store
+	are used for authentication.
+	The credential store is cyphered
+	and can be unlocked by the user,
+	e.g. via a passphrase or a pin
+end note
+pzp -> pzh : set-up secure\ncommunication channel
+note over pzp, pzh
+	TLS is used for authentication
+	and for establishing the secure
+	channel
+end note
+pzp -> pzh : register online status
+note over pzp, pzh
+	device and all the running
+	services are registered at
+	the PZH
+end note
+pzh -> pzp : synchronise local\ndata cache
+
+== authentication ==
+
+George -> George_mobile : insert address of\nService Provider (SP1)
+George_mobile -> pzp : contact the SP1
+pzp -> pzh : authenticate to SP1
+
+note over pzh, SP1
+	the credentials may be, for example,
+	a certificate issued by a trusted
+	certification authority
+end note
+pzh -> SP1 : send credentials
+SP1 -> pzh : mutual authentication
+
+George -> George_mobile : insert address of\nService Provider (SP2)
+George_mobile -> pzp : contact the SP2
+pzp -> pzh : authenticate to SP2
+
+note over pzh, SP2
+	the credentials may be, for example,
+	a certificate issued by a trusted
+	certification authority
+end note
+pzh -> SP2 : send credentials
+SP2 -> pzh : mutual authentication
+
+== service provision ==
+
+George -> George_mobile : ask for music list
+
+note over George_mobile, SP1
+	Simplified communications. Real communications involve
+	George's mobile WRT, George's mobile PZP and Service Provider 1
+end note
+
+George_mobile --> SP1 : music list retrieval
+SP1 --> George_mobile : music list transmission
+George_mobile -> George : music list display
+
+George -> George_mobile : ask for music list
+
+note over George_mobile, SP2
+	Simplified communications. Real communications involve
+	George's mobile WRT, George's mobile PZP and Service Provider 2
+end note
+
+George_mobile --> SP2 : music list retrieval
+SP2 --> George_mobile : music list transmission
+George_mobile -> George : music list display
+
+George -> George_mobile : music file selection
+George_mobile --> SP1 : music file retrieval
+SP1 --> George_mobile : music file transmission
+George_mobile -> George : music file consumption
+
+George -> George_mobile : music file selection
+George_mobile --> SP2 : music file retrieval
+SP2 --> George_mobile : music file transmission
+George_mobile -> George : music file consumption</div>
 
 ### Scenario 6 - Same Personal Zone[¶](#Scenario-6-Same-Personal-Zone)
 
@@ -939,60 +1297,119 @@ set-top box - but this time using the set-top box as the controller
 
 #### Sequence diagram analysis[¶](#Sequence-diagram-analysis)
 
-![ title : Scenario 6\\nGeorge wants to listen to music stored on his
-mobile, through the set-top box\\nbut this time using the set-top box as
-the controller actor George box "Set-Top-Box" \#lightgreen participant
-"George's\\nset-top-box\\nWRT" as George\_set\_top\_box participant
-"George's set-top-box\\npersonal zone\\nproxy" as spzp end box
-participant "George's\\npersonal\\nzone hub" as pzh box "Mobile"
-\#FF8888 participant "George's mobile\\npersonal zone\\nproxy" as mpzp
-participant "George's\\nmobile\\nWRT" as George\_mobile end box
-autonumber note over George, George\_mobile \#FF6666 this scenario
-differs from scenario 1 in the identification phase and in role exchange
-between set-top-box and mobile end note note over George\_set\_top\_box
-We assume George's mobile is already into the personal zone end note ==
-identification == group identification example George -\>
-George\_set\_top\_box : switch on George\_set\_top\_box -\> George :
-prompt for identity George -\> George\_set\_top\_box : insert identity
-end == personal zone join == note over George, George\_mobile The PZH
-works as a personal zone certification authority. The first time a
-device joins the personal zone, the user must accept the PZH
-certificate. Then the device generates a keys pair and send his own
-public key to the PZH to obtain the corresponding certificate end note
-note over George, George\_set\_top\_box The user may set a policy to
-automatically join the personal zone end note George\_set\_top\_box -\>
-spzp : join the personal zone spzp -\> pzh : authenticate pzh -\> spzp :
-authenticate note over spzp, pzh Keys from the credential store are used
-for authentication. The credential store is cyphered and can be unlocked
-by the user, e.g. via a passphrase or a pin end note spzp -\> pzh :
-set-up secure\\ncommunication channel note over spzp, pzh TLS is used
-for authentication and for establishing the secure channel end note
-spzp -\> pzh : register online status note over spzp, pzh device and all
-the running services are registered at the PZH end note pzh -\> spzp :
-synchronise local\\ndata cache\\n(includes device list) spzp -\>
-George\_set\_top\_box : transmit the device list == connection
-establishment == George\_set\_top\_box -\> George : show the device list
-George -\> George\_set\_top\_box : select the mobile
-George\_set\_top\_box -\> spzp : estabilish a channel\\nwith the mobile
-spzp -\> pzh : check online status\\nof the mobile pzh -\> spzp : return
-online status\\nof the mobile note over spzp, mpzp We assume Gorge's
-set-top-box and George's mobile establish a secure channel using their
-own certificates end note spzp -\> mpzp : estabilish a secure channel
-note over spzp, mpzp Connection is established between set-top-box PZP
-and mobile PZP, without involve PZH any longer end note mpzp -\> spzp :
-connection established spzp -\> George\_set\_top\_box : connection
-established George\_set\_top\_box -\> George : notify connection ==
-service provision == George -\> George\_set\_top\_box : ask for MP4 list
-note over George\_set\_top\_box, George\_mobile Simplified
-communications. Real communications involve George's set-top-box WRT,
-George's set-top-box PZP, George's mobile PZP and George's mobile WRT
-end note George\_set\_top\_box --\> George\_mobile : MP4 list retrieval
-George\_mobile --\> George\_set\_top\_box : MP4 list transmission
-George\_set\_top\_box -\> George : MP4 list display George -\>
-George\_set\_top\_box : MP4 selection George\_set\_top\_box --\>
-George\_mobile : MP4 retrieval George\_mobile --\> George\_set\_top\_box
-: MP4 transmission George\_set\_top\_box -\> George : MP4 consumption
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=8af6f37db0c3860fcbfa21bff22a028c9c7951bcf5a87d8aad722cbe91e87e7f)
+<div class="uml">title : Scenario 6\nGeorge wants to listen to music stored on his mobile, through the set-top box\nbut this time using the set-top box as the controller
+
+actor George
+box "Set-Top-Box" #lightgreen
+	participant "George's\nset-top-box\nWRT" as George_set_top_box
+	participant "George's set-top-box\npersonal zone\nproxy" as spzp
+end box
+participant "George's\npersonal\nzone hub" as pzh
+box "Mobile" #FF8888
+	participant "George's mobile\npersonal zone\nproxy" as mpzp
+	participant "George's\nmobile\nWRT" as George_mobile
+end box
+
+autonumber
+
+note over George, George_mobile #FF6666
+	this scenario differs from scenario 1 in the identification
+	phase and in role exchange between set-top-box and mobile
+end note
+
+note over George_set_top_box
+	We assume George's
+	mobile is already into
+	the personal zone
+end note
+
+== identification ==
+
+group identification example
+	George -> George_set_top_box : switch on
+	George_set_top_box -> George : prompt for identity
+	George -> George_set_top_box : insert identity
+end
+
+== personal zone join ==
+
+note over George, George_mobile
+	The PZH works as a personal zone certification authority. The first time a device joins
+	the personal zone, the user must accept the PZH certificate. Then the device generates a
+	keys pair and send his own public key to the PZH to obtain the corresponding certificate
+end note
+
+note over George, George_set_top_box
+	The user may set a policy to
+	automatically join the personal zone
+end note
+
+George_set_top_box -> spzp : join the personal zone
+spzp -> pzh : authenticate
+pzh -> spzp : authenticate
+note over spzp, pzh
+	Keys from the credential store
+	are used for authentication.
+	The credential store is cyphered
+	and can be unlocked by the user,
+	e.g. via a passphrase or a pin
+end note
+spzp -> pzh : set-up secure\ncommunication channel
+note over spzp, pzh
+	TLS is used for authentication
+	and for establishing the secure
+	channel
+end note
+spzp -> pzh : register online status
+note over spzp, pzh
+	device and all the running
+	services are registered at
+	the PZH
+end note
+pzh -> spzp : synchronise local\ndata cache\n(includes device list)
+spzp -> George_set_top_box : transmit the device list
+
+== connection establishment ==
+
+George_set_top_box -> George : show the device list
+George -> George_set_top_box : select the mobile
+George_set_top_box -> spzp : estabilish a channel\nwith the mobile
+spzp -> pzh : check online status\nof the mobile
+pzh -> spzp : return online status\nof the mobile
+
+note over spzp, mpzp
+	We assume Gorge's set-top-box and George's mobile
+	establish a secure channel using their own certificates
+end note
+
+spzp -> mpzp : estabilish a secure channel
+
+note over spzp, mpzp
+	Connection is established between set-top-box PZP and
+	mobile PZP, without involve PZH any longer
+end note
+
+mpzp -> spzp : connection established
+spzp -> George_set_top_box : connection established
+George_set_top_box -> George : notify connection
+
+== service provision ==
+
+George -> George_set_top_box : ask for MP4 list
+
+note over George_set_top_box, George_mobile
+	Simplified communications. Real communications involve George's set-top-box WRT,
+	George's set-top-box PZP, George's mobile PZP and George's mobile WRT
+end note
+
+George_set_top_box --> George_mobile : MP4 list retrieval
+George_mobile --> George_set_top_box : MP4 list transmission
+George_set_top_box -> George : MP4 list display
+
+George -> George_set_top_box : MP4 selection
+George_set_top_box --> George_mobile : MP4 retrieval
+George_mobile --> George_set_top_box : MP4 transmission
+George_set_top_box -> George : MP4 consumption</div>
 
 Formal Specification[¶](#Formal-Specification)
 ----------------------------------------------
