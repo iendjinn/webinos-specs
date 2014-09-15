@@ -171,29 +171,54 @@ The choice of CRLs rather than the Online Certificate Status Protocol
 (OCSP) was motivated by a desire for simplicity, as well as the fact
 that hubs already implement synchronization for policy enforcement.
 
-![ actor Alice participant Browser participant BadDevice participant
-PZHWebServer participant PZH participant OtherPZPs activate Browser
-activate PZH == Login process == Alice -\> Browser : Visit PZH Login URL
-Alice -\> Browser : "... OpenID process .." == Revocation == Alice -\>
-Browser : Click "Revoke Certificate" Browser -\> PZHWebServer: Fetch
-list of devices PZHWebServer -\> PZH : Find PZP's connected PZH -\>
-PZHWebServer: List of personal zone devices PZHWebServer -\> Browser :
-Display list of personal zone devices Alice -\> Browser : Click on the
-"BadDevice" entry and click "Revoke". Browser -\> PZHWebServer: Call
-revokeDevice( "BadDevice" ) PZHWebServer -\> PZH : Device to revoke
-PZH -\> PZH : Policy check (NOT IMPLEMENTED) PZH -\> PZH : Find
-BadDevice's certificate PZH -\> PZH : Update CRL to include BadDevice's
-certificate serial number PZH -\> PZH : Save CRL to synchronised storage
-area PZH -\> PZH : Disconnect BadDevice if currently connected PZH -\>
-PZH : Restart TLS stack PZH -\> PZHWebServer: Status update
-PZHWebServer -\> Browser : Show "done" deactivate Browser ==
-Synchronisation == activate OtherPZPs OtherPZPs -\> PZH : Connect to PZH
-OtherPZPs -\> PZH : Synchronisation initiated PZH -\> OtherPZPs : Send
-Updated CRL OtherPZPs -\> OtherPZPs : Store CRL, restart any TLS
-connections deactivate OtherPZPs == BadDevice attempts to connect to PZH
-== activate BadDevice BadDevice -\> PZH : TLS connection request PZH -\>
-BadDevice : Refused - certificate revoked
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=4577ecc0cd4a196d723d6b277cb67251928d6cb2074b17dc66e44213ade96b88)
+<div class="uml">actor Alice
+participant Browser
+participant BadDevice
+participant PZHWebServer
+participant PZH
+participant OtherPZPs
+activate Browser
+activate PZH
+
+== Login process ==
+
+Alice -> Browser :  Visit PZH Login URL
+Alice -> Browser : "... OpenID process .."
+
+== Revocation ==
+Alice        -> Browser     : Click "Revoke Certificate"
+Browser      -> PZHWebServer: Fetch list of devices
+PZHWebServer -> PZH         : Find PZP's connected 
+PZH          -> PZHWebServer: List of personal zone devices
+PZHWebServer -> Browser      : Display list of personal zone devices
+Alice        -> Browser     : Click on the "BadDevice" entry and click "Revoke".
+Browser      -> PZHWebServer: Call revokeDevice( "BadDevice" ) 
+PZHWebServer -> PZH         : Device to revoke
+PZH          -> PZH         : Policy check (NOT IMPLEMENTED)
+PZH          -> PZH         : Find BadDevice's certificate
+PZH          -> PZH         : Update CRL to include BadDevice's certificate serial number
+PZH          -> PZH         : Save CRL to synchronised storage area
+PZH          -> PZH         : Disconnect BadDevice if currently connected
+PZH          -> PZH         : Restart TLS stack
+PZH          -> PZHWebServer: Status update
+PZHWebServer -> Browser     : Show "done" 
+
+deactivate Browser
+
+== Synchronisation ==
+
+activate OtherPZPs
+OtherPZPs  -> PZH       : Connect to PZH 
+OtherPZPs  -> PZH       : Synchronisation initiated
+PZH        -> OtherPZPs : Send Updated CRL
+OtherPZPs  -> OtherPZPs : Store CRL, restart any TLS connections
+deactivate OtherPZPs
+
+== BadDevice attempts to connect to PZH ==
+
+activate BadDevice
+BadDevice  -> PZH       : TLS connection request
+PZH        -> BadDevice : Refused - certificate revoked</div>
 
 Devices which remain offline for significant periods run the risk of
 having an out-of-date CRL. A stolen device or compromised key could

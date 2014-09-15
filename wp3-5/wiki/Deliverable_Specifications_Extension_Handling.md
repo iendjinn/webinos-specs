@@ -127,26 +127,47 @@ application, the installer extracts the platform relevant NPAPI binary
 from the application package and stores it inside the common plug-in
 folder of the browser.
 
-![ title installation handling of a webinos application including
-extensions (\*) --\> "checking if application manifest contains plugins"
-if "" then --\>[yes] "check application signature" if "" then --\>
-[valid] "checking if platform is supported" if "" then --\> [true]
-"check if policies for plug-in installation exists" if "" then --\>
-[true] "check if installation is allowed" if "" then --\> [notallowed]
-"continue with regular installation" else --\> [allowed] "store plugin
-binary in the rendering engine specific folder" else --\> [ask] "request
-permissions from user for installation of extensions" endif else --\>
-[false] "request permissions from user for installation of extensions"
-if "" then --\> [allowed] "create policy for extensions usage of
-specific application" --\> "store plugin binary in the rendering engine
-specific folder" --\> "continue with regular installation" else --\>
-[notallowed] "create policy for disabling extensions for the specific
-application" --\> "continue with regular installation" endif endif
-else --\> [false] "continue with regular installation" endif else --\>
-[invalid] "abort installation of plugins and inform user about invalid
-signature" --\> "continue with regular installation" endif else --\>[no]
-"continue with regular installation" --\> (\*) endif
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=363a51467ebeed557c31d7b31130f246f92ed6a6afcf1c832278438b0655782a)
+<div class="uml">title installation handling of a webinos application including extensions 
+(*) --> "checking if application manifest contains plugins"
+if "" then
+	-->[yes] "check application signature"
+	if ""  then
+		--> [valid] "checking if platform is supported"
+		if "" then
+			--> [true] "check if policies for plug-in installation exists"
+			if "" then
+				--> [true] "check if installation is allowed"
+				if "" then
+					--> [notallowed] "continue with regular installation"
+				else
+					--> [allowed] "store plugin binary in the rendering engine specific folder"
+				else
+					--> [ask] "request permissions from user for installation of extensions"
+				endif
+				
+			else 
+				--> [false] "request permissions from user for installation of extensions"
+				if "" then
+					--> [allowed] "create policy for extensions usage of specific application"
+					--> "store plugin binary in the rendering engine specific folder"
+					--> "continue with regular installation"
+				else
+					--> [notallowed] "create policy for disabling extensions for the specific application"
+					--> "continue with regular installation"
+				endif
+			endif
+
+		else
+			--> [false] "continue with regular installation"
+		endif
+	else
+		--> [invalid] "abort installation of plugins and inform user about invalid signature"
+		--> "continue with regular installation"
+	endif
+  else
+	-->[no] "continue with regular installation"
+	--> (*)
+endif</div>
 
 #### The application launcher[¶](#The-application-launcher)
 

@@ -86,15 +86,20 @@ In most cases, this only requires adaptation on the creation of
 elements. Once they are created, attached and have an id, remote DOM
 manipulation will be similar to using it on a local system.
 
-![ participant "Application" as APP participant "Local PZP" as LPZP
-participant "Remote PZP" as RPZP participant "Remote UI " as RUI APP -\>
-LPZP: Find Service "Remote UI" LPZP -\> RPZP: Discover Service "Remote
-UI" RPZP -\> LPZP: Return Service "Remote UI" LPZP -\> APP:
-onFound:Service"Remote UI" APP -\> LPZP: remote\_document =
-Service"Remote UI"; LPZP -\> RPZP: Bind Service "Remote UI" RPZP -\>
-RUI: Open Window RUI -\> RUI: [Window opens] APP -\> LPZP:
-remoteDOM("document.createElement(...);"); LPZP -\> RPZP: Service"Remote
-UI"(eval("document.createElement(...);")); RPZP -\> RUI:
-document.createElement(...); RUI -\> RUI: [Element is added]
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=1f1b26684af6705c6872b99359e219f95f3348656d1c8d0ca2864987a8030cc0)
+<div class="uml">participant "Application" as APP 
+participant "Local PZP" as LPZP 
+participant "Remote PZP" as RPZP 
+participant "Remote UI	" as RUI 
+APP -> LPZP: Find Service "Remote UI"
+LPZP -> RPZP: Discover Service "Remote UI"
+RPZP -> LPZP: Return Service "Remote UI"
+LPZP -> APP: onFound:Service"Remote UI"
+APP -> LPZP:  remote_document = Service"Remote UI";   
+LPZP -> RPZP: Bind Service "Remote UI"
+RPZP -> RUI: Open Window
+RUI -> RUI: [Window opens]
+APP -> LPZP: remoteDOM("document.createElement(...);");
+LPZP -> RPZP: Service"Remote UI"(eval("document.createElement(...);"));
+RPZP -> RUI: document.createElement(...);
+RUI -> RUI: [Element is added]</div>
 

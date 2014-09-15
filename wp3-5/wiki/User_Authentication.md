@@ -125,34 +125,36 @@ Authentication state machine[¶](#Authentication-state-machine)
 At any point in time, a user (or rather, their user agent) is in the
 following state
 
-![ scale 0.7 [\*] --\> UnknownDevice UnknownDevice -down-\>
-UnknownWithToken : User registers unknown device with PZH
-UnknownWithToken --\> UnknownDevice : Token expires
-UnknownWithToken -down-\> OwnedPZP : PZP exchanges ticket for a
-long-term PZH-granted TLS certificate OwnedPZP --\> UnknownDevice :
-Certificate revoked OwnedPZP -down-\> TLSConnectedPZP : PZP connects to
-PZH over Mutual Authenticated TLS TLSConnectedPZP ---\> OwnedPZP : The
-PZP disconnects from the PZH TLSConnectedPZP -down-\>
-UserAuthAndConnected : User logs into PZH web interface with OpenID
-UserAuthAndConnected --\> TLSConnectedPZP : User logs out of PZH web
-interface UserAuthAndConnected --\> TLSConnectedPZP : PZH web interface
-session expires UnknownDevice -right-\> UserAuthUnknownDevice : User
-logs into PZH web interface with OpenID UserAuthUnknownDevice --\>
-UnknownDevice : User logs out of the PZH web interface
-UserAuthUnknownDevice --\> UnknownDevice : PZH web interface session
-expires UnknownDevice : The user is on an unknown device UnknownDevice :
-There may be a virgin PZP, we don't care UnknownDevice : There may be
-many revoked keys & certs UnknownWithToken : An unknown device with a
-token from the PZH OwnedPZP : The user has a PZP with a certificate
-OwnedPZP : The PZP is not connected to the PZH TLSConnectedPZP : The PZP
-is owned AND connected to the PZH UserAuthAndConnected : The PZP is
-connected to the PZP AND the user UserAuthAndConnected : has logged into
-the PZH through OpenID UserAuthUnknownDevice : The user is logged into
-the PZH through OpenID credentials. UserAuthUnknownDevice : They are not
-using a known device - no TLS credentials. note right of TLSConnectedPZP
-: At this stage, we know this PZP has not been revoked. note right of
-UserAuthAndConnected : This is the highest level of authentication
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=67b61f15d1f5d123020720b330feb59cb5e537b0352ab586bb989912a2cf9709)
+<div class="uml">scale 0.7
+
+[*]                   --> UnknownDevice
+UnknownDevice         -down-> UnknownWithToken : User registers unknown device with PZH
+UnknownWithToken      --> UnknownDevice : Token expires
+UnknownWithToken      -down-> OwnedPZP : PZP exchanges ticket for a long-term PZH-granted TLS certificate
+OwnedPZP              --> UnknownDevice : Certificate revoked
+OwnedPZP              -down-> TLSConnectedPZP : PZP connects to PZH over Mutual Authenticated TLS
+TLSConnectedPZP       ---> OwnedPZP : The PZP disconnects from the PZH
+TLSConnectedPZP       -down-> UserAuthAndConnected : User logs into PZH web interface with OpenID
+UserAuthAndConnected  --> TLSConnectedPZP : User logs out of PZH web interface
+UserAuthAndConnected  --> TLSConnectedPZP : PZH web interface session expires
+UnknownDevice         -right-> UserAuthUnknownDevice : User logs into PZH web interface with OpenID
+UserAuthUnknownDevice --> UnknownDevice : User logs out of the PZH web interface 
+UserAuthUnknownDevice --> UnknownDevice : PZH web interface session expires
+
+UnknownDevice         : The user is on an unknown device 
+UnknownDevice         : There may be a virgin PZP, we don't care
+UnknownDevice         : There may be many revoked keys & certs
+UnknownWithToken      : An unknown device with a token from the PZH
+OwnedPZP              : The user has a PZP with a certificate  
+OwnedPZP              : The PZP is not connected to the PZH
+TLSConnectedPZP       : The PZP is owned AND connected to the PZH
+UserAuthAndConnected  : The PZP is connected to the PZP AND the user 
+UserAuthAndConnected  : has logged into the PZH through OpenID
+UserAuthUnknownDevice : The user is logged into the PZH through OpenID credentials.
+UserAuthUnknownDevice : They are not using a known device - no TLS credentials.
+
+note right of TLSConnectedPZP : At this stage, we know this PZP has not been revoked.
+note right of UserAuthAndConnected : This is the highest level of authentication</div>
 
 *Habib: Unknown device does not look appropriate.. Should we make it
 user device. transition from UserAuthConnectedDevice to

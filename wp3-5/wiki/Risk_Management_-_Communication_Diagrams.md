@@ -45,25 +45,43 @@ An application communicating with an API on a PZP on another device in a differe
 Accessing the web interface of the PZH and authenticating the user[¶](#Accessing-the-web-interface-of-the-PZH-and-authenticating-the-user)
 ------------------------------------------------------------------------------------------------------------------------------------------
 
-![ title Accessing the web interface of the PZH and authenticating the
-user actor Alice participant Browser participant PZH participant IdP
-autonumber Alice -\> Browser : Visit PZH Login URL Browser -\> PZH :
-Request login page PZH -\> Browser : Request user OpenID credentials
-Alice -\> Browser : login details Browser -\> IdP : OpenID login
-process... IdP -\> Browser : OpenID Credentials Browser -\> PZH : OpenID
-Credentials PZH -\> Browser : Success! Redirect to PZH landing page
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=461d87c0e1fa1938693176c03382f09cd8ec4b1ee888e364a45b9a8425a2bdb5)
+<div class="uml">title Accessing the web interface of the PZH and authenticating the user
+
+actor Alice
+participant Browser
+participant PZH
+participant IdP
+
+autonumber
+Alice -> Browser : Visit PZH Login URL
+Browser -> PZH : Request login page
+PZH -> Browser : Request user OpenID credentials
+Alice -> Browser : login details
+Browser -> IdP : OpenID login process...
+IdP -> Browser : OpenID Credentials
+Browser -> PZH : OpenID Credentials
+PZH -> Browser : Success! Redirect to PZH landing page</div>
 
 Creating a PZH[¶](#Creating-a-PZH)
 ----------------------------------
 
-![ title create PZH actor User as u participant "PZH Farm" as farm box
-\#ivory participant "New PZH" as pzh participant "Certificate\\nManager"
-as cm end box autonumber u -\> farm : authenticate create pzh farm -\>
-pzh : create new PZH create cm pzh -\> cm : generate connection
-certificates pzh -\> cm : generate CA certificate pzh -\> cm : generate
-signed certificate
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=8c9620bdbb7a53d730733e5165adbb848b0b06ba485b006e1437fc8935290c0c)
+<div class="uml">title create PZH
+
+actor User as u
+participant "PZH Farm" as farm
+box #ivory
+	participant "New PZH" as pzh
+	participant "Certificate\nManager" as cm
+end box
+
+autonumber
+u -> farm : authenticate
+create pzh
+farm -> pzh : create new PZH
+create cm
+pzh -> cm : generate connection certificates
+pzh -> cm : generate CA certificate
+pzh -> cm : generate signed certificate</div>
 
 Adding a new device to a personal zone[¶](#Adding-a-new-device-to-a-personal-zone)
 ----------------------------------------------------------------------------------
@@ -75,30 +93,56 @@ the moment)
 
     Can this be integrated with other diagrams for TLS, OpenID, etc?
 
-![ actor Alice participant Browser participant NewDevice participant
-NewPZP participant PZH participant IdP activate Browser autonumber ==
-User OpenID login process == Alice -\> Browser : Visit PZH Login URL
-activate PZH Browser -\> PZH : Request login page PZH -\> Browser :
-Request user OpenID credentials Alice -\> Browser : login details
-activate IdP Browser -\> IdP : OpenID login process... IdP -\> Browser :
-OpenID Credentials Browser -\> PZH : OpenID Credentials deactivate IdP
-PZH -\> Browser : Success! Redirect to PZH landing page == Add new
-device == Alice -\> Browser : Click "add new device" Browser -\> PZH :
-Call addDevice.html PZH -\> PZH : Generate new device token, QR Code
-PZH -\> Browser : token, QR Code image /' Browser -\> Alice : display
-token and QR Code image '/ Alice -\> NewDevice : install PZP software
-NewDevice -\> NewDevice : install PZP activate NewPZP Alice -\> NewPZP :
-open configuration NewPZP -\> Alice : request PZH url and token
-Alice -\> Alice : take picture of QR code, or copy token text deactivate
-Browser Alice -\> NewPZP : token, PZH URL NewPZP -\> NewPZP : create
-private key and self-signed certificate? NewPZP -\> PZH : TLS connection
-established using (self-signed?, PZH device cert) NewPZP -\> PZH : token
-PZH -\> PZH : check token validity PZH -\> PZH : remove token from valid
-list == Issue certificate == PZH -\> PZH : create PZP certificate, add
-to list of known devices PZH -\> NewPZP : certificate PZH -\> NewPZP :
-terminate connection NewPZP -\> PZH : TLS connection established using
-(PZP cert, PZH device cert)
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=63571cde3b7cf094ed2f0763e4ff3b2b1bf3ed7c43e7aea8784550235e68cf11)
+<div class="uml">actor Alice
+participant Browser
+participant NewDevice
+participant NewPZP
+participant PZH
+participant IdP
+
+activate Browser
+autonumber
+== User OpenID login process ==
+
+Alice      -> Browser   : Visit PZH Login URL
+activate PZH
+Browser    -> PZH       : Request login page
+PZH        -> Browser   : Request user OpenID credentials
+Alice      -> Browser   : login details
+activate IdP
+Browser    -> IdP       : OpenID login process...
+IdP        -> Browser   : OpenID Credentials
+Browser    -> PZH       : OpenID Credentials
+deactivate IdP
+PZH        -> Browser   : Success! Redirect to PZH landing page
+
+== Add new device ==
+
+Alice      -> Browser   : Click "add new device"
+Browser    -> PZH       : Call addDevice.html
+PZH        -> PZH       : Generate new device token, QR Code
+PZH        -> Browser   : token, QR Code image
+/' Browser    -> Alice     : display token and QR Code image '/
+Alice      -> NewDevice : install PZP software
+NewDevice  -> NewDevice : install PZP
+activate NewPZP
+Alice      -> NewPZP    : open configuration
+NewPZP     -> Alice     : request PZH url and token
+Alice      -> Alice     : take picture of QR code, or copy token text
+deactivate Browser
+Alice      -> NewPZP    : token, PZH URL
+NewPZP     -> NewPZP    : create private key and self-signed certificate?
+NewPZP     -> PZH       : TLS connection established using (self-signed?, PZH device cert)
+NewPZP     -> PZH       : token
+PZH        -> PZH       : check token validity
+PZH        -> PZH       : remove token from valid list
+
+== Issue certificate ==
+
+PZH        -> PZH       : create PZP certificate, add to list of known devices
+PZH        -> NewPZP    : certificate
+PZH        -> NewPZP    : terminate connection
+NewPZP     -> PZH       : TLS connection established using (PZP cert, PZH device cert)</div>
 
 Few comments from Andrea:
 
@@ -114,25 +158,42 @@ Few comments from Andrea:
 Removing a device from a personal zone[¶](#Removing-a-device-from-a-personal-zone)
 ----------------------------------------------------------------------------------
 
-![ actor Alice participant Browser participant BadDevice participant PZH
-participant OtherPZPs activate Browser activate PZH autonumber == Login
-process == Alice -\> Browser : Visit PZH Login URL Alice -\> Browser :
-"... OpenID process .." == Revocation == Alice -\> Browser : Click "list
-devices" Browser -\> PZH : Call listDevices.html PZH -\> Browser :
-Display list of personal zone devices Alice -\> Browser : Click on the
-"BadDevice" entry and click "Revoke". Browser -\> PZH : Call
-revokeDevice( "BadDevice" ) PZH -\> PZH : Policy check (NOT IMPLEMENTED)
-PZH -\> PZH : Find BadDevice's certificate PZH -\> PZH : Update CRL to
-include BadDevice's certificate serial number PZH -\> PZH : Save CRL to
-synchronised storage area PZH -\> PZH : Disconnect BadDevice if
-currently connected PZH -\> PZH : Restart TLS stack PZH -\> Browser :
-Show "done" deactivate Browser == Synchronisation == activate OtherPZPs
-OtherPZPs -\> PZH : Connect to PZH OtherPZPs -\> PZH : Synchronisation
-initiated PZH -\> OtherPZPs : Send Updated CRL OtherPZPs -\> OtherPZPs :
-Store CRL, restart any TLS connections deactivate OtherPZPs == BadDevice
-attempts to connect to PZH == activate BadDevice BadDevice -\> PZH : TLS
-connection request PZH -\> BadDevice : Refused - certificate revoked
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=043e2d63ced6557d27f87bf4a85ba29a6fc95d92b4806cd54b8f6540c06b499f)
+<div class="uml">actor Alice
+participant Browser
+participant BadDevice
+participant PZH
+participant OtherPZPs
+activate Browser
+activate PZH
+autonumber
+== Login process ==
+Alice -> Browser :  Visit PZH Login URL
+Alice -> Browser : "... OpenID process .."
+== Revocation ==
+Alice      -> Browser   : Click "list devices"
+Browser    -> PZH       : Call listDevices.html
+PZH        -> Browser   : Display list of personal zone devices
+Alice      -> Browser   : Click on the "BadDevice" entry and click "Revoke".
+Browser    -> PZH       : Call revokeDevice( "BadDevice" ) 
+PZH        -> PZH       : Policy check (NOT IMPLEMENTED)
+PZH        -> PZH       : Find BadDevice's certificate
+PZH        -> PZH       : Update CRL to include BadDevice's certificate serial number
+PZH        -> PZH       : Save CRL to synchronised storage area
+PZH        -> PZH       : Disconnect BadDevice if currently connected
+PZH        -> PZH       : Restart TLS stack
+PZH        -> Browser   : Show "done" 
+deactivate Browser
+== Synchronisation ==
+activate OtherPZPs
+OtherPZPs  -> PZH       : Connect to PZH 
+OtherPZPs  -> PZH       : Synchronisation initiated
+PZH        -> OtherPZPs : Send Updated CRL
+OtherPZPs  -> OtherPZPs : Store CRL, restart any TLS connections
+deactivate OtherPZPs
+== BadDevice attempts to connect to PZH ==
+activate BadDevice
+BadDevice  -> PZH       : TLS connection request
+PZH        -> BadDevice : Refused - certificate revoked</div>
 
     This does not cover what happens to devices which rarely connect to the hub.  We need a misuse case or attack, as well as either a mitigation, or an explanation for why we're not doing it.  We could make CRL stapling for devices mandatory if they have not connected in a while... likelihood is that nothing will be fool-proof against a motivated attacker.
 

@@ -118,8 +118,7 @@ in this exact order:
 
 ### Relationship of these objects[¶](#Relationship-of-these-objects)
 
-![ Event \*-- "0.1" EventForwarding
-](http://dev.webinos.org/redmine/wiki_external_filter/filter?index=0&macro=plantuml&name=f793679712ece636679bcec7d9f4ed30ea75e549d13fe2ab83c1d0691395e944)
+<div class="uml">Event *-- "0.1" EventForwarding</div>
 
 ### Protocol definitions[¶](#Protocol-definitions)
 
